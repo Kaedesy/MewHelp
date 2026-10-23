@@ -47,3 +47,29 @@ async def test_strategy_hybrid_rerank(monkeypatch):
     monkeypatch.setattr("app.core.rerank.rerank", fake_rerank)
     out = await retrieval.search_knowledge("Pro 型号", strategy="hybrid_rerank", client=object())
     assert out[0]["id"] == 2 and out[0]["rerank_score"] == 0.95
+
+
+@pytest.mark.asyncio
+async def test_hybrid_candidate_parameters_reach_recall_and_reranker(monkeypatch):
+    async def fake_embed(q): return [0.1] * 1024
+    monkeypatch.setattr("app.core.embeddings.embed_query", fake_embed)
+    monkeypatch.setattr("app.kb.milvus_client.ensure_collection", lambda *a, **k: None)
+    calls = {}
+
+    def fake_hybrid(client, vec, text, top_k, recall=50, category=None, collection="knowledge"):
+        calls["recall"] = recall
+        return [{"id": i, "question": f"q{i}", "answer": "a", "section_path": "p"}
+                for i in range(top_k)]
+
+    monkeypatch.setattr("app.kb.milvus_client.hybrid_search", fake_hybrid)
+
+    async def fake_rerank(q, docs, top_n=None):
+        calls["rerank_top_n"] = top_n
+        return [(i, 0.9 - i * 0.01) for i in range(min(top_n, len(docs)))]
+
+    monkeypatch.setattr("app.core.rerank.rerank", fake_rerank)
+    out = await retrieval.search_knowledge("测试问题", strategy="hybrid_rerank",
+                                           top_k=5, recall_top_k=20, split=False,
+                                           client=object())
+    assert calls == {"recall": 20, "rerank_top_n": 5}
+    assert len(out) == 5

@@ -50,6 +50,7 @@ async def review_detail(review_id: int) -> dict:
     out = _item_out(item)
     out["approved_answer"] = item.approved_answer
     out["raws"] = [{"raw_question": r.raw_question, "source": r.source, "reason": r.reason,
+                    "diagnosis_case_id": r.diagnosis_case_id,
                     "created_at": r.created_at.isoformat() if r.created_at else None,
                     "retrieved_chunks": r.retrieved_chunks}
                    for r in raws]

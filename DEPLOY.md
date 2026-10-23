@@ -72,6 +72,20 @@ docker compose up -d
 拉起 MySQL、Milvus、MinIO、etcd 四个容器。建表不用管，`sql/` 已经挂进 MySQL 的
 初始化目录，首次启动会自动按序执行。
 
+如果 MySQL 数据卷是已有的，初始化目录不会重放新 DDL；部署 ch11 时需额外执行一次
+`sql/ch11-ddl.sql`（脚本使用 `CREATE TABLE IF NOT EXISTS`，可安全重复执行）：
+
+```bash
+docker compose exec -T mysql mysql -uroot -proot mewhelp < sql/ch11-ddl.sql
+```
+
+若数据库此前已执行过 `ch11-ddl.sql`，再单独执行一次诊断案例与飞轮关联迁移
+`sql/ch11-flywheel-link.sql`（该迁移不是重复执行脚本）：
+
+```bash
+docker compose exec -T mysql mysql -uroot -proot mewhelp < sql/ch11-flywheel-link.sql
+```
+
 **验收**：`docker compose ps` 里 mysql 和 milvus 都是 healthy。
 
 > **头半分钟 MinIO 显示 starting 是正常的**，Docker 每 30 秒才做一次健康检查，刚起来那会儿

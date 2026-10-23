@@ -2,7 +2,7 @@
 # (知识库、评估集)会抛 UnicodeDecodeError。必须在 Python 启动前生效,所以设在这里而不是 .env。
 export PYTHONUTF8 = 1
 
-.PHONY: help kb-repatch dev test eval eval-check judge-check seed eval-ch07 eval-agent kb-preview kb-build kb-vectorize kb-mine eval-retrieval seed-conv eval-mining kb-reset milvus-up milvus-down smoke-rag eval-rag smoke-interrupt eval-ch06 mcp-up mcp-down langfuse-up langfuse-down
+.PHONY: help kb-repatch dev test eval eval-check judge-check seed eval-ch07 eval-agent kb-preview kb-build kb-vectorize kb-mine eval-retrieval seed-conv eval-mining kb-reset milvus-up milvus-down smoke-rag eval-rag smoke-interrupt eval-ch06 mcp-up mcp-down langfuse-up langfuse-down eval-candidates calibrate-release-thresholds release-gate
 
 # 目标一多就记不住谁要什么前置条件,带 ## 注释的挑出来列一遍
 help:  ## 列出带说明的目标
@@ -36,6 +36,21 @@ eval-flywheel:  ## ch09 评估流水线:复用 ch04 评估集,落 eval_runs 连�
 
 cost-report:  ## ch09 按意图 token 账(需 Langfuse 在跑;DAYS=窗口天数)
 	PYTHONPATH=. uv run python scripts/cost_by_intent.py --days $(or $(DAYS),7)
+
+eval-candidates:  ## ch11 检索候选离线比较(DATASET=... DATASET_ROLE=... KB_VERSION=...;需 Milvus/上游)
+	@if [ -z "$(DATASET)" ] || [ -z "$(KB_VERSION)" ]; then echo "请指定 DATASET=...、DATASET_ROLE=validation|test 和 KB_VERSION=..."; exit 2; fi
+	PYTHONPATH=. uv run python scripts/eval_candidates.py --dataset "$(DATASET)" --dataset-role "$(or $(DATASET_ROLE),validation)" --knowledge-version "$(KB_VERSION)" --out "$(or $(OUT),data/ch11/reports/eval_candidates.json)" $(foreach c,$(CANDIDATES),--candidate $(c))
+
+calibrate-release-thresholds:  ## ch11 由重复 validation 基线波动生成门禁阈值(REPORTS=至少3个文件)
+	@if [ "$(words $(REPORTS))" -lt 3 ] || [ -z "$(MIN_SAMPLES)" ] || [ -z "$(MIN_ABSENT_REFUSAL_RATE)" ] || [ -z "$(MAX_FALSE_REFUSAL_RATE)" ]; then echo "请提供至少3个 REPORTS、MIN_SAMPLES、MIN_ABSENT_REFUSAL_RATE、MAX_FALSE_REFUSAL_RATE"; exit 2; fi
+	PYTHONPATH=. uv run python scripts/calibrate_release_thresholds.py $(foreach r,$(REPORTS),--report "$(r)") --out "$(or $(OUT),data/ch11/release_thresholds.json)" --min-samples "$(MIN_SAMPLES)" --min-absent-refusal-rate "$(MIN_ABSENT_REFUSAL_RATE)" --max-false-refusal-rate "$(MAX_FALSE_REFUSAL_RATE)"
+
+release-gate:  ## ch11 对比基线和候选报告(CANDIDATE=...;需 data/ch11/release_thresholds.json)
+	PYTHONPATH=. uv run python scripts/eval_release_gate.py --candidate "$(CANDIDATE)"
+
+evolution-cycle:  ## ch11 failure-driven candidate recommendation; requires eval reports, manifests, and review CSV
+	@if [ -z "$(REGRESSION_REPORT)" ] || [ -z "$(CHALLENGE_REPORT)" ] || [ -z "$(INDEPENDENT_REPORT)" ] || [ -z "$(ANSWER_REPORT)" ] || [ -z "$(THRESHOLDS)" ] || [ -z "$(REGRESSION_MANIFEST)" ] || [ -z "$(CHALLENGE_MANIFEST)" ] || [ -z "$(DEVELOPMENT_REVIEW)" ]; then echo "provide all evolution-cycle report, manifest, and development-review variables"; exit 2; fi
+	PYTHONPATH=. uv run python scripts/evolution_cycle.py --regression-report "$(REGRESSION_REPORT)" --challenge-report "$(CHALLENGE_REPORT)" --independent-report "$(INDEPENDENT_REPORT)" --answer-report "$(ANSWER_REPORT)" --thresholds "$(THRESHOLDS)" --regression-manifest "$(REGRESSION_MANIFEST)" --challenge-manifest "$(CHALLENGE_MANIFEST)" --development-review "$(DEVELOPMENT_REVIEW)" --out "$(or $(OUT),data/ch11/reports/evolution_cycle.json)"
 
 # ch10: 主题分类器(数据→训练→评测→ONNX→旁路批量归类)
 ch10-golden:  ## ch10 预标 prompt 黄金样例验证(通过率 ≥ 80% 才放行批量预标;需聊天上游)

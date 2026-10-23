@@ -60,3 +60,12 @@ def snapshot_from_hits(hits: list[dict], top_n: int = 3) -> list[dict]:
              "rerank_score": float(h.get("rerank_score", 0.0)),
              "section_path": h.get("section_path", "")}
             for h in hits[:top_n]]
+
+
+def ranked_hits_for_diagnosis(hits: list[dict], top_n: int = 20) -> list[dict]:
+    """Compact ranking snapshot; unlike display citations, preserves the true rerank order."""
+    return [{"id": h.get("id"), "rank": i + 1,
+             "rerank_score": float(h.get("rerank_score", 0.0)),
+             "section_path": h.get("section_path", ""),
+             "question": h.get("question", ""), "answer": h.get("answer", "")}
+            for i, h in enumerate(hits[:top_n])]

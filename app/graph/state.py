@@ -20,6 +20,7 @@ def merge_dict(a: dict | None, b: dict | None) -> dict:
 
 
 class ConversationState(TypedDict, total=False):
+    case_id: str             # 本轮应用级案例 ID,用于关联 Langfuse metadata 与诊断记录
     messages: Annotated[list[AnyMessage], add_messages]  # 跨轮历史,checkpointer 续接
     summary: str            # ch07 早期轮次滚动摘要(入口每轮从 conversations 加载)
     summary_upto_msg_id: int  # 摘要覆盖到的 MySQL 消息 id,滑窗从其后接原文
@@ -38,6 +39,7 @@ class ConversationState(TypedDict, total=False):
     evidence_confidence: float  # ch09 正式置信度闸:四信号加权总分(0-1)
     fallback_source: str        # ch09 兜底落池 source:retrieval_low_conf | self_check
     retrieved_snapshot: list    # ch09 召回快照(Top3 原文+得分):走了检索就有,落池/👎回捞共用
+    retrieved_hits: list         # 紧凑候选排序快照,保留真实 rank/id/score 供诊断
     answer: str            # 确定性节点产出的答复(agent 答复走流式,不落此字段)
     steps: int             # ReAct 步数(停止条件)
     tokens_used: int       # token 预算累加

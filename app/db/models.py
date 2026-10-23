@@ -145,13 +145,16 @@ class LowConfidenceQuestion(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     conversation_id: Mapped[int | None] = mapped_column(BigInteger, ForeignKey("conversations.id"), nullable=True)
     raw_question: Mapped[str] = mapped_column(Text)
-    source: Mapped[str] = mapped_column(Enum("retrieval_low_conf", "self_check", "user_feedback"))
+    source: Mapped[str] = mapped_column(Enum(
+        "retrieval_low_conf", "self_check", "user_feedback", "diagnosis_confirmed"))
     reason: Mapped[str | None] = mapped_column(Text, nullable=True)
     # ch09 落池时召回快照。none_as_null=True:Python None 存 SQL NULL 而非 JSON null
     # (默认 False 会把 None 写成 JSON 'null',IS NOT NULL 判真、语义全乱,实测踩坑)
     retrieved_chunks: Mapped[list | None] = mapped_column(JSON(none_as_null=True), nullable=True)
     matched_review_id: Mapped[int | None] = mapped_column(
         BigInteger, ForeignKey("review_queue.id"), nullable=True)               # ch09 查重归并落点
+    diagnosis_case_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("diagnosis_cases.case_id"), unique=True, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
 
@@ -179,6 +182,33 @@ class EvalRun(Base):
     triggered_by: Mapped[str] = mapped_column(Enum("定时", "手动"), server_default="定时")
     dataset_size: Mapped[int] = mapped_column(Integer)
     metrics: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class DiagnosisCase(Base):
+    """按需保存的失败案例；case_id 可在 Langfuse metadata 中搜索。"""
+    __tablename__ = "diagnosis_cases"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    case_id: Mapped[str] = mapped_column(String(36), unique=True)
+    trace_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    conversation_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
+    question: Mapped[str] = mapped_column(Text)
+    intent: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    failure_type: Mapped[str] = mapped_column(String(32), server_default="unknown")
+    predicted_failure_type: Mapped[str] = mapped_column(String(32), server_default="unknown")
+    human_failure_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    diagnosis_status: Mapped[str] = mapped_column(String(32), server_default="pending")
+    diagnosis_reason: Mapped[str] = mapped_column(Text)
+    retrieved_docs: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    evidence_confidence: Mapped[float | None] = mapped_column(nullable=True)
+    selfcheck_result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    tool_status: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    final_answer: Mapped[str | None] = mapped_column(Text, nullable=True)
+    user_feedback: Mapped[str | None] = mapped_column(String(8), nullable=True)
+    config_version: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    review_queue_id: Mapped[int | None] = mapped_column(
+        BigInteger, ForeignKey("review_queue.id"), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
 

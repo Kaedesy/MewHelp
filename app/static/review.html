@@ -186,7 +186,7 @@
     const modalAnswer = document.getElementById("modalAnswer");
     let curStatus = "待审";
     let approving = null;   // 当前弹框对应的缺口 id
-    const SRC_LABEL = { retrieval_low_conf: "检索置信度低", self_check: "模型自评不足", user_feedback: "用户反馈没解决" };
+    const SRC_LABEL = { retrieval_low_conf: "检索置信度低", self_check: "模型自评不足", user_feedback: "用户反馈没解决", diagnosis_confirmed: "人工确认知识缺口" };
 
     function toast(msg, err) {
       const t = document.getElementById("toast");
@@ -257,6 +257,13 @@
             const head = el("div", "head");
             head.appendChild(el("span", "src src-" + r.source, SRC_LABEL[r.source] || r.source));
             head.appendChild(el("span", "when", (r.created_at || "").replace("T", " ").slice(0, 16)));
+            if (r.diagnosis_case_id) {
+              const caseLink = el("a", "when", "诊断案例 " + r.diagnosis_case_id);
+              caseLink.href = "/api/diagnosis/cases/" + encodeURIComponent(r.diagnosis_case_id);
+              caseLink.target = "_blank";
+              caseLink.rel = "noopener";
+              head.appendChild(caseLink);
+            }
             raw.appendChild(head);
             raw.appendChild(el("div", "q", "「" + r.raw_question + "」"));
             renderSnapshots(raw, r.retrieved_chunks);

@@ -13,7 +13,7 @@ CREATE TABLE low_confidence_questions (
   id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
   conversation_id BIGINT UNSIGNED NULL                    COMMENT '来源会话',
   raw_question    TEXT            NOT NULL                COMMENT '用户原话,带情绪口语',
-  source          ENUM('retrieval_low_conf','self_check','user_feedback') NOT NULL COMMENT '入池入口:检索证据低 / 生成自评不足 / 用户反馈未解决',
+  source          ENUM('retrieval_low_conf','self_check','user_feedback','diagnosis_confirmed') NOT NULL COMMENT '入池入口:检索证据低 / 生成自评不足 / 用户反馈未解决 / 人工确认知识缺口',
   reason          TEXT            NULL                    COMMENT '判不能的原因,留作复盘',
   created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '入池时间',
   PRIMARY KEY (id),

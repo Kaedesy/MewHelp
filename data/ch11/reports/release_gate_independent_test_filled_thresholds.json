@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-23T10:17:06.192683+00:00",
+  "dataset_role": "test",
+  "dataset_sha256": "28a6892a2d84962851bddb77e9add70cfc7bed3ece427a91ed6aed1130077cdd",
+  "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:c34ae34943fb",
+  "thresholds": "data/ch11/release_thresholds_currentcode_draft.json",
+  "thresholds_sha256": "cdf694fa8b21a20c46f46307b3754b352a205bfc3890efcf88cee9215e57b853",
+  "source_reports": {
+    "retrieval": {
+      "path": "data/ch11/reports/eval_candidates_independent_test.json",
+      "sha256": "0468ff8dc3054d81a46b17c91418cb7f40239de820918af4ac71bd51fae99993"
+    },
+    "answers": {
+      "path": "data/ch11/reports/eval_answers_independent_candidates.json",
+      "sha256": "7e5c2f05b286a3ce32ad2a1d994a299d1438d2c024de96d55ae5fe16102e136c"
+    },
+    "manual_review": {
+      "path": "data/ch11/final_answer_handling_candidates_review.csv",
+      "sha256": "954ca7810937883f8d5316262c8da0365e16d5fb6cc87aee42ddde987f45535e",
+      "reviewed_rows": 30,
+      "reviewer_id": "wxz",
+      "status": "approved"
+    }
+  },
+  "answer_quality_review_status": "human review approved; original scores from LLM judge",
+  "candidates": {
+    "baseline": {
+      "status": "PASS",
+      "reasons": [],
+      "checks": [
+        {
+          "metric": "recall_at_5",
+          "baseline": 0.9917,
+          "candidate": 0.9917,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "mrr",
+          "baseline": 0.8852,
+          "candidate": 0.8852,
+          "max_regression": 0.001,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true,
+          "min_value": 0.8
+        },
+        {
+          "metric": "confidence_gate_false_refusal_rate",
+          "baseline": 0.125,
+          "candidate": 0.125,
+          "max_increase": 0.0,
+          "passed": true,
+          "max_value": 0.15
+        },
+        {
+          "metric": "answer_coverage",
+          "baseline": 0.992,
+          "candidate": 0.992,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "faithfulness",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "handling_compliance",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "unsupported_claim_rate",
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "passed": true,
+          "max_value": 0.05
+        },
+        {
+          "metric": "D_absent.confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true,
+          "min_value": 0.8
+        },
+        {
+          "metric": "E_multi.recall_at_5",
+          "baseline": 0.9667,
+          "candidate": 0.9667,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "C_colloquial.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "B_model.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "A_policy.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    "recall_20": {
+      "status": "FAIL",
+      "reasons": [
+        "handling_compliance 超出允许退化范围",
+        "unsupported_claim_rate 超出允许退化范围"
+      ],
+      "checks": [
+        {
+          "metric": "recall_at_5",
+          "baseline": 0.9917,
+          "candidate": 0.9917,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "mrr",
+          "baseline": 0.8852,
+          "candidate": 0.8845,
+          "max_regression": 0.001,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true,
+          "min_value": 0.8
+        },
+        {
+          "metric": "confidence_gate_false_refusal_rate",
+          "baseline": 0.125,
+          "candidate": 0.1,
+          "max_increase": 0.0,
+          "passed": true,
+          "max_value": 0.15
+        },
+        {
+          "metric": "answer_coverage",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "faithfulness",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "handling_compliance",
+          "baseline": 0.9,
+          "candidate": 0.9,
+          "passed": false,
+          "min_value": 0.95
+        },
+        {
+          "metric": "unsupported_claim_rate",
+          "baseline": 0.1,
+          "candidate": 0.1,
+          "passed": false,
+          "max_value": 0.05
+        },
+        {
+          "metric": "D_absent.confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true,
+          "min_value": 0.8
+        },
+        {
+          "metric": "E_multi.recall_at_5",
+          "baseline": 0.9667,
+          "candidate": 0.9667,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "C_colloquial.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "B_model.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "A_policy.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    "rerank_5": {
+      "status": "PASS",
+      "reasons": [],
+      "checks": [
+        {
+          "metric": "recall_at_5",
+          "baseline": 0.9917,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "mrr",
+          "baseline": 0.8852,
+          "candidate": 0.8857,
+          "max_regression": 0.001,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true,
+          "min_value": 0.8
+        },
+        {
+          "metric": "confidence_gate_false_refusal_rate",
+          "baseline": 0.125,
+          "candidate": 0.125,
+          "max_increase": 0.0,
+          "passed": true,
+          "max_value": 0.15
+        },
+        {
+          "metric": "answer_coverage",
+          "baseline": 0.992,
+          "candidate": 0.992,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "faithfulness",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "handling_compliance",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "passed": true,
+          "min_value": 0.95
+        },
+        {
+          "metric": "unsupported_claim_rate",
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "passed": true,
+          "max_value": 0.05
+        },
+        {
+          "metric": "D_absent.confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true,
+          "min_value": 0.8
+        },
+        {
+          "metric": "E_multi.recall_at_5",
+          "baseline": 0.9667,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "C_colloquial.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "B_model.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "A_policy.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        }
+      ]
+    }
+  }
+}

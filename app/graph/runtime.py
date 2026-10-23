@@ -4,6 +4,7 @@
 # 简历模版：jianli.xiaolinnote.com
 import logging
 from collections.abc import AsyncIterator
+from uuid import uuid4
 
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
@@ -11,7 +12,8 @@ from langgraph.types import Command
 
 from app.config import settings
 from app.core import summarizer
-from app.core.observability import attach_observability
+from app.core import failure_diagnosis
+from app.core.observability import langfuse_enabled, trace_callback, trace_id_for_case
 from app.config import settings
 from app.core import budget, memory
 from app.db import repository
@@ -41,7 +43,7 @@ async def init_graph() -> None:
     checkpointer = await _cm.__aenter__()
     await checkpointer.setup()
     # ch09:编译时挂一次 Langfuse 回调,全图自动 trace(未配置时原样返回,零依赖)
-    _graph = attach_observability(build_graph(checkpointer=checkpointer))
+    _graph = build_graph(checkpointer=checkpointer)
     logger.info("图已编译,checkpointer=%s", settings.checkpointer_db_path)
 
 
@@ -70,7 +72,11 @@ async def get_turn_snapshot(conversation_id: int) -> dict:
         if getattr(m, "type", "") == "human":
             question = m.content if isinstance(m.content, str) else ""
             break
-    return {"question": question, "snapshot": values.get("retrieved_snapshot") or []}
+    case_id = values.get("case_id")
+    return {"question": question, "snapshot": values.get("retrieved_snapshot") or [],
+            "case_id": case_id,
+            "trace_id": trace_id_for_case(case_id) if langfuse_enabled() else None,
+            "state": values}
 
 
 def dedup_actions(actions: list) -> list:
@@ -101,16 +107,19 @@ async def _ensure_conversation(user_id: str,
 
 
 def _graph_input(user_id: str, message: str, cid: int, msg_id: int,
-                 summary: str, summary_upto: int, layer1_from: int = 0) -> dict:
+                 summary: str, summary_upto: int, layer1_from: int = 0,
+                 case_id: str | None = None) -> dict:
     # 显式重置每轮的输出通道:checkpointer 按 thread_id 持久化 State,这些无 reducer 的标量
     # 会跨轮残留(如上一轮闲聊/投诉的 answer、建工单可选项串到本轮),须在入口清零。
     # messages 有 add_messages reducer(追加=跨轮历史),不清;steps/tokens_used 是本轮预算。
     # ch07:用户消息带 db-{msg_id} 锚点(滑窗与摘要边界对齐);summary 两字段每轮从库刷新。
     return {"messages": [HumanMessage(message, id=f"db-{msg_id}")], "user_id": user_id,
+            "case_id": case_id or str(uuid4()),
             "conversation_id": cid, "steps": 0, "tokens_used": 0,
             "answer": "", "suggested_actions": [], "evidence": "",
             "evidence_strong": False, "citations": [],
             "evidence_confidence": 0.0, "fallback_source": "", "retrieved_snapshot": [],
+            "retrieved_hits": [],
             "resolved_query": "", "intent_confidence": 0.0,
             "order_id": "", "order_data": {},
             "summary": summary, "summary_upto_msg_id": summary_upto,
@@ -165,11 +174,18 @@ async def run_turn(user_id, message, conversation_id) -> dict:
     """非流式:落 user 消息 → ainvoke → 返回终态(供 /api/agent、eval)。遇 interrupt 带 orders。"""
     cid, summary, upto, layer1 = await _ensure_conversation(user_id, conversation_id)
     msg_id = await repository.append_message(cid, "user", content=message)
+    case_id = str(uuid4())
     # ch09:langfuse_session_id 让同一会话多轮在 Langfuse 界面串成一组(未挂回调时无害)
+    callback = trace_callback(case_id)
     config = {"configurable": {"thread_id": str(cid)},
-              "metadata": {"langfuse_session_id": str(cid)}}
+              "metadata": {"langfuse_session_id": str(cid), "case_id": case_id}}
+    if callback:
+        config["callbacks"] = [callback]
     final = await get_graph().ainvoke(
-        _graph_input(user_id, message, cid, msg_id, summary, upto, layer1), config)
+        _graph_input(user_id, message, cid, msg_id, summary, upto, layer1, case_id), config)
+    trace_id = getattr(callback, "last_trace_id", None)
+    final["trace_id"] = trace_id
+    await failure_diagnosis.capture(final, trace_id=trace_id)
     await settle_layers(cid, final, upto, layer1)  # 层1 超预算就降级一批(纯计算)
     await summarizer.maybe_schedule_summary(cid)   # ch07 轮后触发检查(后台跑,不阻塞返回)
     return {"conversation_id": cid, "state": final, "interrupt": _interrupt_payload(final)}
@@ -179,20 +195,35 @@ async def resume_turn(conversation_id: int, resume_value) -> dict:
     """非流式续跑(供 /api/agent、eval):Command(resume) 回填后跑到下一个中断或结束。"""
     if await repository.get_conversation(conversation_id) is None:
         raise ConversationNotFound(conversation_id)
+    try:
+        before = await _final_state(conversation_id)
+    except Exception:
+        logger.warning("读取续跑前 State 失败 conv=%s(不影响续跑)", conversation_id, exc_info=True)
+        before = {}
+    case_id = before.get("case_id")
+    callback = trace_callback(case_id)
     config = {"configurable": {"thread_id": str(conversation_id)},
-              "metadata": {"langfuse_session_id": str(conversation_id)}}
+              "metadata": {"langfuse_session_id": str(conversation_id), "case_id": case_id}}
+    if callback:
+        config["callbacks"] = [callback]
     final = await get_graph().ainvoke(Command(resume=resume_value), config)
+    trace_id = getattr(callback, "last_trace_id", None)
+    final["trace_id"] = trace_id
+    await failure_diagnosis.capture(final, trace_id=trace_id)
     await summarizer.maybe_schedule_summary(conversation_id)
     return {"conversation_id": conversation_id, "state": final,
             "interrupt": _interrupt_payload(final)}
 
 
-async def _stream_events(cid: int, stream_source) -> AsyncIterator[dict]:
+async def _stream_events(cid: int, stream_source, case_id: str | None = None,
+                         callback=None) -> AsyncIterator[dict]:
     """astream 多模式 → 事件 dict。stream_source 为 _graph_input(...)(新一轮)或 Command(resume=...)(续跑)。
     遇 interrupt(updates 块含 __interrupt__,Task 1 冒烟钉死)→ 吐 interrupt 事件并结束本次流
     (前端点选后走 /api/actions/resume 续流)。"""
     config = {"configurable": {"thread_id": str(cid)},
-              "metadata": {"langfuse_session_id": str(cid)}}
+              "metadata": {"langfuse_session_id": str(cid), "case_id": case_id}}
+    if callback:
+        config["callbacks"] = [callback]
     actions: list = []
     async for mode, chunk in get_graph().astream(
         stream_source, config, stream_mode=["messages", "updates"],
@@ -240,9 +271,18 @@ async def stream_turn(user_id, message, conversation_id) -> AsyncIterator[dict]:
     """流式:落 user 消息 → astream 多模式 → 事件 dict(供 /api/chat 转 SSE)。"""
     cid, summary, upto, layer1 = await _ensure_conversation(user_id, conversation_id)
     msg_id = await repository.append_message(cid, "user", content=message)
+    case_id = str(uuid4())
+    callback = trace_callback(case_id)
     async for ev in _stream_events(
-            cid, _graph_input(user_id, message, cid, msg_id, summary, upto, layer1)):
+            cid, _graph_input(user_id, message, cid, msg_id, summary, upto, layer1, case_id),
+            case_id, callback):
         yield ev
+    try:
+        final = await _final_state(cid)
+        final["trace_id"] = getattr(callback, "last_trace_id", None)
+        await failure_diagnosis.capture(final, trace_id=final["trace_id"])
+    except Exception:
+        logger.exception("无法读取最终 State 生成诊断案例 conv=%s", cid)
     await settle_layers(cid, None, upto, layer1)   # 流式拿不到终态,内部自取
     await summarizer.maybe_schedule_summary(cid)   # ch07 流吐完再触发(后台跑,不阻塞)
 
@@ -251,6 +291,19 @@ async def stream_resume(conversation_id: int, resume_value) -> AsyncIterator[dic
     """前端点选订单后续跑同一会话的暂停流(Command(resume) 续 astream,事件与 stream_turn 同构)。"""
     if await repository.get_conversation(conversation_id) is None:
         raise ConversationNotFound(conversation_id)
-    async for ev in _stream_events(conversation_id, Command(resume=resume_value)):
+    try:
+        before = await _final_state(conversation_id)
+    except Exception:
+        logger.warning("读取流式续跑前 State 失败 conv=%s(不影响续跑)", conversation_id, exc_info=True)
+        before = {}
+    case_id = before.get("case_id")
+    callback = trace_callback(case_id)
+    async for ev in _stream_events(conversation_id, Command(resume=resume_value), case_id, callback):
         yield ev
+    try:
+        final = await _final_state(conversation_id)
+        final["trace_id"] = getattr(callback, "last_trace_id", None)
+        await failure_diagnosis.capture(final, trace_id=final["trace_id"])
+    except Exception:
+        logger.exception("无法读取续跑后的最终 State 生成诊断案例 conv=%s", conversation_id)
     await summarizer.maybe_schedule_summary(conversation_id)

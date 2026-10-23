@@ -1,0 +1,106 @@
+{
+  "status": "INCONCLUSIVE",
+  "reasons": [
+    "来源清单未确认测试集此前未用于评估",
+    "来源清单未确认测试集未用于候选调参",
+    "阈值校准与测试报告的 knowledge_version 不一致",
+    "阈值校准与测试报告的 knowledge_source_sha256 不一致",
+    "阈值校准与测试报告的 code_revision 不一致"
+  ],
+  "checks": [
+    {
+      "metric": "recall_at_5",
+      "baseline": 0.9917,
+      "candidate": 0.9917,
+      "max_regression": 0.0,
+      "passed": true
+    },
+    {
+      "metric": "mrr",
+      "baseline": 0.8852,
+      "candidate": 0.8852,
+      "max_regression": 0.001,
+      "passed": true
+    },
+    {
+      "metric": "confidence_gate_refusal_rate",
+      "baseline": 0.8,
+      "candidate": 0.8,
+      "max_regression": 0.0,
+      "passed": true,
+      "min_value": 0.8
+    },
+    {
+      "metric": "confidence_gate_false_refusal_rate",
+      "baseline": 0.125,
+      "candidate": 0.1,
+      "max_increase": 0.0,
+      "passed": true,
+      "max_value": 0.15
+    },
+    {
+      "metric": "answer_coverage",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "passed": true,
+      "min_value": 0.95
+    },
+    {
+      "metric": "faithfulness",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "passed": true,
+      "min_value": 0.95
+    },
+    {
+      "metric": "handling_compliance",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "passed": true,
+      "min_value": 0.95
+    },
+    {
+      "metric": "unsupported_claim_rate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "passed": true,
+      "max_value": 0.05
+    },
+    {
+      "metric": "D_absent.confidence_gate_refusal_rate",
+      "baseline": 0.8,
+      "candidate": 0.8,
+      "max_regression": 0.0,
+      "passed": true,
+      "min_value": 0.8
+    },
+    {
+      "metric": "E_multi.recall_at_5",
+      "baseline": 0.9667,
+      "candidate": 0.9667,
+      "max_regression": 0.0,
+      "passed": true
+    },
+    {
+      "metric": "B_model.recall_at_5",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "max_regression": 0.0,
+      "passed": true
+    },
+    {
+      "metric": "A_policy.recall_at_5",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "max_regression": 0.0,
+      "passed": true
+    },
+    {
+      "metric": "C_colloquial.recall_at_5",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "max_regression": 0.0,
+      "passed": true
+    }
+  ]
+}

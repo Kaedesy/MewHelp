@@ -56,6 +56,7 @@ async def search_knowledge(
     query: str, strategy: str = "hybrid_rerank", top_k: int | None = None,
     category: str | None = None, client=None, collection: str = "knowledge",
     bm25_text: str | None = None, split: bool = True,
+    recall_top_k: int | None = None,
 ) -> list[dict]:
     """strategy: vector | bm25 | hybrid | hybrid_rerank。
     返回最终排序的 hit(hybrid_rerank 含 rerank_score);不做首尾组装(调用侧按需)。
@@ -67,6 +68,7 @@ async def search_knowledge(
     客户端也在该线程惰性创建 —— 规避 gRPC 客户端跨线程共享在 async server 下的间歇空返回。
     """
     top_k = top_k or settings.rerank_top_k
+    recall_top_k = recall_top_k or settings.recall_top_k
     bt = bm25_text or query  # BM25 检索文本;dense 始终用干净的 query
 
     # 一问多意图:按子句各检索一遍再轮转合并,免得一个意图把名额占满(见 split_clauses)
@@ -75,7 +77,8 @@ async def search_knowledge(
         if len(clauses) >= 2:
             per = [await search_knowledge(c, strategy=strategy, top_k=top_k,
                                           category=category, client=client,
-                                          collection=collection, split=False)
+                                          collection=collection, split=False,
+                                          recall_top_k=recall_top_k)
                    for c in clauses]
             return _merge_round_robin(per)[:top_k]
 
@@ -102,7 +105,7 @@ async def search_knowledge(
         c = client or milvus_client.get_client()
         milvus_client.ensure_collection(c, collection=collection)
         return milvus_client.hybrid_search(
-            c, vec, bt, settings.recall_top_k, settings.recall_top_k, category, collection)
+            c, vec, bt, recall_top_k, recall_top_k, category, collection)
     hits = await milvus_client.acall(work)
 
     if strategy == "hybrid":

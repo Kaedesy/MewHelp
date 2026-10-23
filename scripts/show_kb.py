@@ -29,7 +29,7 @@ def main() -> None:
     print("历史会话(挖知识 job 的【输入】,抽 QA → knowledge_chunks):")
     print(f"  {SEED_SQL.relative_to(ROOT)} → seed-u1/u2 共 2 会话、4 消息:")
     print("    · u1「你们发货一般多久啊」/「现货…48 小时内发货」 → 可抽:发货时效")
-    print("    · u2「满多少包邮」/「满 99 元包邮,未满 10 元运费」 → 可抽:运费/包邮")
+    print("    · u2「满多少包邮」/「满 99 元包邮,未满 6 元运费」 → 可抽:运费/包邮")
     print("  ⚠ 挖掘要调 LLM(glm-5.2),不属于本地 dry-run;抽取结果见 make eval-mining / make kb-mine")
 
     print("\n=== 切块预览(dry-run,不写库)===")

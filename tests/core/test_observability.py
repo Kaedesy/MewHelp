@@ -45,3 +45,21 @@ def test_attach_wraps_with_callbacks_when_enabled(monkeypatch):
     monkeypatch.setattr(observability, "_make_handler", lambda: "HANDLER")
     assert observability.attach_observability(FakeGraph()) == "wrapped"
     assert calls["cfg"] == {"callbacks": ["HANDLER"]}
+
+
+def test_trace_id_is_stable_and_uuid_shaped():
+    assert observability.trace_id_for_case("f89c7742-3997-46d9-9a98-bd63fdc57c3d") == \
+        "f89c7742399746d99a98bd63fdc57c3d"
+    assert observability.trace_id_for_case(None) is None
+
+
+def test_trace_callback_is_per_case_and_uses_custom_trace_id(monkeypatch):
+    monkeypatch.setattr("app.config.settings.langfuse_public_key", "pk")
+    monkeypatch.setattr("app.config.settings.langfuse_secret_key", "sk")
+    monkeypatch.setattr("app.config.settings.langfuse_base_url", "http://localhost:3000")
+    monkeypatch.setattr(observability, "_init_client", lambda: object())
+    made = []
+    monkeypatch.setattr(observability, "_make_handler", lambda trace_id: made.append(trace_id) or "handler")
+
+    assert observability.trace_callback("f89c7742-3997-46d9-9a98-bd63fdc57c3d") == "handler"
+    assert made == ["f89c7742399746d99a98bd63fdc57c3d"]

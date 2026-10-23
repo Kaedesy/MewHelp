@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "source": "tests\\data\\eval_ch04.jsonl",
+  "source_sha256": "272b1c82d7b6b4152871cb32101e5dd132428645fc79ea5e910085093d45316f",
+  "salt": "mewhelp-ch11-split-v1",
+  "validation_fraction_per_bucket": 0.8,
+  "validation": {
+    "path": "tests\\data\\eval_ch11_validation.jsonl",
+    "size": 240,
+    "sha256": "a48e6d59decad743aca61960986b254c79546dd7da9edfa9b6b9ece3da09dbb2"
+  },
+  "test": {
+    "path": "tests\\data\\eval_ch11_test.jsonl",
+    "size": 60,
+    "sha256": "628ea12abb2ae0457082ec55aaee2231d1b97fa1ac74f43db9c0ac93c2224596"
+  },
+  "bucket_counts": {
+    "A_policy": {
+      "validation": 48,
+      "test": 12
+    },
+    "B_model": {
+      "validation": 48,
+      "test": 12
+    },
+    "C_colloquial": {
+      "validation": 48,
+      "test": 12
+    },
+    "D_absent": {
+      "validation": 48,
+      "test": 12
+    },
+    "E_multi": {
+      "validation": 48,
+      "test": 12
+    }
+  },
+  "note": "Derived split; historical ch04 report used the full source set. Collect new labels for a fully unseen final test."
+}

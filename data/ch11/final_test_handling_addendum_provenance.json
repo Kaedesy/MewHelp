@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "dataset": "tests/data/eval_ch11_test_handling_addendum_candidate.jsonl",
+  "status": "draft_pending_human_review",
+  "purpose": "补充测试部分可答、部分政策未说明时的处理；审核通过前不得并入最终测试集或运行正式门禁",
+  "dataset_role": "test_candidate",
+  "dataset_sha256": "b0b466ab3c60fe803520f2b87419aeec4bbeb30e67f0e33e2b2695e1d706e584",
+  "derived_from_existing_eval_data": false,
+  "previously_evaluated": false,
+  "used_for_candidate_tuning": false,
+  "curation_method": "manual",
+  "curator_id": "",
+  "curation_status": "pending_human_review",
+  "curation_note": "题目来自用户指出的积分转赠与滤芯自动订阅边界场景；期望处理为回答有依据部分，并对未记载政策说明待核实。待审核者核对标签与相似题。",
+  "source_references": [
+    "FTC-C-011: data/kb/member-benefits.md#积分怎么用",
+    "FTC-C-012: data/kb/product-specs.md#MH-W20",
+    "FTC-C-012: data/kb/product-specs.md#MH-W40",
+    "FTC-C-012: data/kb/product-specs.md#MH-W60"
+  ],
+  "items": {
+    "FTC-C-011": {
+      "bucket": "C_colloquial",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "积分怎么用"
+        }
+      ],
+      "human_verified": false,
+      "review_status": "pending"
+    },
+    "FTC-C-012": {
+      "bucket": "C_colloquial",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "MH-W20"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "MH-W40"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "MH-W60"
+        }
+      ],
+      "human_verified": false,
+      "review_status": "pending"
+    }
+  }
+}

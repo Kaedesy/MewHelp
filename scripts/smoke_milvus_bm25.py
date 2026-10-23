@@ -32,7 +32,7 @@ def main() -> None:
     client.create_collection(COLL, schema=schema, index_params=index_params)
 
     client.insert(COLL, [
-        {"id": 1, "dense": [0.1, 0.2, 0.3, 0.4], "text": "满99元包邮,不满收取10元运费"},
+        {"id": 1, "dense": [0.1, 0.2, 0.3, 0.4], "text": "满99元包邮,不满收取6元运费"},
         {"id": 2, "dense": [0.2, 0.1, 0.4, 0.3], "text": "智能猫砂盆 Pro 型号支持自动清理和除臭"},
     ])
     client.flush(COLL)          # 刷盘,新写入数据才可被 BM25 检索到

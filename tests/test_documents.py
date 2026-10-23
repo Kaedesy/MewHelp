@@ -6,7 +6,7 @@ from app.kb.documents import Chunk, build_chunks
 
 
 def test_policy_maps_heading_and_parent_path():
-    md = "# 售后政策\n\n## 运费说明\n\n单笔订单满99元包邮,未满收取10元运费。偏远地区另计。"
+    md = "# 售后政策\n\n## 运费说明\n\n单笔订单满99元包邮,未满收取6元运费。偏远地区另计。"
     chunks = build_chunks(md, content_type="policy")
     c = [c for c in chunks if c.questions == "运费说明"][0]
     assert c.category == "售后政策"

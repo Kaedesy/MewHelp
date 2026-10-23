@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "dataset_role": "development_failure_challenge",
+  "curation_status": "draft_pending_human_review",
+  "eligible_for_final_release_gate": false,
+  "dataset_path": "tests/data/eval_ch11_failure_challenge.jsonl",
+  "dataset_sha256": "e78acce2ed20f0cb15b612181ea78b4a5f3c232d3bce42749e0d72f89b7edf83",
+  "row_count": 30,
+  "bucket_counts": {
+    "E_multi": 30
+  },
+  "derived_from_existing_eval_data": true,
+  "source_regression_dataset": "tests/data/eval_ch11_failure_regression.jsonl",
+  "source_regression_sha256": "eae750b098900f364d155a1e8bc4db930f48abf1c11bb1190c1a89582da7887b",
+  "source_parent_case_ids": [
+    "E1",
+    "E15",
+    "E37",
+    "E40",
+    "E44",
+    "E51"
+  ],
+  "original_and_existing_variant_rows": 18,
+  "newly_expanded_rows": 12,
+  "source_report": "data/ch11/reports/eval_candidates_validation_shipping6_frozen_20261022.json",
+  "source_report_sha256": "1ad770361ddb3a65c6c0849185a86fc46df520081c8297d1c7379cbadee69ddb",
+  "evaluation_report": "data/ch11/reports/eval_evolution_cycle1_failure_challenge_postfix_20261023.json",
+  "evaluation_report_sha256": "401d35b4e2b0098f640512ff08d63aa549ecddb55153c55d31027ee89a715bad",
+  "notes": [
+    "This is a targeted development challenge set derived from known validation failures, not an independent final test set.",
+    "The 12 new query variants inherit expected labels from six parent cases and require human verification against current KB sources.",
+    "All rows are E_multi; this report cannot assess other buckets or release readiness.",
+    "2026-10-23: E40 answer labels corrected: first-use QR setup is not evidence for post-outage re-pairing. Existing rows retained; no new questions added."
+  ],
+  "evaluation_code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:84d7af978840",
+  "answer_quality_report": "data/ch11/reports/eval_answers_failure_challenge_postfix_20261023.json",
+  "answer_quality_report_sha256": "0cae5cddbf7fdfe302191781f96e89ed149b8f45fb8301e903c44db21a1083ee"
+}

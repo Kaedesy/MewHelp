@@ -23,6 +23,8 @@ def test_graph_input_resets_per_turn_output_channels():
     assert inp["suggested_actions"] == []
     assert inp["evidence"] == "" and inp["evidence_strong"] is False
     assert inp["citations"] == []
+    assert inp["retrieved_hits"] == []
+    assert inp["case_id"]
     assert inp["steps"] == 0 and inp["tokens_used"] == 0
     assert [m.content for m in inp["messages"]] == ["hi"]  # 本轮新消息(reducer 追加进历史)
     assert inp["messages"][0].id == "db-1"                 # ch07:用户消息带 DB 锚点
@@ -69,6 +71,7 @@ async def test_run_turn_creates_conversation_when_none(monkeypatch, no_summary_t
 
     class FakeGraph:
         async def ainvoke(self, inp, config):
+            assert inp["case_id"] == config["metadata"]["case_id"]
             return {"answer": "hi", "messages": [], "conversation_id": inp["conversation_id"]}
 
     monkeypatch.setattr(runtime.repository, "create_conversation", fake_create)
@@ -77,6 +80,37 @@ async def test_run_turn_creates_conversation_when_none(monkeypatch, no_summary_t
 
     out = await runtime.run_turn("u1", "你好", None)
     assert out["conversation_id"] == 42
+
+
+@pytest.mark.asyncio
+async def test_run_turn_binds_case_trace_id_and_saves_it(monkeypatch, no_summary_task):
+    class Callback:
+        last_trace_id = "f" * 32
+
+    captured = []
+    callback = Callback()
+
+    async def fake_create(uid): return 43
+    async def fake_append(cid, role, content=None, **k): return 2
+
+    class FakeGraph:
+        async def ainvoke(self, inp, config):
+            assert config["callbacks"] == [callback]
+            assert config["metadata"]["case_id"] == inp["case_id"]
+            return {"answer": "ok", "messages": [], "conversation_id": 43}
+
+    async def fake_capture(state, trace_id=None):
+        captured.append((state, trace_id))
+
+    monkeypatch.setattr(runtime.repository, "create_conversation", fake_create)
+    monkeypatch.setattr(runtime.repository, "append_message", fake_append)
+    monkeypatch.setattr(runtime, "get_graph", lambda: FakeGraph())
+    monkeypatch.setattr(runtime, "trace_callback", lambda case_id: callback)
+    monkeypatch.setattr(runtime.failure_diagnosis, "capture", fake_capture)
+
+    await runtime.run_turn("u1", "test", None)
+    assert captured[0][0]["trace_id"] == "f" * 32
+    assert captured[0][1] == "f" * 32
 
 
 @pytest.mark.asyncio

@@ -100,6 +100,7 @@ class Settings(BaseSettings):
     # (可答通过率 85%、应拒放行率 0%,报告见 data/ch09/reports/confidence_calibration.txt,
     #  「观测与成本」页 /observability 上也能看,推荐值与这里不一致时页面会标出来)
     evidence_confidence_threshold: float = 0.26
+    diagnosis_review_policy_path: str = "data/ch11/diagnosis_review_policy.json"
 
 
 settings = Settings()

@@ -1,0 +1,243 @@
+{
+  "dataset": "tests\\data\\eval_ch11_test_independent.jsonl",
+  "dataset_sha256": "28a6892a2d84962851bddb77e9add70cfc7bed3ece427a91ed6aed1130077cdd",
+  "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:c34ae34943fb",
+  "answer_report_code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:c34ae34943fb",
+  "answer_skipped": 0,
+  "candidates": {
+    "baseline": {
+      "status": "INCONCLUSIVE",
+      "reasons": [
+        "门槛未设置有效 min_samples",
+        "confidence_gate_refusal_rate 缺少运营方定义的绝对拒答下限",
+        "confidence_gate_false_refusal_rate 缺少运营方定义的绝对误拒上限",
+        "answer_coverage 缺少有效 min_value",
+        "faithfulness 缺少有效 min_value",
+        "handling_compliance 缺少有效 min_value",
+        "unsupported_claim_rate 缺少有效 max_value",
+        "D_absent 拒答率缺少运营方定义的绝对下限"
+      ],
+      "checks": [
+        {
+          "metric": "recall_at_5",
+          "baseline": 0.9917,
+          "candidate": 0.9917,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "mrr",
+          "baseline": 0.8852,
+          "candidate": 0.8852,
+          "max_regression": 0.001,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_false_refusal_rate",
+          "baseline": 0.125,
+          "candidate": 0.125,
+          "max_increase": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "E_multi.recall_at_5",
+          "baseline": 0.9667,
+          "candidate": 0.9667,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "D_absent.confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "A_policy.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "C_colloquial.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "B_model.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    "recall_20": {
+      "status": "INCONCLUSIVE",
+      "reasons": [
+        "门槛未设置有效 min_samples",
+        "confidence_gate_refusal_rate 缺少运营方定义的绝对拒答下限",
+        "confidence_gate_false_refusal_rate 缺少运营方定义的绝对误拒上限",
+        "answer_coverage 缺少有效 min_value",
+        "faithfulness 缺少有效 min_value",
+        "handling_compliance 缺少有效 min_value",
+        "unsupported_claim_rate 缺少有效 max_value",
+        "D_absent 拒答率缺少运营方定义的绝对下限"
+      ],
+      "checks": [
+        {
+          "metric": "recall_at_5",
+          "baseline": 0.9917,
+          "candidate": 0.9917,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "mrr",
+          "baseline": 0.8852,
+          "candidate": 0.8845,
+          "max_regression": 0.001,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_false_refusal_rate",
+          "baseline": 0.125,
+          "candidate": 0.1,
+          "max_increase": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "E_multi.recall_at_5",
+          "baseline": 0.9667,
+          "candidate": 0.9667,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "D_absent.confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "A_policy.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "C_colloquial.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "B_model.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    "rerank_5": {
+      "status": "INCONCLUSIVE",
+      "reasons": [
+        "门槛未设置有效 min_samples",
+        "confidence_gate_refusal_rate 缺少运营方定义的绝对拒答下限",
+        "confidence_gate_false_refusal_rate 缺少运营方定义的绝对误拒上限",
+        "answer_coverage 缺少有效 min_value",
+        "faithfulness 缺少有效 min_value",
+        "handling_compliance 缺少有效 min_value",
+        "unsupported_claim_rate 缺少有效 max_value",
+        "D_absent 拒答率缺少运营方定义的绝对下限"
+      ],
+      "checks": [
+        {
+          "metric": "recall_at_5",
+          "baseline": 0.9917,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "mrr",
+          "baseline": 0.8852,
+          "candidate": 0.8857,
+          "max_regression": 0.001,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "confidence_gate_false_refusal_rate",
+          "baseline": 0.125,
+          "candidate": 0.125,
+          "max_increase": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "E_multi.recall_at_5",
+          "baseline": 0.9667,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "D_absent.confidence_gate_refusal_rate",
+          "baseline": 0.8,
+          "candidate": 0.8,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "A_policy.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "C_colloquial.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        },
+        {
+          "metric": "B_model.recall_at_5",
+          "baseline": 1.0,
+          "candidate": 1.0,
+          "max_regression": 0.0,
+          "passed": true
+        }
+      ]
+    }
+  }
+}

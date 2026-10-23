@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-23T10:45:39.857899+00:00",
+  "cycle": "failure-focused retrieval candidate evaluation",
+  "trigger": "historical E_multi recall failures",
+  "candidate": {
+    "name": "recall_20",
+    "config": {
+      "name": "recall_20",
+      "recall_top_k": 20,
+      "rerank_top_k": 10,
+      "strategy": "hybrid_rerank",
+      "split": true
+    }
+  },
+  "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:c34ae34943fb",
+  "knowledge_version": "milvus-shipping-6-yuan-2026-10-22",
+  "targeted_validation": {
+    "failure_regression_18": {
+      "dataset_sha256": "b55801e93127ff7662a36cbe4433e62b9a469ea667e5f66e86b8cd1b6202051c",
+      "candidates": {
+        "baseline": {
+          "status": "complete",
+          "expected_samples": 18,
+          "evaluated_samples": 18,
+          "recall_at_5": 0.6204,
+          "mrr": 0.5343,
+          "confidence_gate_refusal_rate": null,
+          "confidence_gate_false_refusal_rate": 0.0556
+        },
+        "recall_20": {
+          "status": "complete",
+          "expected_samples": 18,
+          "evaluated_samples": 18,
+          "recall_at_5": 0.6667,
+          "mrr": 0.5367,
+          "confidence_gate_refusal_rate": null,
+          "confidence_gate_false_refusal_rate": 0.1111
+        },
+        "rerank_5": {
+          "status": "complete",
+          "expected_samples": 18,
+          "evaluated_samples": 18,
+          "recall_at_5": 0.6204,
+          "mrr": 0.4957,
+          "confidence_gate_refusal_rate": null,
+          "confidence_gate_false_refusal_rate": 0.0556
+        }
+      },
+      "recall_at_5_delta": 0.0463,
+      "mrr_delta": 0.0024,
+      "false_refusal_delta": 0.0555
+    },
+    "failure_challenge_30": {
+      "dataset_sha256": "f19725cb981c4a64babd4f5353831cb08c2563ad543b8ea8742d9f4ea80b21bc",
+      "candidates": {
+        "baseline": {
+          "status": "complete",
+          "expected_samples": 30,
+          "evaluated_samples": 30,
+          "recall_at_5": 0.6722,
+          "mrr": 0.5507,
+          "confidence_gate_refusal_rate": null,
+          "confidence_gate_false_refusal_rate": 0.1
+        },
+        "recall_20": {
+          "status": "complete",
+          "expected_samples": 30,
+          "evaluated_samples": 30,
+          "recall_at_5": 0.7167,
+          "mrr": 0.5528,
+          "confidence_gate_refusal_rate": null,
+          "confidence_gate_false_refusal_rate": 0.1
+        },
+        "rerank_5": {
+          "status": "complete",
+          "expected_samples": 30,
+          "evaluated_samples": 30,
+          "recall_at_5": 0.6722,
+          "mrr": 0.5178,
+          "confidence_gate_refusal_rate": null,
+          "confidence_gate_false_refusal_rate": 0.1
+        }
+      },
+      "recall_at_5_delta": 0.0445,
+      "mrr_delta": 0.0021,
+      "false_refusal_delta": 0.0
+    }
+  },
+  "independent_test_gate": {
+    "report": "data/ch11/reports/release_gate_independent_test_filled_thresholds.json",
+    "statuses": {
+      "baseline": "PASS",
+      "recall_20": "FAIL",
+      "rerank_5": "PASS"
+    },
+    "recall_20_reasons": [
+      "handling_compliance 超出允许退化范围",
+      "unsupported_claim_rate 超出允许退化范围"
+    ]
+  },
+  "decision": "Do not promote recall_20. Its recall gain repeats on both known-failure development sets, but the independent-test answer-quality gate fails (handling compliance 0.90 < 0.95; unsupported-claim rate 0.10 > 0.05). These derived sets validate the targeted failure family only and do not prove generalization or autonomous self-improvement.",
+  "source_reports": {
+    "data/ch11/reports/eval_evolution_cycle1_failure_regression_current.json": "ec3a611b6f0b1f9c315f710ced3a3ed7589eacea6503b7473a0511cdb7b77116",
+    "data/ch11/reports/eval_evolution_cycle1_failure_challenge_current.json": "9cf478a480e6239ad4c1cc5bbf316176d74eee4c93b36801aee5add5d06de5c1",
+    "data/ch11/reports/release_gate_independent_test_filled_thresholds.json": "6848adc8d67cabcf744549399ac5a9fc322d83a2c4d4b31ae49b60c610a58ca6",
+    "data/ch11/reports/evolution_cycle1_automated_decision.json": "f2e940cdeb75e821a5857c9a0c8907783443ed312dd96b73af599157a5275849"
+  },
+  "live_feedback_proposal_api": {
+    "endpoint": "GET /api/diagnosis/cases/evolution-proposals?min_cases=3",
+    "smoke_status": "HTTP 200",
+    "confirmed_cases": 0,
+    "candidate_proposals": 0,
+    "runtime_settings_changed": false
+  },
+  "automated_decision_report": "data/ch11/reports/evolution_cycle1_automated_decision.json",
+  "implemented_components": [
+    "app/core/evolution_proposals.py",
+    "app/api/diagnosis.py",
+    "scripts/evolution_cycle.py",
+    "docs/ch11-evolution-cycle.md",
+    "data/ch11/failure_development_review.csv"
+  ]
+}

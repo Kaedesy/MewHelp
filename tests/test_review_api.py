@@ -69,6 +69,30 @@ async def test_detail_carries_raws_and_snapshot(client):
     assert (await client.get("/api/review/99999")).status_code == 404
 
 
+async def test_detail_carries_diagnosis_case_link(client, monkeypatch):
+    from types import SimpleNamespace
+
+    row = SimpleNamespace(
+        id=1, normalized_question="能退吗", ai_suggested_answer=None,
+        occurrence_count=1, review_status="待审", approved_answer=None, created_at=None,
+    )
+    raw = SimpleNamespace(
+        raw_question="这个订单能退吗", source="diagnosis_confirmed",
+        reason="人工确认知识缺口", diagnosis_case_id="case-123", created_at=None,
+        retrieved_chunks=[{"id": 9, "rank": 1}],
+    )
+
+    async def get_detail(review_id):
+        assert review_id == 1
+        return row, [raw]
+
+    monkeypatch.setattr(review_api.repository, "get_review_detail", get_detail)
+    response = await client.get("/api/review/1")
+    assert response.status_code == 200
+    assert response.json()["raws"][0]["diagnosis_case_id"] == "case-123"
+    assert response.json()["raws"][0]["source"] == "diagnosis_confirmed"
+
+
 async def test_approve_writes_kb_and_flips_status(client, stub_kb):
     rid = await _seed()
     r = await client.post(f"/api/review/{rid}/approve", json={"approved_answer": "可以水洗,注意阴干"})

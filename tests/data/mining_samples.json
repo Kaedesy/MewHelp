@@ -1,6 +1,6 @@
 [
   {
-    "conversation": "user: 你们运费怎么算啊\nassistant: 单笔订单满99元包邮,未满收取10元运费,偏远地区另计。",
+    "conversation": "user: 你们运费怎么算啊\nassistant: 单笔订单满99元包邮,未满收取6元运费,偏远地区另计。",
     "expect_question_contains": "运费"
   },
   {

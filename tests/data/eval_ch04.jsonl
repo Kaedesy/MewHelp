@@ -2,7 +2,7 @@
 {"id": "A2", "bucket": "A_policy", "query": "怎么申请退款", "expect_section": ["如何申请退款"], "expect_points": ["我的订单", "原路退回"], "should_refuse": false}
 {"id": "A3", "bucket": "A_policy", "query": "换货流程怎么走", "expect_section": ["换货流程"], "expect_points": ["7 天内", "补发新品"], "should_refuse": false}
 {"id": "A4", "bucket": "A_policy", "query": "现货商品下单后多久发货", "expect_section": ["发货时效"], "expect_points": ["48 小时内"], "should_refuse": false}
-{"id": "A5", "bucket": "A_policy", "query": "满多少钱包邮,不满怎么收运费", "expect_section": ["运费怎么算"], "expect_points": ["满 99 元包邮", "10 元运费"], "should_refuse": false}
+{"id": "A5", "bucket": "A_policy", "query": "满多少钱包邮,不满怎么收运费", "expect_section": ["运费怎么算"], "expect_points": ["满 99 元包邮", "6 元运费"], "should_refuse": false}
 {"id": "A6", "bucket": "A_policy", "query": "发票怎么开,多久能收到", "expect_section": ["发票"], "expect_points": ["申请开票", "3 个工作日"], "should_refuse": false}
 {"id": "A7", "bucket": "A_policy", "query": "无理由退货的适用范围是什么,哪些商品不能退", "expect_section": ["适用范围"], "expect_points": ["7 天", "定制类、生鲜类"], "should_refuse": false}
 {"id": "A8", "bucket": "A_policy", "query": "退款审核通过后多久能到账,退到哪里", "expect_section": ["退款时效"], "expect_points": ["原路退回"], "should_refuse": false}
@@ -218,7 +218,7 @@
 {"id": "E38", "bucket": "E_multi", "query": "定制的东西不满意能退吗,生鲜呢", "expect_section": ["适用范围", "不支持退货"], "expect_sections_all": [["适用范围"], ["不支持退货"]], "expect_points": ["定制类、生鲜类商品除外", "非质量问题不支持退货"], "should_refuse": false}
 {"id": "E39", "bucket": "E_multi", "query": "发票开错了超过 30 天还能补开吗,人工客服几点在线", "expect_section": ["开票时效", "人工客服"], "expect_sections_all": [["开票时效"], ["人工客服"]], "expect_points": ["超过 30 天需联系客服", "9:00 至 22:00"], "should_refuse": false}
 {"id": "E40", "bucket": "E_multi", "query": "我买的猫砂盆断电了配置会丢吗,断电以后要重新配网吗", "expect_section": ["MH-LP100", "设备安装"], "expect_sections_all": [["MH-LP100"], ["设备安装"]], "expect_points": ["断电后配置自动保存", "扫码添加设备"], "should_refuse": false}
-{"id": "E41", "bucket": "E_multi", "query": "一单要满多少包邮,不满的话运费多少,偏远地区又是多少", "expect_section": ["运费怎么算", "运费与包邮", "配送范围"], "expect_sections_all": [["运费怎么算", "运费与包邮"], ["配送范围"]], "expect_points": ["满 99 元包邮", "10 元运费", "偏远地区"], "should_refuse": false}
+{"id": "E41", "bucket": "E_multi", "query": "一单要满多少包邮,不满的话运费多少,偏远地区又是多少", "expect_section": ["运费怎么算", "运费与包邮", "配送范围"], "expect_sections_all": [["运费怎么算", "运费与包邮"], ["配送范围"]], "expect_points": ["满 99 元包邮", "6 元运费", "偏远地区"], "should_refuse": false}
 {"id": "E42", "bucket": "E_multi", "query": "换货要寄回去核验多久,处理时限是几天", "expect_section": ["换货流程", "处理时限"], "expect_sections_all": [["换货流程"], ["处理时限"]], "expect_points": ["补发新品", "换货", "5 个工作日"], "should_refuse": false}
 {"id": "E43", "bucket": "E_multi", "query": "物流一直不动多久有人处理,想转人工的话服务时间是几点到几点", "expect_section": ["处理时限", "人工客服"], "expect_sections_all": [["处理时限"], ["人工客服"]], "expect_points": ["物流异常", "5 个工作日", "9:00 至 22:00"], "should_refuse": false}
 {"id": "E44", "bucket": "E_multi", "query": "摄像头版喂食器怎么配网,断电了会不会停喂", "expect_section": ["MH-FD30", "设备安装"], "expect_sections_all": [["MH-FD30"], ["设备安装"]], "expect_points": ["2.4G Wi-Fi", "内置应急电池"], "should_refuse": false}

@@ -1,0 +1,3068 @@
+{
+  "schema_version": 1,
+  "meta": {
+    "generated_at": "2026-10-23T11:26:25+00:00",
+    "dataset": "tests\\data\\eval_ch11_test_independent.jsonl",
+    "dataset_role": "test",
+    "dataset_sha256": "28a6892a2d84962851bddb77e9add70cfc7bed3ece427a91ed6aed1130077cdd",
+    "dataset_size": 50,
+    "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:77537220723c",
+    "dataset_provenance": {
+      "schema_version": 1,
+      "dataset": "tests/data/eval_ch11_test_independent.jsonl",
+      "dataset_role": "test",
+      "dataset_sha256": "28a6892a2d84962851bddb77e9add70cfc7bed3ece427a91ed6aed1130077cdd",
+      "derived_from_existing_eval_data": false,
+      "previously_evaluated": true,
+      "used_for_candidate_tuning": true,
+      "curation_method": "manual",
+      "curator_id": "wxz",
+      "curation_status": "diagnostic_only",
+      "curation_note": "Post-fix diagnostic only. FTC-D-005 informed the prompt and KB repair; this report is not eligible as an independent final release gate.",
+      "source_references": [
+        "FTC-A-001: data/kb/returns-policy.md#无理由退货 / 适用范围",
+        "FTC-A-001: data/kb/product-faq.md#价格保护怎么申请",
+        "FTC-A-002: data/kb/billing-shipping.md#可开票类型",
+        "FTC-A-003: data/kb/billing-shipping.md#可开票类型",
+        "FTC-A-004: data/kb/member-benefits.md#积分怎么攒",
+        "FTC-A-005: data/kb/returns-policy.md#预售与定金",
+        "FTC-A-006: data/kb/returns-policy.md#换货运费 / 退换货运费承担",
+        "FTC-A-007: data/kb/returns-policy.md#换货运费 / 退换货运费承担",
+        "FTC-A-008: data/kb/product-faq.md#猫窝是否可以机洗",
+        "FTC-A-009: data/kb/member-benefits.md#积分怎么用",
+        "FTC-A-010: data/kb/member-benefits.md#会员等级",
+        "FTC-B-001: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-002: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-003: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-004: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-005: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-006: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-007: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-008: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-009: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-B-010: data/kb/product-faq.md#猫窝是否可以机洗",
+        "FTC-C-001: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-C-002: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-C-003: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-C-004: data/kb/product-faq.md#猫窝是否可以机洗",
+        "FTC-C-005: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-C-006: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-C-007: data/kb/member-benefits.md#会员等级",
+        "FTC-C-008: data/kb/billing-shipping.md#开票时效",
+        "FTC-C-009: data/kb/after-sales-manual.md#常见故障自查",
+        "FTC-C-010: data/kb/product-specs.md#对应商品型号规格章节",
+        "FTC-E-001: data/kb/billing-shipping.md#可开票类型 / 开票时效",
+        "FTC-E-002: data/kb/member-benefits.md#积分怎么攒",
+        "FTC-E-002: data/kb/after-sales-manual.md#常见问题处理时限",
+        "FTC-E-003: data/kb/after-sales-manual.md#会员专属售后权益 / 常见问题处理时限",
+        "FTC-E-003: data/kb/returns-policy.md#运输破损处理",
+        "FTC-E-004: data/kb/returns-policy.md#运输破损处理",
+        "FTC-E-004: data/kb/after-sales-manual.md#人工客服入口与时间",
+        "FTC-E-005: data/kb/after-sales-manual.md#常见故障自查 / 常见问题处理时限",
+        "FTC-E-006: data/kb/member-benefits.md#积分怎么用",
+        "FTC-E-006: data/kb/billing-shipping.md#可开票类型 / 运费与包邮",
+        "FTC-E-007: data/kb/product-specs.md#四季保暖猫窝(型号 MH-NEST20)",
+        "FTC-E-007: data/kb/after-sales-manual.md#维修寄修流程",
+        "FTC-E-008: data/kb/product-specs.md#智能猫砂盆 Pro(型号 MH-LP100)",
+        "FTC-E-009: data/kb/billing-shipping.md#运费与包邮",
+        "FTC-E-009: data/kb/product-faq.md#配送范围与偏远地区",
+        "FTC-E-010: data/kb/member-benefits.md#会员等级 / 会员运费权益",
+        "FTC-D-001: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-001: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-001: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-001: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-001: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-001: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-002: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-002: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-002: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-002: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-002: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-002: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-003: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-003: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-003: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-003: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-003: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-003: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-004: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-004: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-004: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-004: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-004: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-004: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-005: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-005: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-005: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-005: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-005: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-005: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-006: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-006: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-006: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-006: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-006: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-006: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-007: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-007: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-007: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-007: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-007: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-007: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-008: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-008: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-008: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-008: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-008: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-008: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-009: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-009: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-009: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-009: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-009: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-009: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-010: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-010: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-010: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-010: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-010: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+        "FTC-D-010: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）"
+      ],
+      "items": {
+        "FTC-A-001": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "无理由退货 / 适用范围"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "价格保护怎么申请"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-A-002": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "可开票类型"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-A-003": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "可开票类型"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-A-004": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "积分怎么攒"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-A-005": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "预售与定金"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-A-006": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "换货运费 / 退换货运费承担"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-A-007": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "换货运费 / 退换货运费承担"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-A-008": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "猫窝是否可以机洗"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-A-009": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "积分怎么用"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-A-010": {
+          "bucket": "A_policy",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "会员等级"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-B-001": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-002": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-003": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-004": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-005": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-006": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-007": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-008": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-B-009": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-B-010": {
+          "bucket": "B_model",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "猫窝是否可以机洗"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-001": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-002": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-003": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-004": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "猫窝是否可以机洗"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-005": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-C-006": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-007": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "会员等级"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-008": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "开票时效"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-009": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "常见故障自查"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-C-010": {
+          "bucket": "C_colloquial",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "对应商品型号规格章节"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-E-001": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "可开票类型 / 开票时效"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-002": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "积分怎么攒"
+            },
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "常见问题处理时限"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-003": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "会员专属售后权益 / 常见问题处理时限"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "运输破损处理"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-004": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "运输破损处理"
+            },
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "人工客服入口与时间"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-005": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "常见故障自查 / 常见问题处理时限"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-006": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "积分怎么用"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "可开票类型 / 运费与包邮"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-007": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "四季保暖猫窝(型号 MH-NEST20)"
+            },
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "维修寄修流程"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-008": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "智能猫砂盆 Pro(型号 MH-LP100)"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-009": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "运费与包邮"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "配送范围与偏远地区"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-E-010": {
+          "bucket": "E_multi",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "会员等级 / 会员运费权益"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-001": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-002": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-003": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-004": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-D-005": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-006": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-007": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-008": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": "重点核查：与旧题文本相似"
+        },
+        "FTC-D-009": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        },
+        "FTC-D-010": {
+          "bucket": "D_absent",
+          "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+          "source_references": [
+            {
+              "document": "data/kb/after-sales-manual.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/billing-shipping.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/member-benefits.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-faq.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/product-specs.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            },
+            {
+              "document": "data/kb/returns-policy.md",
+              "section": "全库检索范围（该能力未见说明；待人工确认）"
+            }
+          ],
+          "human_verified": true,
+          "curator_id": "wxz",
+          "review_status": "approve",
+          "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+          "similarity_flag": ""
+        }
+      }
+    },
+    "dataset_provenance_sha256": "de49f3ef1bc625d640298a503b33875240a1a31af91d15706fa6ecb17bb9e5b7",
+    "knowledge_version": "milvus-shipping-6-yuan-points-withdrawal-clarified-2026-10-23",
+    "knowledge_source_sha256": "1f2afe88e2cf9618983d5d0fb0247696d103fa99720abc8bc502a6b1a3853bc7",
+    "models": {
+      "embed": "BAAI/bge-m3",
+      "rerank": "BAAI/bge-reranker-v2-m3",
+      "chat": "deepseek-v4-flash"
+    },
+    "metric_definition": "section-group recall@5 and reciprocal rank; cross-document groups are averaged. confidence_gate_refusal_rate measures only the retrieval confidence threshold, not semantic self-check or final answer correctness; expected_handling is an annotation for human review and is not automatically scored."
+  },
+  "candidates": {
+    "baseline": {
+      "config": {
+        "name": "baseline",
+        "recall_top_k": 50,
+        "rerank_top_k": 10,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "status": "complete",
+      "expected_samples": 50,
+      "evaluated_samples": 50,
+      "metrics": {
+        "recall_at_5": 0.9917,
+        "mrr": 0.8852,
+        "confidence_gate_refusal_rate": 0.8,
+        "confidence_gate_false_refusal_rate": 0.125
+      },
+      "buckets": {
+        "A_policy": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 0.975
+        },
+        "B_model": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 1.0
+        },
+        "C_colloquial": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 0.925
+        },
+        "E_multi": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 0.9667,
+          "mrr": 0.6409
+        },
+        "D_absent": {
+          "expected": 10,
+          "evaluated": 10,
+          "confidence_gate_refusal_rate": 0.8
+        }
+      },
+      "failures": [],
+      "sample_results": [
+        {
+          "id": "FTC-A-001",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-002",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-003",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-004",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-005",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-006",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-007",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-008",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-009",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-010",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-001",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-002",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-003",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-004",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-005",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-006",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-007",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-008",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-009",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-010",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-001",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-002",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-003",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-004",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-005",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-006",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-007",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-008",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.25
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-009",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-010",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-003",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-004",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-005",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-006",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.4920634920634921
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-007",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-008",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-009",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-010",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-D-001",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明该功能；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-002",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明多账号共享；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-003",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明该保险服务；不要回答有或没有，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-004",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库只说明寄修流程，未说明上门维修服务；说明现有资料未提及，不要承诺支持或断言不支持。"
+        },
+        {
+          "id": "FTC-D-005",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-006",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库说明需自行组装，但未说明付费上门安装服务；不要编造服务政策，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-007",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库说明支持云存储但未说明保留期限或恢复规则；不要猜测天数或承诺可恢复，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-008",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明第三方滤芯兼容性和接口规格；不要根据型号猜测，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-009",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明配件售卖和价格；不要编造价格或是否在售，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-010",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明延保服务；不要回答可购买或不可购买，说明暂时无法确认并建议官方客服核实。"
+        }
+      ]
+    },
+    "recall_20": {
+      "config": {
+        "name": "recall_20",
+        "recall_top_k": 20,
+        "rerank_top_k": 10,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "status": "complete",
+      "expected_samples": 50,
+      "evaluated_samples": 50,
+      "metrics": {
+        "recall_at_5": 0.9917,
+        "mrr": 0.8852,
+        "confidence_gate_refusal_rate": 0.8,
+        "confidence_gate_false_refusal_rate": 0.1
+      },
+      "buckets": {
+        "A_policy": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 0.975
+        },
+        "B_model": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 1.0
+        },
+        "C_colloquial": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 0.925
+        },
+        "E_multi": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 0.9667,
+          "mrr": 0.6409
+        },
+        "D_absent": {
+          "expected": 10,
+          "evaluated": 10,
+          "confidence_gate_refusal_rate": 0.8
+        }
+      },
+      "failures": [],
+      "sample_results": [
+        {
+          "id": "FTC-A-001",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-002",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-003",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-004",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-005",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-006",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-007",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-008",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-009",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-010",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-001",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-002",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-003",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-004",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-005",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-006",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-007",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-008",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-009",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-010",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-001",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-002",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-003",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-004",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-005",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-006",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-007",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-008",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.25
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-009",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-010",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-003",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-004",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-005",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-006",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.4920634920634921
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-007",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-008",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-009",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-010",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-D-001",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明该功能；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-002",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明多账号共享；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-003",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明该保险服务；不要回答有或没有，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-004",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库只说明寄修流程，未说明上门维修服务；说明现有资料未提及，不要承诺支持或断言不支持。"
+        },
+        {
+          "id": "FTC-D-005",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-006",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库说明需自行组装，但未说明付费上门安装服务；不要编造服务政策，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-007",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库说明支持云存储但未说明保留期限或恢复规则；不要猜测天数或承诺可恢复，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-008",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明第三方滤芯兼容性和接口规格；不要根据型号猜测，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-009",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明配件售卖和价格；不要编造价格或是否在售，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-010",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明延保服务；不要回答可购买或不可购买，说明暂时无法确认并建议官方客服核实。"
+        }
+      ]
+    },
+    "rerank_5": {
+      "config": {
+        "name": "rerank_5",
+        "recall_top_k": 50,
+        "rerank_top_k": 5,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "status": "complete",
+      "expected_samples": 50,
+      "evaluated_samples": 50,
+      "metrics": {
+        "recall_at_5": 0.9917,
+        "mrr": 0.884,
+        "confidence_gate_refusal_rate": 0.8,
+        "confidence_gate_false_refusal_rate": 0.125
+      },
+      "buckets": {
+        "A_policy": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 0.975
+        },
+        "B_model": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 1.0
+        },
+        "C_colloquial": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 1.0,
+          "mrr": 0.925
+        },
+        "E_multi": {
+          "expected": 10,
+          "evaluated": 10,
+          "recall_at_5": 0.9667,
+          "mrr": 0.6361
+        },
+        "D_absent": {
+          "expected": 10,
+          "evaluated": 10,
+          "confidence_gate_refusal_rate": 0.8
+        }
+      },
+      "failures": [],
+      "sample_results": [
+        {
+          "id": "FTC-A-001",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-002",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-003",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-004",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-005",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-006",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-007",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-008",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-009",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-A-010",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-001",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-002",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-003",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-004",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-005",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-006",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-007",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-008",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-009",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-B-010",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-001",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-002",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-003",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-004",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-005",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-006",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-007",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-008",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.25
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-009",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-C-010",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-003",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-004",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-005",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-006",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.4444444444444444
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-007",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-008",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-009",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-E-010",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FTC-D-001",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明该功能；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-002",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明多账号共享；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-003",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明该保险服务；不要回答有或没有，说明暂时无法确认并建议向官方客服核实。"
+        },
+        {
+          "id": "FTC-D-004",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库只说明寄修流程，未说明上门维修服务；说明现有资料未提及，不要承诺支持或断言不支持。"
+        },
+        {
+          "id": "FTC-D-005",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-006",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库说明需自行组装，但未说明付费上门安装服务；不要编造服务政策，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-007",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库说明支持云存储但未说明保留期限或恢复规则；不要猜测天数或承诺可恢复，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-008",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明第三方滤芯兼容性和接口规格；不要根据型号猜测，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-009",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明配件售卖和价格；不要编造价格或是否在售，建议人工核实。"
+        },
+        {
+          "id": "FTC-D-010",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          },
+          "expected_refusal": true,
+          "expected_handling": "知识库未说明延保服务；不要回答可购买或不可购买，说明暂时无法确认并建议官方客服核实。"
+        }
+      ]
+    }
+  },
+  "comparisons": {
+    "baseline": {
+      "changed_sample_count": 0,
+      "changed_samples": []
+    },
+    "recall_20": {
+      "changed_sample_count": 1,
+      "changed_samples": [
+        {
+          "id": "FTC-C-001",
+          "bucket": "C_colloquial",
+          "baseline": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        }
+      ]
+    },
+    "rerank_5": {
+      "changed_sample_count": 1,
+      "changed_samples": [
+        {
+          "id": "FTC-E-006",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.4920634920634921
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.4444444444444444
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        }
+      ]
+    }
+  }
+}

@@ -14,7 +14,9 @@ from app.core import coref
 from app.core import intent as intent_mod
 from app.core import memory
 from app.core import query_understanding, retrieval, selfcheck
-from app.core.confidence import compute_evidence_confidence, snapshot_from_hits
+from app.core.confidence import (
+    compute_evidence_confidence, ranked_hits_for_diagnosis, snapshot_from_hits,
+)
 from app.core.llm import get_chat_model
 from app.core.observability import tag_intent
 from app.core.prompts import (
@@ -107,6 +109,7 @@ async def retrieve_policy(state) -> dict:
     ]
     evidence = "\n".join(f"[{c['n']}] {c['question']}: {c['answer']}" for c in citations)
     return {"evidence": evidence, "citations": citations,
+            "retrieved_hits": ranked_hits_for_diagnosis(ranked),
             "trace": {"retrieve_policy": {"queries": queries, "hits": len(ranked)}}}
 
 
@@ -193,7 +196,8 @@ async def retrieve_knowledge(state) -> dict:
         query, strategy="hybrid_rerank", bm25_text=bm25_text)
     conf = compute_evidence_confidence(hits)
     base = {"evidence_confidence": conf.score,
-            "retrieved_snapshot": snapshot_from_hits(hits)}
+            "retrieved_snapshot": snapshot_from_hits(hits),
+            "retrieved_hits": ranked_hits_for_diagnosis(hits)}
 
     # 置信度闸(原机械闸升级):四信号加权总分低于校准阈值 → 证据弱,拒答落池
     if conf.score < settings.evidence_confidence_threshold:
@@ -356,6 +360,7 @@ async def agent_tools(state) -> dict:
                                           "description": first_args.get("description", "")}})
 
     tool_msgs = []
+    tool_runs = list((state.get("trace") or {}).get("tool_calls") or [])
     actions = list(state.get("suggested_actions", []))
     not_owned = False        # 这一轮有没有人报了不属于自己的订单号
     for tc in last.tool_calls:
@@ -364,6 +369,7 @@ async def agent_tools(state) -> dict:
             # 对它不生效,得在拦截之前判一次。不然退款入口就成了绕过校验的后门。
             if not business.owns_order(uid, str(tc["args"].get("order_id") or "")):
                 not_owned = True
+                tool_runs.append({"name": tc["name"], "status": "失败"})
                 tool_msgs.append(ToolMessage(
                     content="没有找到这位用户的这笔订单,本次不发起退款。请如实告知没查到,"
                             "并让用户从下面列出的订单里选一笔,不要再调用任何工具。",
@@ -375,6 +381,7 @@ async def agent_tools(state) -> dict:
             tool_msgs.append(ToolMessage(
                 content="已把『提交退款工单』选项交给用户确认。请用一句话说明这一单可以退款并停止,不要再调用任何工具。",
                 tool_call_id=tc["id"], name="submit_refund"))
+            tool_runs.append({"name": tc["name"], "status": "成功"})
         elif tc["name"] == "create_ticket" and decision is not None:
             if tc is ticket_calls[0]:
                 # resume 值形状守卫:同一 resume 端点服务两种中断,错配(如传了 order_id 字符串)
@@ -387,13 +394,18 @@ async def agent_tools(state) -> dict:
                         tc, cid, specs, confirmed=False, user_id=uid,
                         deny_note="用户在工单预览卡片上点了取消,本次不建单。请勿再发起,除非用户再次明确要求。")
                 tool_msgs.append(run.tool_message)
+                tool_runs.append({"name": run.name, "status": run.status,
+                                  "retry_count": run.retry_count, "duration_ms": run.duration_ms})
             else:
+                tool_runs.append({"name": tc["name"], "status": "校验拦下"})
                 tool_msgs.append(ToolMessage(content="一次只处理一个建工单请求,本次调用已忽略。",
                                              tool_call_id=tc["id"], name="create_ticket",
                                              status="error"))
         else:
             # 含参数缺失的 create_ticket(decision is None):引擎校验拦下,错误说明回灌
             run = await engine.execute_tool_call(tc, cid, specs, user_id=uid)
+            tool_runs.append({"name": run.name, "status": run.status,
+                              "retry_count": run.retry_count, "duration_ms": run.duration_ms})
             if tc["name"] == "query_order" and not business.owns_order(
                     uid, str((tc.get("args") or {}).get("order_id") or "")):
                 not_owned = True
@@ -401,7 +413,7 @@ async def agent_tools(state) -> dict:
     # 拒绝之后给一条出路:把他名下的单亮出来点选,否则他既查不到,也不知道自己的单号是多少
     if not_owned:
         actions.append({"type": "select_order", "orders": business.list_user_orders(uid)})
-    out = {"messages": tool_msgs}
+    out = {"messages": tool_msgs, "trace": {"tool_calls": tool_runs}}
     if actions:
         out["suggested_actions"] = actions
     return out

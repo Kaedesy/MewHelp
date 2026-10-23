@@ -9,6 +9,7 @@ import logging
 from fastapi import APIRouter
 
 from app.db import repository
+from app.core import failure_diagnosis
 from app.graph import runtime
 from app.schemas.feedback import FeedbackRequest, FeedbackResponse
 
@@ -27,10 +28,14 @@ async def submit_feedback(req: FeedbackRequest) -> FeedbackResponse:
         return FeedbackResponse(pooled=False)
 
     snapshot = None
+    turn = None
     try:
         turn = await runtime.get_turn_snapshot(req.conversation_id)
         if turn["snapshot"] and _same_question(turn["question"], req.question):
             snapshot = turn["snapshot"]
+        if turn.get("state") and _same_question(turn["question"], req.question):
+            await failure_diagnosis.capture(turn["state"], user_feedback="down",
+                                            trace_id=turn.get("trace_id"))
     except Exception:
         logger.warning("feedback 快照回捞失败 conv=%s(照常落池)", req.conversation_id, exc_info=True)
 

@@ -1,0 +1,33 @@
+{
+  "min_samples": null,
+  "require_answer_quality": true,
+  "answer_quality": {
+    "metrics": {
+      "answer_coverage": {"min_value": null},
+      "faithfulness": {"min_value": null},
+      "handling_compliance": {"min_value": null},
+      "unsupported_claim_rate": {"max_value": null}
+    }
+  },
+  "required_buckets": [
+    "A_policy",
+    "B_model",
+    "C_colloquial",
+    "E_multi",
+    "D_absent"
+  ],
+  "calibration": null,
+  "metrics": {
+    "recall_at_5": {"max_regression": null},
+    "mrr": {"max_regression": null},
+    "confidence_gate_refusal_rate": {"min_value": null},
+    "confidence_gate_false_refusal_rate": {"max_value": null}
+  },
+  "bucket_metrics": {
+    "A_policy": {"recall_at_5": {"max_regression": null}},
+    "B_model": {"recall_at_5": {"max_regression": null}},
+    "C_colloquial": {"recall_at_5": {"max_regression": null}},
+    "E_multi": {"recall_at_5": {"max_regression": null}},
+    "D_absent": {"confidence_gate_refusal_rate": {"min_value": null}}
+  }
+}

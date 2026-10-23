@@ -24,16 +24,19 @@ rag_eval.json 给后台的 RAG 评估页读。页面只读这份 json、不重�
 终端 make eval-rag 跑出来的必须是同一份。
 运行:make eval-rag,或在 /rag-eval 页面上按「重跑 RAG 评估」
 """
+import argparse
 import asyncio
+import hashlib
 import json
 import pathlib
+import subprocess
 import sys
 from datetime import datetime
 
 from pydantic import BaseModel, Field
 
 from app.config import settings
-from app.core import model_guard, read_notes, retrieval
+from app.core import model_guard, optimization_candidates, read_notes, retrieval
 from app.core import llm
 from app.core.llm import get_chat_model
 from app.core.prompts import FAITHFULNESS_PROMPT, RAG_ANSWER_PROMPT
@@ -46,6 +49,7 @@ _OUT_JSON = _OUT_DIR / "rag_eval.json"
 _OUT_TXT = _OUT_DIR / "rag_eval.txt"
 
 STRATEGIES = ["vector", "bm25", "hybrid", "hybrid_rerank"]
+CANDIDATE_CONFIGS = {}
 GRADED_BUCKETS = ["A_policy", "B_model", "C_colloquial", "E_multi"]  # 可作答桶
 # 读图小注要用人话称呼这些策略与题型:喂字段名进去,模型就会照抄 C_colloquial 上页面
 STRATEGY_LABEL = {"vector": "纯向量", "bm25": "纯 BM25", "hybrid": "混合",
@@ -76,6 +80,12 @@ class _Cov(BaseModel):
     covered_count: int = Field(description="客服答案正确覆盖的要点个数")
 
 
+class _Handling(BaseModel):
+    compliant: bool = Field(description="答案是否遵守了预期处理要求")
+    unsupported_claims: bool = Field(description="是否对证据未说明的政策作了肯定或否定断言")
+    reason: str = Field(default="", description="简要说明判断依据")
+
+
 COVERAGE_SYS = """你是答案覆盖度评审员。给定用户问题、标准答案要点清单、客服答案。
 数一数客服答案里正确覆盖了几个要点:要点信息在答案中有正确体现才算,遗漏、编造或答错都不算。
 只需给出覆盖的要点个数(整数),不要超过要点总数。"""
@@ -84,6 +94,17 @@ from langchain_core.prompts import ChatPromptTemplate  # noqa: E402
 COVERAGE_PROMPT = ChatPromptTemplate.from_messages(
     [("system", COVERAGE_SYS),
      ("human", "用户问题:{query}\n\n标准答案要点(共 {n} 个):\n{points}\n\n客服答案:\n{answer}")]
+)
+
+HANDLING_SYS = """你是客服答案处理方式评审员。判断客服答案是否符合给定的预期处理要求。
+只根据用户问题、检索证据和要求判断，不要把知识库未提及推断为“不支持”。
+如果要求回答有依据的部分、说明未知政策并建议核实，答案必须做到这三点；
+对未知政策直接肯定或否定、遗漏关键已知信息、或只沉默拒答，都应判不符合。
+unsupported_claims 只标记对证据未支持的业务事实断言，不把礼貌性客服引导算作编造。"""
+HANDLING_PROMPT = ChatPromptTemplate.from_messages(
+    [("system", HANDLING_SYS),
+     ("human", "用户问题:\n{query}\n\n检索证据:\n{evidence}\n\n"
+               "预期处理要求:\n{expected_handling}\n\n客服答案:\n{answer}")]
 )
 
 
@@ -95,8 +116,36 @@ def _log(msg=""):
     _LINES.append(msg)
 
 
-def _load():
-    return [json.loads(ln) for ln in open("tests/data/eval_ch04.jsonl")]
+def _load(path: pathlib.Path | None = None):
+    path = path or (_ROOT / "tests/data/eval_ch04.jsonl")
+    return [json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+
+def _source_revision() -> str | None:
+    try:
+        head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=_ROOT,
+                                       text=True, stderr=subprocess.DEVNULL).strip()
+        paths = subprocess.check_output(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard"],
+            cwd=_ROOT, text=True, stderr=subprocess.DEVNULL).splitlines()
+        digest = hashlib.sha256()
+        extensions = {".py", ".sql", ".toml", ".yaml", ".yml"}
+        for name in sorted(paths):
+            path = _ROOT / name
+            if path.is_file() and path.suffix.lower() in extensions:
+                digest.update(name.encode("utf-8"))
+                digest.update(path.read_bytes())
+        return f"{head}+source:{digest.hexdigest()[:12]}"
+    except Exception:
+        return None
+
+
+def _knowledge_source_hash() -> str:
+    digest = hashlib.sha256()
+    for path in sorted((_ROOT / "data/kb").glob("*.md")):
+        digest.update(path.name.encode("utf-8"))
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
 
 
 # ---------- 通用 ----------
@@ -181,12 +230,32 @@ def _mean(xs):
 # ---------- 段1+2:检索 Recall/MRR + 证据覆盖度(确定性) ----------
 async def _retrieve(strat, s):
     async with _retr_sem:
-        return await retrieval.search_knowledge(s["query"], strategy=strat, top_k=K)
+        candidate = CANDIDATE_CONFIGS.get(strat)
+        for attempt in range(4):
+            try:
+                if candidate:
+                    return await retrieval.search_knowledge(
+                        s["query"], strategy=candidate.strategy, top_k=candidate.rerank_top_k,
+                        recall_top_k=candidate.recall_top_k, split=candidate.split,
+                    )
+                return await retrieval.search_knowledge(s["query"], strategy=strat, top_k=K)
+            except Exception as exc:
+                response = getattr(exc, "response", None)
+                status = (getattr(exc, "status_code", None)
+                          or getattr(response, "status_code", None))
+                name = type(exc).__name__.lower()
+                transient = (status == 429 or (isinstance(status, int) and 500 <= status <= 599)
+                             or any(token in name for token in (
+                                 "timeout", "connecterror", "networkerror")))
+                if not transient or attempt == 3:
+                    raise
+                await asyncio.sleep(0.5 * (2 ** attempt))
 
 
 async def _deterministic(samples):
     """返回 (retrieval_dict, coverage_dict, HITS)。HITS[strat][id]=hits 供生成段复用。"""
     graded = [s for s in samples if s["bucket"] in GRADED_BUCKETS]
+    other = [s for s in samples if s["bucket"] not in GRADED_BUCKETS]
     retrieval_out, coverage_out, HITS = {}, {}, {}
     _log("=== 段1 检索:四策略 × 分桶 Recall@%d / MRR ===" % RECALL_K)
     header = f"{'strategy':16s}" + "".join(f"{b.split('_')[0]:>16s}" for b in GRADED_BUCKETS) + f"{'OVERALL':>16s}"
@@ -194,6 +263,9 @@ async def _deterministic(samples):
     for strat in STRATEGIES:
         hits_list = await asyncio.gather(*(_retrieve(strat, s) for s in graded))
         HITS[strat] = {s["id"]: h for s, h in zip(graded, hits_list)}
+        if other:
+            other_hits = await asyncio.gather(*(_retrieve(strat, s) for s in other))
+            HITS[strat].update({s["id"]: h for s, h in zip(other, other_hits)})
         by_bucket, cov_bucket = {}, {}
         row = f"{strat:16s}"
         all_rec, all_rr, all_cov = [], [], []
@@ -227,8 +299,8 @@ async def _deterministic(samples):
 
 
 # ---------- 段3:四策略生成 + 覆盖度判分 + Faithfulness(glm) ----------
-async def _gen_one(strat, s, HITS, model, cov_judge, faith_judge,
-                   cov_prompt, faith_prompt):
+async def _gen_one(strat, s, HITS, model, cov_judge, faith_judge, handling_judge,
+                   cov_prompt, faith_prompt, handling_prompt):
     hits = HITS[strat][s["id"]]
     evidence = _format_evidence(hits)
     async with _gen_sem:
@@ -237,8 +309,12 @@ async def _gen_one(strat, s, HITS, model, cov_judge, faith_judge,
                 {"query": s["query"], "evidence": evidence}),
             f"gen:{strat}:{s['id']}")
         if ans is None:
-            return {"strat": strat, "bucket": s["bucket"], "coverage": None,
-                    "faithful": None, "guard_hits": []}
+            return {"strat": strat, "id": s["id"], "bucket": s["bucket"],
+                    "query": s["query"], "expected_handling": s.get("expected_handling"),
+                    "answer": None, "evidence": evidence, "coverage": None,
+                    "faithful": None, "handling_compliant": None,
+                    "handling_unsupported_claims": None, "handling_reason": None,
+                    "guard_hits": []}
         text = ans.content if isinstance(ans.content, str) else str(ans.content)
         # 型号机械闸:答案里的型号必须逐字来自本轮证据。命中就带着「哪几个没依据」重写一次,
         # 重写还不干净就把它记下来(报告里能看见闸开了几次、拦没拦住),不静悄悄放过去。
@@ -256,24 +332,27 @@ async def _gen_one(strat, s, HITS, model, cov_judge, faith_judge,
                 if not model_guard.unsupported_models(fixed_text, evidence):
                     text = fixed_text
                     guard_hits[-1]["fixed"] = True
-        cov = await _try(
-            lambda: (cov_prompt | cov_judge).ainvoke(
-                {"query": s["query"], "n": len(s["expect_points"]),
-                 "points": "\n".join(f"{i+1}. {p}" for i, p in enumerate(s["expect_points"])),
-                 "answer": text}),
-            f"cov:{strat}:{s['id']}")
         coverage = None
-        if cov is not None and s["expect_points"]:
-            coverage = min(cov.covered_count, len(s["expect_points"])) / len(s["expect_points"])
+        if s.get("expect_points"):
+            cov = await _try(
+                lambda: (cov_prompt | cov_judge).ainvoke(
+                    {"query": s["query"], "n": len(s["expect_points"]),
+                     "points": "\n".join(f"{i+1}. {p}" for i, p in enumerate(s["expect_points"])),
+                     "answer": text}),
+                f"cov:{strat}:{s['id']}")
+            if cov is not None:
+                coverage = min(cov.covered_count, len(s["expect_points"])) / len(s["expect_points"])
         faithful = None
         faith_detail = None
-        if strat == "hybrid_rerank":
+        faith_reason = None
+        if strat == "hybrid_rerank" or CANDIDATE_CONFIGS:
             fa = await _try(
                 lambda: (faith_prompt | faith_judge).ainvoke(
                     {"evidence": evidence, "answer": text}),
                 f"faith:{s['id']}")
             if fa is not None:
                 faithful = bool(fa.faithful)
+                faith_reason = fa.reason
                 if not faithful:  # 不忠实个案:留证据供报告展示(问题/答案/裁判理由/角标原文)
                     # citations 存这一轮喂给模型的 Top-K 证据全集,顺序与 evidence 拼接一致——
                     # 答案里的 [n] 就是这份列表的序号(答案通常只引其中两三条)。裁判说「证据里没有」,
@@ -286,8 +365,26 @@ async def _gen_one(strat, s, HITS, model, cov_judge, faith_judge,
                                          "question": h.get("question", ""),
                                          "answer": h.get("answer", "")}
                                         for i, h in enumerate(hits)]}
-    return {"strat": strat, "bucket": s["bucket"], "coverage": coverage,
-            "faithful": faithful, "faith_detail": faith_detail,
+        handling_compliant = None
+        handling_reason = None
+        handling_unsupported_claims = None
+        if s.get("expected_handling"):
+            handling = await _try(
+                lambda: (handling_prompt | handling_judge).ainvoke(
+                    {"query": s["query"], "evidence": evidence,
+                     "expected_handling": s["expected_handling"], "answer": text}),
+                f"handling:{strat}:{s['id']}")
+            if handling is not None:
+                handling_compliant = bool(handling.compliant)
+                handling_reason = handling.reason
+                handling_unsupported_claims = bool(handling.unsupported_claims)
+    return {"strat": strat, "id": s["id"], "bucket": s["bucket"],
+            "query": s["query"], "expected_handling": s.get("expected_handling"),
+            "answer": text, "evidence": evidence, "coverage": coverage,
+            "faithful": faithful, "faith_reason": faith_reason,
+            "handling_compliant": handling_compliant,
+            "handling_unsupported_claims": handling_unsupported_claims,
+            "handling_reason": handling_reason, "faith_detail": faith_detail,
             "guard_hits": guard_hits}
 
 
@@ -338,24 +435,33 @@ async def _refusal_one(s):
     return {"refused": refused, "detail": detail}
 
 
+def _generation_samples(samples):
+    """Score answerable cases plus unanswerable cases with an explicit handling rubric."""
+    return [s for s in samples
+            if s["bucket"] in GRADED_BUCKETS or s.get("expected_handling")]
+
+
 async def _generation(samples, HITS):
     graded = [s for s in samples if s["bucket"] in GRADED_BUCKETS]
     absent = [s for s in samples if s["bucket"] == "D_absent"]
+    generation_samples = _generation_samples(samples)
     model = get_chat_model()
     # 结构化输出统一走 app.core.llm.structured:只走 function calling,失败重试一次就抛
     # 两个裁判都跑 temperature=0:同一份证据+答案重放,0.3 下的判断会来回跳(见 judge_check),
     # 那点抖动直接写进分数里。答用户的话可以有温度,评分不能有
     cov_judge = llm.structured(_Cov, temperature=0)
     faith_judge = llm.structured(_Faith, temperature=0)
-    cov_prompt, faith_prompt = COVERAGE_PROMPT, FAITHFULNESS_PROMPT
+    handling_judge = llm.structured(_Handling, temperature=0)
+    cov_prompt, faith_prompt, handling_prompt = COVERAGE_PROMPT, FAITHFULNESS_PROMPT, HANDLING_PROMPT
 
     _log("\n=== 段3 生成:四策略答案覆盖度(glm 判分)+ Faithfulness + D 桶拒答 ===")
-    tasks = [_gen_one(strat, s, HITS, model, cov_judge, faith_judge, cov_prompt, faith_prompt)
-             for strat in STRATEGIES for s in graded]
+    tasks = [_gen_one(strat, s, HITS, model, cov_judge, faith_judge, handling_judge,
+                      cov_prompt, faith_prompt, handling_prompt)
+             for strat in STRATEGIES for s in generation_samples]
     tasks += [_refusal_one(s) for s in absent]
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
-    n_gen = len(STRATEGIES) * len(graded)
+    n_gen = len(STRATEGIES) * len(generation_samples)
     gen_results = [r for r in results[:n_gen] if isinstance(r, dict)]
     raw_refusals = results[n_gen:]
     refusals = [r for r in raw_refusals if isinstance(r, dict) and "refused" in r]
@@ -387,14 +493,23 @@ async def _generation(samples, HITS):
         fmt = lambda v: ("     未评上" if v is None else f"{v:>12.2f}")  # noqa: E731
         _log(f"{strat:16s}" + "".join(fmt(by[b]) for b in GRADED_BUCKETS) + fmt(by["overall"]))
 
-    # Faithfulness(hybrid_rerank)分桶
-    faithfulness = {}
-    _log("\n-- Faithfulness(hybrid_rerank 线上管线,答案不编造)--")
-    for b in GRADED_BUCKETS:
-        fs = [r["faithful"] for r in gen_results if r["strat"] == "hybrid_rerank" and r["bucket"] == b and r["faithful"] is not None]
-        faithfulness[b] = {"v": round(_mean(fs), 3) if fs else None, "answered": len(fs)}
-        shown = "未评上" if not fs else f"{faithfulness[b]['v']:.3f}"
-        _log(f"{b:14s} faithfulness={shown} (评 {len(fs)} 题)")
+    # Faithfulness: legacy RAG-eval keeps the production hybrid_rerank view;
+    # candidate mode also reports each bounded retrieval candidate.
+    faithfulness_by_candidate = {}
+    faithful_strategies = STRATEGIES if CANDIDATE_CONFIGS else ["hybrid_rerank"]
+    _log("\n-- Faithfulness(答案不编造)--")
+    for strat in faithful_strategies:
+        by_bucket = {}
+        for b in GRADED_BUCKETS + ["D_absent"]:
+            fs = [r["faithful"] for r in gen_results
+                  if r["strat"] == strat and r["bucket"] == b and r["faithful"] is not None]
+            by_bucket[b] = {"v": round(_mean(fs), 3) if fs else None,
+                            "answered": len(fs)}
+            shown = "未评上" if not fs else f"{by_bucket[b]['v']:.3f}"
+            _log(f"{strat} {b:14s} faithfulness={shown} (评 {len(fs)} 题)")
+        faithfulness_by_candidate[strat] = by_bucket
+    faithfulness = faithfulness_by_candidate.get("hybrid_rerank") or next(
+        iter(faithfulness_by_candidate.values()), {})
 
     # 不忠实(编造)个案:问题/答案/裁判理由,供报告 §03 展开查看
     faith_cases = [r["faith_detail"] for r in gen_results if r.get("faith_detail")]
@@ -420,6 +535,35 @@ async def _generation(samples, HITS):
     if refusal_skipped:
         _log(f"   未评上(调用失败/超时):{', '.join(refusal_skipped)}")
 
+    handling_compliance = {}
+    handling_cases = []
+    for strat in STRATEGIES:
+        by_bucket = {}
+        for bucket in GRADED_BUCKETS + ["D_absent"]:
+            judged = [r for r in gen_results if r["strat"] == strat and r["bucket"] == bucket
+                      and r.get("expected_handling") and r.get("handling_compliant") is not None]
+            by_bucket[bucket] = {
+                "compliant_rate": round(_mean([float(r["handling_compliant"]) for r in judged]), 3)
+                if judged else None,
+                "unsupported_claim_rate": round(_mean([
+                    float(bool(r.get("handling_unsupported_claims"))) for r in judged]), 3)
+                    if judged else None,
+                "evaluated": len(judged),
+            }
+            handling_cases.extend({k: r.get(k) for k in (
+                "strat", "id", "bucket", "query", "expected_handling", "answer",
+                "handling_compliant", "handling_unsupported_claims", "handling_reason",
+                "evidence") } for r in judged)
+        handling_compliance[strat] = by_bucket
+    if handling_cases:
+        _log("\n-- expected_handling 合规率(LLM 裁判；逐题结果写入报告供人工抽查)--")
+        for strat, buckets in handling_compliance.items():
+            for bucket, metrics in buckets.items():
+                if metrics["evaluated"]:
+                    _log(f"{strat} {bucket}: compliant={metrics['compliant_rate']:.3f}, "
+                         f"unsupported_claim={metrics['unsupported_claim_rate']:.3f}, "
+                         f"n={metrics['evaluated']}")
+
     # 型号机械闸的战绩:开了几次、重写救回几次、还剩几条带着没依据的型号出去
     guard_hits = [h for r in gen_results for h in r.get("guard_hits", [])]
     guard = {"hits": len(guard_hits), "fixed": sum(1 for h in guard_hits if h["fixed"]),
@@ -429,10 +573,19 @@ async def _generation(samples, HITS):
         _log(f"   {h['id']}({h['strat']}) 证据里没有的型号:{'、'.join(h['models'])}"
              f" → {'重写后干净' if h['fixed'] else '重写后仍不干净'}")
 
-    await _ledger(faith_cases)
+    if CANDIDATE_CONFIGS:
+        _log("\n-- 候选答复对比不写入长期忠实度台账，避免候选结果覆盖同一题目记录 --")
+    else:
+        await _ledger(faith_cases)
 
+    answer_cases = [{k: r.get(k) for k in (
+        "strat", "id", "bucket", "query", "answer", "coverage", "faithful",
+        "faith_reason", "guard_hits") } for r in gen_results]
     return {"answer_coverage": answer_cov, "faithfulness": faithfulness,
+            "faithfulness_by_candidate": faithfulness_by_candidate,
             "faithfulness_cases": faith_cases, "model_guard": guard,
+            "answer_cases": answer_cases, "handling_compliance": handling_compliance,
+            "handling_cases": handling_cases,
             "refusal": {"rate": (round(rate, 3) if rate is not None else None),
                         "total": len(refusals), "correct": correct,
                         "cases": miss_cases, "skipped_ids": refusal_skipped},
@@ -453,7 +606,7 @@ async def _kb_chunks():
 
 def _labeled(data, pick=None):
     """把 {策略键:{桶键:值}} 换成中文标签的版本,专供读图小注的 payload。"""
-    return {STRATEGY_LABEL[s]: {BUCKET_LABEL[b]: (pick((data[s].get(b) or {})) if pick
+    return {STRATEGY_LABEL.get(s, s): {BUCKET_LABEL[b]: (pick((data[s].get(b) or {})) if pick
                                                  else (data[s] or {}).get(b))
                                 for b in GRADED_BUCKETS + ["overall"]}
             for s in STRATEGIES}
@@ -474,19 +627,64 @@ async def _read_notes(retrieval_data, coverage_data, generation_data):
     return notes
 
 
-def _write_report(retrieval_data, coverage_data, generation_data, meta, notes=None):
-    _OUT_DIR.mkdir(parents=True, exist_ok=True)
-    _OUT_TXT.write_text("\n".join(_LINES) + "\n", encoding="utf-8")
+def _write_report(retrieval_data, coverage_data, generation_data, meta, notes=None,
+                  out_json: pathlib.Path | None = None, out_txt: pathlib.Path | None = None):
+    out_json = out_json or _OUT_JSON
+    out_txt = out_txt or _OUT_TXT
+    out_json.parent.mkdir(parents=True, exist_ok=True)
+    out_txt.parent.mkdir(parents=True, exist_ok=True)
+    out_txt.write_text("\n".join(_LINES) + "\n", encoding="utf-8")
     report = {"meta": meta, "retrieval": retrieval_data,
               "evidence_coverage": coverage_data, "generation": generation_data,
               "read_notes": notes or {}}
     # generation 为 None 也照样落盘:页面据此显示「生成段未完成」,而不是一片空白
-    _OUT_JSON.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n",
-                         encoding="utf-8")
+    out_json.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n",
+                        encoding="utf-8")
 
 
 async def main():
-    samples = _load()
+    global STRATEGIES, SKIP_GEN, CANDIDATE_CONFIGS
+    parser = argparse.ArgumentParser(description="Evaluate retrieval and answer quality")
+    parser.add_argument("--dataset", type=pathlib.Path, default=_ROOT / "tests/data/eval_ch04.jsonl")
+    parser.add_argument("--dataset-role", choices=("validation", "test"), default="validation")
+    parser.add_argument("--dataset-provenance", type=pathlib.Path,
+                        help="Independent test-set provenance; required when dataset-role=test")
+    parser.add_argument("--knowledge-version", help="ID of the Milvus knowledge snapshot")
+    choices = parser.add_mutually_exclusive_group()
+    choices.add_argument("--strategy", action="append", choices=tuple(STRATEGIES),
+                         help="Retrieval strategy; repeat to select several. Default: all strategies")
+    available_candidates = {c.name: c for c in optimization_candidates.default_candidates()}
+    choices.add_argument("--candidate", action="append", choices=tuple(available_candidates),
+                         help="Bounded retrieval candidate; repeat to compare answer quality")
+    parser.add_argument("--out-json", type=pathlib.Path, default=_OUT_JSON)
+    parser.add_argument("--out-txt", type=pathlib.Path, default=_OUT_TXT)
+    parser.add_argument("--skip-gen", action="store_true")
+    parser.add_argument("--skip-read-notes", action="store_true")
+    args = parser.parse_args()
+    CANDIDATE_CONFIGS = ({name: available_candidates[name] for name in args.candidate}
+                         if args.candidate else {})
+    STRATEGIES = args.candidate or args.strategy or STRATEGIES
+    SKIP_GEN = SKIP_GEN or args.skip_gen
+    dataset_path = args.dataset if args.dataset.is_absolute() else (_ROOT / args.dataset)
+    out_json = args.out_json if args.out_json.is_absolute() else (_ROOT / args.out_json)
+    out_txt = args.out_txt if args.out_txt.is_absolute() else (_ROOT / args.out_txt)
+    samples = _load(dataset_path)
+    dataset_bytes = dataset_path.read_bytes()
+    dataset_hash = hashlib.sha256(dataset_bytes).hexdigest()
+    provenance = None
+    provenance_sha256 = None
+    if args.dataset_provenance:
+        provenance_path = args.dataset_provenance
+        if not provenance_path.is_absolute():
+            provenance_path = _ROOT / provenance_path
+        provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+        canonical = json.dumps(provenance, sort_keys=True, ensure_ascii=False,
+                               separators=(",", ":")).encode("utf-8")
+        provenance_sha256 = hashlib.sha256(canonical).hexdigest()
+        if provenance.get("dataset_sha256") != dataset_hash:
+            parser.error("dataset provenance dataset_sha256 does not match dataset")
+    if args.dataset_role == "test" and (not provenance or not args.knowledge_version):
+        parser.error("test evaluation requires --dataset-provenance and --knowledge-version")
     import collections as _c
     per = _c.Counter(s["bucket"] for s in samples)
     _log(f"评估集:{len(samples)} 题(" + "、".join(
@@ -507,12 +705,30 @@ async def main():
     meta = {"n_samples": len(samples), "kb_chunks": await _kb_chunks(),
             "recall_k": RECALL_K, "retrieve_k": K,
             "concurrency": GEN_CONCURRENCY, "chat_model": settings.chat_model,
+            "dataset": str(dataset_path.relative_to(_ROOT)) if dataset_path.is_relative_to(_ROOT) else str(dataset_path),
+            "dataset_role": args.dataset_role, "dataset_sha256": dataset_hash,
+            "dataset_provenance": provenance, "dataset_provenance_sha256": provenance_sha256,
+            "knowledge_version": args.knowledge_version,
+            "knowledge_source_sha256": _knowledge_source_hash(),
+            "code_revision": _source_revision(),
+            "models": {"embed": settings.embed_model, "rerank": settings.rerank_model,
+                       "chat": settings.chat_model},
+            "strategies": list(STRATEGIES),
+            "candidate_configs": {name: candidate.to_dict()
+                                  for name, candidate in CANDIDATE_CONFIGS.items()},
+            "generation_sample_count": len(_generation_samples(samples)),
+            "expected_handling_counts": {
+                bucket: sum(1 for sample in samples
+                            if sample.get("bucket") == bucket and sample.get("expected_handling"))
+                for bucket in GRADED_BUCKETS + ["D_absent"]
+            },
             "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M")}
     # 读图小注也要过裁判模型,--skip-gen 时一并跳过,页面回落自己那句兜底话
-    notes = {} if SKIP_GEN else await _read_notes(retrieval_data, coverage_data,
-                                                  generation_data)
-    _write_report(retrieval_data, coverage_data, generation_data, meta, notes)
-    _log(f"\n已生成:{_OUT_JSON.relative_to(_ROOT)} · {_OUT_TXT.relative_to(_ROOT)}")
+    notes = {} if SKIP_GEN or args.skip_read_notes else await _read_notes(
+        retrieval_data, coverage_data, generation_data)
+    _write_report(retrieval_data, coverage_data, generation_data, meta, notes,
+                  out_json=out_json, out_txt=out_txt)
+    _log(f"\n已生成:{out_json} · {out_txt}")
     _log("页面:http://localhost:8000/rag-eval(后台 → RAG 评估)")
     _log("完成。" if generation_data is not None else "完成(仅检索段+证据覆盖度;生成段待上游恢复重跑)。")
 

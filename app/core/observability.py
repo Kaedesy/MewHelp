@@ -37,7 +37,7 @@ def _init_client():
     return _client
 
 
-def _make_handler():
+def _make_handler(trace_id: str | None = None):
     from langfuse.langchain import CallbackHandler
 
     class _InlineCallbackHandler(CallbackHandler):
@@ -46,7 +46,23 @@ def _make_handler():
         span 上下文,tag_intent 的 propagate_attributes 写不进当前 trace(实测踩坑)。"""
         run_inline = True
 
-    return _InlineCallbackHandler()
+    context = {"trace_id": trace_id} if trace_id else None
+    return _InlineCallbackHandler(trace_context=context)
+
+
+def trace_id_for_case(case_id: str | None) -> str | None:
+    """Use a stable 32-character Langfuse trace ID derived from the app case UUID."""
+    if not case_id:
+        return None
+    return case_id.replace("-", "")
+
+
+def trace_callback(case_id: str | None):
+    """Create a per-invocation callback so concurrent requests cannot mix trace IDs."""
+    if not langfuse_enabled():
+        return None
+    _init_client()
+    return _make_handler(trace_id_for_case(case_id))
 
 
 def get_langfuse():

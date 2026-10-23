@@ -11,6 +11,7 @@ from app.config import settings
 from app.db.models import (
     Conversation,
     ConversationSummary,
+    DiagnosisCase,
     EvalRun,
     FaithCase,
     KnowledgeChunk,
@@ -411,6 +412,147 @@ async def insert_low_confidence(
         return row.id
 
 
+async def upsert_diagnosis_case(case: dict) -> DiagnosisCase:
+    """创建或更新一个需跟进的案例；case_id 是应用生成的幂等键。"""
+    async with db.async_session() as s:
+        row = await s.scalar(select(DiagnosisCase).where(
+            DiagnosisCase.case_id == case["case_id"]))
+        if row is None:
+            row = DiagnosisCase(**case)
+            s.add(row)
+        else:
+            human_confirmed = row.diagnosis_status in {"confirmed", "false_positive"}
+            for key, value in case.items():
+                if key != "case_id" and value is not None:
+                    if human_confirmed and key in {
+                        "failure_type", "predicted_failure_type", "human_failure_type",
+                        "diagnosis_status", "diagnosis_reason",
+                    }:
+                        continue
+                    setattr(row, key, value)
+        await s.commit()
+        await s.refresh(row)
+        return row
+
+
+async def list_diagnosis_cases(status: str | None = None, limit: int = 50,
+                               failure_type: str | None = None,
+                               offset: int = 0) -> list[DiagnosisCase]:
+    async with db.async_session() as s:
+        stmt = select(DiagnosisCase).order_by(DiagnosisCase.created_at.desc(), DiagnosisCase.id.desc())
+        if status:
+            stmt = stmt.where(DiagnosisCase.diagnosis_status == status)
+        if failure_type:
+            stmt = stmt.where(DiagnosisCase.failure_type == failure_type)
+        return list((await s.execute(stmt.offset(offset).limit(limit))).scalars())
+
+
+async def get_diagnosis_case(case_id: str) -> DiagnosisCase | None:
+    async with db.async_session() as s:
+        return await s.scalar(select(DiagnosisCase).where(DiagnosisCase.case_id == case_id))
+
+
+async def update_diagnosis_case(case_id: str, *, failure_type: str,
+                                diagnosis_status: str, diagnosis_reason: str) -> DiagnosisCase | None:
+    async with db.async_session() as s:
+        row = await s.scalar(select(DiagnosisCase).where(DiagnosisCase.case_id == case_id))
+        if row is None:
+            return None
+        row.failure_type = failure_type
+        row.human_failure_type = failure_type
+        row.diagnosis_status = diagnosis_status
+        row.diagnosis_reason = diagnosis_reason
+        if failure_type == "knowledge_gap" and diagnosis_status == "confirmed":
+            # Human-confirmed gaps enter the existing normalization/deduplication pipeline.
+            # The unique diagnosis_case_id makes retries (or repeated PUT-like updates) idempotent.
+            queued = await s.scalar(select(LowConfidenceQuestion).where(
+                LowConfidenceQuestion.diagnosis_case_id == case_id))
+            if queued is None:
+                s.add(LowConfidenceQuestion(
+                    conversation_id=row.conversation_id,
+                    raw_question=row.question,
+                    source="diagnosis_confirmed",
+                    reason=f"人工确认知识缺口：{diagnosis_reason}",
+                    retrieved_chunks=row.retrieved_docs,
+                    diagnosis_case_id=case_id,
+                ))
+        await s.commit()
+        await s.refresh(row)
+        return row
+
+
+async def diagnosis_label_summary() -> dict:
+    """Agreement between retained automatic predictions and human-confirmed labels."""
+    async with db.async_session() as s:
+        rows = (await s.execute(select(
+            DiagnosisCase.predicted_failure_type,
+            DiagnosisCase.human_failure_type,
+            DiagnosisCase.diagnosis_status,
+        ).where(DiagnosisCase.human_failure_type.is_not(None)))).all()
+    labeled = [r for r in rows if r.diagnosis_status == "confirmed"]
+    matched = sum(r.predicted_failure_type == r.human_failure_type for r in labeled)
+    return {
+        "labeled_confirmed": len(labeled),
+        "type_matches": matched,
+        "type_agreement": round(matched / len(labeled), 4) if labeled else None,
+        "false_positives": sum(r.diagnosis_status == "false_positive" for r in rows),
+        "insufficient_data": sum(r.diagnosis_status == "insufficient_data" for r in rows),
+    }
+
+
+async def diagnosis_review_workload() -> dict:
+    """Measure diagnosis volume and existing review-queue deduplication by failure type."""
+    async with db.async_session() as s:
+        rows = (await s.execute(select(
+            DiagnosisCase.failure_type,
+            DiagnosisCase.diagnosis_status,
+            DiagnosisCase.human_failure_type,
+            DiagnosisCase.review_queue_id,
+            ReviewQueue.review_status,
+            ReviewQueue.occurrence_count,
+        ).outerjoin(ReviewQueue, DiagnosisCase.review_queue_id == ReviewQueue.id))).all()
+
+    groups: dict[str, dict] = {}
+    for failure_type, status, human_type, queue_id, queue_status, occurrences in rows:
+        group = groups.setdefault(failure_type, {
+            "failure_type": failure_type, "raw_cases": 0, "pending_diagnosis": 0,
+            "human_reviewed": 0, "linked_cases": 0, "clusters": {},
+        })
+        group["raw_cases"] += 1
+        group["pending_diagnosis"] += status == "pending"
+        group["human_reviewed"] += human_type is not None or status in {
+            "confirmed", "false_positive", "insufficient_data"}
+        if queue_id is not None:
+            group["linked_cases"] += 1
+            group["clusters"][queue_id] = {
+                "status": queue_status, "occurrences": occurrences or 0,
+            }
+
+    categories = []
+    for group in groups.values():
+        clusters = group.pop("clusters")
+        cluster_count = len(clusters)
+        linked_cases = group["linked_cases"]
+        raw_cases = group["raw_cases"]
+        categories.append({
+            **group,
+            "review_clusters": cluster_count,
+            "open_review_clusters": sum(c["status"] == "待审" for c in clusters.values()),
+            "cluster_occurrences": sum(c["occurrences"] for c in clusters.values()),
+            "deduplication_rate": (round(1 - cluster_count / linked_cases, 4)
+                                   if linked_cases else None),
+            "human_review_coverage": (round(group["human_reviewed"] / raw_cases, 4)
+                                      if raw_cases else None),
+        })
+    categories.sort(key=lambda item: (-item["raw_cases"], item["failure_type"]))
+    return {"categories": categories,
+            "totals": {"raw_cases": sum(x["raw_cases"] for x in categories),
+                       "pending_diagnosis": sum(x["pending_diagnosis"] for x in categories),
+                       "human_reviewed": sum(x["human_reviewed"] for x in categories),
+                       "review_clusters": sum(x["review_clusters"] for x in categories),
+                       "open_review_clusters": sum(x["open_review_clusters"] for x in categories)}}
+
+
 async def list_conversations_with_messages() -> list[tuple[int, list[Message]]]:
     """挖知识用:每个会话及其按序消息(供拼成对话文本喂 LLM)。"""
     async with db.async_session() as s:
@@ -478,6 +620,11 @@ async def set_matched_review(lcq_id: int, review_id: int) -> None:
         row = await s.get(LowConfidenceQuestion, lcq_id)
         if row is not None:
             row.matched_review_id = review_id
+            if row.diagnosis_case_id:
+                case = await s.scalar(select(DiagnosisCase).where(
+                    DiagnosisCase.case_id == row.diagnosis_case_id))
+                if case is not None:
+                    case.review_queue_id = review_id
             await s.commit()
 
 

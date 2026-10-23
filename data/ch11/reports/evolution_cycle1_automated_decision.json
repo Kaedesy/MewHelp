@@ -1,0 +1,553 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-23T11:10:48+00:00",
+  "cycle_type": "failure_driven_retrieval_candidate",
+  "status": "NO_CANDIDATE",
+  "runtime_settings_changed": false,
+  "errors": [],
+  "dataset_roles": {
+    "regression": "validation",
+    "challenge": "validation",
+    "independent_test": "test"
+  },
+  "dataset_sizes": {
+    "regression": 18,
+    "challenge": 30
+  },
+  "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:c34ae34943fb",
+  "knowledge_version": "milvus-shipping-6-yuan-2026-10-22",
+  "development_curation": {
+    "regression": "draft_pending_human_review",
+    "challenge": "draft_pending_human_review",
+    "review": {
+      "complete": true,
+      "review_granularity": "failure_family",
+      "expected_categories": 6,
+      "reviewed_approved_categories": 6,
+      "pending_or_unapproved_categories": 0,
+      "duplicate_rows": false,
+      "missing_categories": [],
+      "unexpected_categories": [],
+      "case_id_mismatch_categories": [],
+      "reviewer_ids": [
+        "wxz"
+      ]
+    }
+  },
+  "threshold_status": "provisional_operator_values",
+  "candidate_decisions": {
+    "recall_20": {
+      "development_regression": {
+        "recall_at_5_delta": 0.0463,
+        "mrr_delta": 0.0024,
+        "candidate_config": {
+          "name": "recall_20",
+          "recall_top_k": 20,
+          "rerank_top_k": 10,
+          "strategy": "hybrid_rerank",
+          "split": true
+        }
+      },
+      "development_challenge": {
+        "recall_at_5_delta": 0.0445,
+        "mrr_delta": 0.0021,
+        "candidate_config": {
+          "name": "recall_20",
+          "recall_top_k": 20,
+          "rerank_top_k": 10,
+          "strategy": "hybrid_rerank",
+          "split": true
+        }
+      },
+      "improved_cases": {
+        "regression": [
+          "FR-E1-000",
+          "FR-E37-001"
+        ],
+        "challenge": [
+          "FR-E1-000",
+          "FR-E37-001",
+          "FR-E51-001"
+        ]
+      },
+      "regressed_cases": {
+        "regression": [],
+        "challenge": []
+      },
+      "targeted_gain_on_both_sets": true,
+      "development_sets_human_approved": true,
+      "release_gate": {
+        "status": "FAIL",
+        "reasons": [
+          "handling_compliance 超出允许退化范围",
+          "unsupported_claim_rate 超出允许退化范围"
+        ],
+        "checks": [
+          {
+            "metric": "recall_at_5",
+            "baseline": 0.9917,
+            "candidate": 0.9917,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "mrr",
+            "baseline": 0.8852,
+            "candidate": 0.8845,
+            "max_regression": 0.001,
+            "passed": true
+          },
+          {
+            "metric": "confidence_gate_refusal_rate",
+            "baseline": 0.8,
+            "candidate": 0.8,
+            "max_regression": 0.0,
+            "passed": true,
+            "min_value": 0.8
+          },
+          {
+            "metric": "confidence_gate_false_refusal_rate",
+            "baseline": 0.125,
+            "candidate": 0.1,
+            "max_increase": 0.0,
+            "passed": true,
+            "max_value": 0.15
+          },
+          {
+            "metric": "answer_coverage",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "passed": true,
+            "min_value": 0.95
+          },
+          {
+            "metric": "faithfulness",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "passed": true,
+            "min_value": 0.95
+          },
+          {
+            "metric": "handling_compliance",
+            "baseline": 0.9,
+            "candidate": 0.9,
+            "passed": false,
+            "min_value": 0.95
+          },
+          {
+            "metric": "unsupported_claim_rate",
+            "baseline": 0.1,
+            "candidate": 0.1,
+            "passed": false,
+            "max_value": 0.05
+          },
+          {
+            "metric": "A_policy.recall_at_5",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "E_multi.recall_at_5",
+            "baseline": 0.9667,
+            "candidate": 0.9667,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "D_absent.confidence_gate_refusal_rate",
+            "baseline": 0.8,
+            "candidate": 0.8,
+            "max_regression": 0.0,
+            "passed": true,
+            "min_value": 0.8
+          },
+          {
+            "metric": "C_colloquial.recall_at_5",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "B_model.recall_at_5",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          }
+        ]
+      },
+      "disposition": "reject_release_gate_fail"
+    },
+    "rerank_5": {
+      "development_regression": {
+        "recall_at_5_delta": 0.0,
+        "mrr_delta": -0.0386,
+        "candidate_config": {
+          "name": "rerank_5",
+          "recall_top_k": 50,
+          "rerank_top_k": 5,
+          "strategy": "hybrid_rerank",
+          "split": true
+        }
+      },
+      "development_challenge": {
+        "recall_at_5_delta": 0.0,
+        "mrr_delta": -0.0329,
+        "candidate_config": {
+          "name": "rerank_5",
+          "recall_top_k": 50,
+          "rerank_top_k": 5,
+          "strategy": "hybrid_rerank",
+          "split": true
+        }
+      },
+      "improved_cases": {
+        "regression": [],
+        "challenge": []
+      },
+      "regressed_cases": {
+        "regression": [],
+        "challenge": []
+      },
+      "targeted_gain_on_both_sets": false,
+      "development_sets_human_approved": true,
+      "release_gate": {
+        "status": "PASS",
+        "reasons": [],
+        "checks": [
+          {
+            "metric": "recall_at_5",
+            "baseline": 0.9917,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "mrr",
+            "baseline": 0.8852,
+            "candidate": 0.8857,
+            "max_regression": 0.001,
+            "passed": true
+          },
+          {
+            "metric": "confidence_gate_refusal_rate",
+            "baseline": 0.8,
+            "candidate": 0.8,
+            "max_regression": 0.0,
+            "passed": true,
+            "min_value": 0.8
+          },
+          {
+            "metric": "confidence_gate_false_refusal_rate",
+            "baseline": 0.125,
+            "candidate": 0.125,
+            "max_increase": 0.0,
+            "passed": true,
+            "max_value": 0.15
+          },
+          {
+            "metric": "answer_coverage",
+            "baseline": 0.992,
+            "candidate": 0.992,
+            "passed": true,
+            "min_value": 0.95
+          },
+          {
+            "metric": "faithfulness",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "passed": true,
+            "min_value": 0.95
+          },
+          {
+            "metric": "handling_compliance",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "passed": true,
+            "min_value": 0.95
+          },
+          {
+            "metric": "unsupported_claim_rate",
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "passed": true,
+            "max_value": 0.05
+          },
+          {
+            "metric": "A_policy.recall_at_5",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "E_multi.recall_at_5",
+            "baseline": 0.9667,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "D_absent.confidence_gate_refusal_rate",
+            "baseline": 0.8,
+            "candidate": 0.8,
+            "max_regression": 0.0,
+            "passed": true,
+            "min_value": 0.8
+          },
+          {
+            "metric": "C_colloquial.recall_at_5",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "B_model.recall_at_5",
+            "baseline": 1.0,
+            "candidate": 1.0,
+            "max_regression": 0.0,
+            "passed": true
+          }
+        ]
+      },
+      "disposition": "reject_no_consistent_targeted_gain"
+    }
+  },
+  "candidate_proposals": {
+    "recall_20": {
+      "bounded_candidate_config": {
+        "name": "recall_20",
+        "recall_top_k": 20,
+        "rerank_top_k": 10,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "changed_parameters": {
+        "name": {
+          "baseline": "baseline",
+          "candidate": "recall_20"
+        },
+        "recall_top_k": {
+          "baseline": 50,
+          "candidate": 20
+        }
+      },
+      "triggering_failures": {
+        "regression": {
+          "count": 14,
+          "case_ids": [
+            "FR-E1-000",
+            "FR-E15-000",
+            "FR-E15-001",
+            "FR-E15-002",
+            "FR-E37-000",
+            "FR-E37-001",
+            "FR-E40-000",
+            "FR-E40-001",
+            "FR-E40-002",
+            "FR-E44-000",
+            "FR-E44-001",
+            "FR-E44-002",
+            "FR-E51-000",
+            "FR-E51-001"
+          ],
+          "by_bucket": {
+            "E_multi": [
+              "FR-E1-000",
+              "FR-E15-000",
+              "FR-E15-001",
+              "FR-E15-002",
+              "FR-E37-000",
+              "FR-E37-001",
+              "FR-E40-000",
+              "FR-E40-001",
+              "FR-E40-002",
+              "FR-E44-000",
+              "FR-E44-001",
+              "FR-E44-002",
+              "FR-E51-000",
+              "FR-E51-001"
+            ]
+          }
+        },
+        "challenge": {
+          "count": 20,
+          "case_ids": [
+            "FR-E1-000",
+            "FR-E15-000",
+            "FR-E15-001",
+            "FR-E15-002",
+            "FR-E37-000",
+            "FR-E37-001",
+            "FR-E40-000",
+            "FR-E40-001",
+            "FR-E40-002",
+            "FR-E44-000",
+            "FR-E44-001",
+            "FR-E44-002",
+            "FR-E51-000",
+            "FR-E51-001",
+            "FC-E15-003",
+            "FC-E37-003",
+            "FC-E37-004",
+            "FC-E40-003",
+            "FC-E44-003",
+            "FC-E51-004"
+          ],
+          "by_bucket": {
+            "E_multi": [
+              "FR-E1-000",
+              "FR-E15-000",
+              "FR-E15-001",
+              "FR-E15-002",
+              "FR-E37-000",
+              "FR-E37-001",
+              "FR-E40-000",
+              "FR-E40-001",
+              "FR-E40-002",
+              "FR-E44-000",
+              "FR-E44-001",
+              "FR-E44-002",
+              "FR-E51-000",
+              "FR-E51-001",
+              "FC-E15-003",
+              "FC-E37-003",
+              "FC-E37-004",
+              "FC-E40-003",
+              "FC-E44-003",
+              "FC-E51-004"
+            ]
+          }
+        }
+      },
+      "hypothesis": "The changed retrieval parameter should improve the identified baseline miss cases; evaluation and release gate decide whether to keep it."
+    },
+    "rerank_5": {
+      "bounded_candidate_config": {
+        "name": "rerank_5",
+        "recall_top_k": 50,
+        "rerank_top_k": 5,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "changed_parameters": {
+        "name": {
+          "baseline": "baseline",
+          "candidate": "rerank_5"
+        },
+        "rerank_top_k": {
+          "baseline": 10,
+          "candidate": 5
+        }
+      },
+      "triggering_failures": {
+        "regression": {
+          "count": 14,
+          "case_ids": [
+            "FR-E1-000",
+            "FR-E15-000",
+            "FR-E15-001",
+            "FR-E15-002",
+            "FR-E37-000",
+            "FR-E37-001",
+            "FR-E40-000",
+            "FR-E40-001",
+            "FR-E40-002",
+            "FR-E44-000",
+            "FR-E44-001",
+            "FR-E44-002",
+            "FR-E51-000",
+            "FR-E51-001"
+          ],
+          "by_bucket": {
+            "E_multi": [
+              "FR-E1-000",
+              "FR-E15-000",
+              "FR-E15-001",
+              "FR-E15-002",
+              "FR-E37-000",
+              "FR-E37-001",
+              "FR-E40-000",
+              "FR-E40-001",
+              "FR-E40-002",
+              "FR-E44-000",
+              "FR-E44-001",
+              "FR-E44-002",
+              "FR-E51-000",
+              "FR-E51-001"
+            ]
+          }
+        },
+        "challenge": {
+          "count": 20,
+          "case_ids": [
+            "FR-E1-000",
+            "FR-E15-000",
+            "FR-E15-001",
+            "FR-E15-002",
+            "FR-E37-000",
+            "FR-E37-001",
+            "FR-E40-000",
+            "FR-E40-001",
+            "FR-E40-002",
+            "FR-E44-000",
+            "FR-E44-001",
+            "FR-E44-002",
+            "FR-E51-000",
+            "FR-E51-001",
+            "FC-E15-003",
+            "FC-E37-003",
+            "FC-E37-004",
+            "FC-E40-003",
+            "FC-E44-003",
+            "FC-E51-004"
+          ],
+          "by_bucket": {
+            "E_multi": [
+              "FR-E1-000",
+              "FR-E15-000",
+              "FR-E15-001",
+              "FR-E15-002",
+              "FR-E37-000",
+              "FR-E37-001",
+              "FR-E40-000",
+              "FR-E40-001",
+              "FR-E40-002",
+              "FR-E44-000",
+              "FR-E44-001",
+              "FR-E44-002",
+              "FR-E51-000",
+              "FR-E51-001",
+              "FC-E15-003",
+              "FC-E37-003",
+              "FC-E37-004",
+              "FC-E40-003",
+              "FC-E44-003",
+              "FC-E51-004"
+            ]
+          }
+        }
+      },
+      "hypothesis": "The changed retrieval parameter should improve the identified baseline miss cases; evaluation and release gate decide whether to keep it."
+    }
+  },
+  "eligible_candidates": [],
+  "note": "A recommendation is not a deployment. The operator must review and apply it; the command never updates production settings or knowledge.",
+  "source_sha256": {
+    "data\\ch11\\reports\\eval_evolution_cycle1_failure_regression_current.json": "ec3a611b6f0b1f9c315f710ced3a3ed7589eacea6503b7473a0511cdb7b77116",
+    "data\\ch11\\reports\\eval_evolution_cycle1_failure_challenge_current.json": "9cf478a480e6239ad4c1cc5bbf316176d74eee4c93b36801aee5add5d06de5c1",
+    "data\\ch11\\reports\\eval_candidates_independent_test.json": "0468ff8dc3054d81a46b17c91418cb7f40239de820918af4ac71bd51fae99993",
+    "data\\ch11\\reports\\eval_answers_independent_candidates.json": "7e5c2f05b286a3ce32ad2a1d994a299d1438d2c024de96d55ae5fe16102e136c",
+    "data\\ch11\\release_thresholds_currentcode_draft.json": "cdf694fa8b21a20c46f46307b3754b352a205bfc3890efcf88cee9215e57b853",
+    "data\\ch11\\failure_regression_manifest.json": "44ee1d8b5461954f4ec1fb7fa7cc5150691d108a4d3aa8376a6078a8a46f47b6",
+    "data\\ch11\\failure_challenge_manifest.json": "5ee3c0ca9228ce6fe203158b0c7f2938c0c16518eeb9e1c83bd36a0e6744a68d",
+    "data\\ch11\\failure_development_review.csv": "855c59ab4be4feee104f3cdc0189e1abe00c4078e784e24a1b279438820283bf",
+    "scripts\\evolution_cycle.py": "b916cc62501f20ecd3fe2ac48831ecd939912d13eb85ce9b47f5db2d215a5505",
+    "app\\core\\evolution_proposals.py": "03b098aa10854ef7f4a9e5f50c544ac6eedf154766f218f785e765ad020b3dbf",
+    "app\\api\\diagnosis.py": "6e661241ebce9ec02817c69bd6b304e6cd52225cf89879e1c0f770b82279bb90"
+  }
+}

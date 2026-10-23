@@ -60,6 +60,24 @@ def test_down_survives_snapshot_failure(client, spy_insert, monkeypatch):
     assert spy_insert[0]["chunks"] is None
 
 
+def test_down_creates_diagnosis_record_for_matching_turn(client, spy_insert, monkeypatch):
+    state = {"case_id": "case-42", "conversation_id": 1,
+             "messages": [], "fallback_source": "self_check", "trace": {}}
+    async def fake_get(cid):
+        return {"question": "猫窝能水洗吗", "snapshot": [], "state": state}
+    captured = []
+
+    async def fake_capture(got, user_feedback=None, trace_id=None):
+        captured.append((got, user_feedback, trace_id))
+
+    monkeypatch.setattr(feedback_api.runtime, "get_turn_snapshot", fake_get)
+    monkeypatch.setattr(feedback_api.failure_diagnosis, "capture", fake_capture)
+    r = client.post("/api/feedback", json={"conversation_id": 1, "rating": "down",
+                                            "question": "猫窝能水洗吗"})
+    assert r.status_code == 200
+    assert captured == [(state, "down", None)]
+
+
 def test_up_logs_only(client, spy_insert, monkeypatch):
     _stub_snapshot(monkeypatch, "q", [])
     r = client.post("/api/feedback", json={"conversation_id": 1, "rating": "up", "question": "q"})
