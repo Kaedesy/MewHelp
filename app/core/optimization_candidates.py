@@ -1,4 +1,4 @@
-"""Versioned, bounded retrieval candidates used by offline evaluation only."""
+"""定义受约束、可版本化的检索候选，只供离线评估使用。"""
 from dataclasses import asdict, dataclass
 
 from app.config import settings
@@ -28,7 +28,7 @@ class RetrievalCandidate:
 
 
 def default_candidates() -> list[RetrievalCandidate]:
-    """One current-settings baseline and two single-variable alternatives."""
+    """生成当前配置基线及只改一个检索参数的对照候选。"""
     recall, rerank = settings.recall_top_k, settings.rerank_top_k
     out = [RetrievalCandidate("baseline", recall, rerank)]
     if recall > 20:

@@ -2,7 +2,9 @@
 # 后端八股网站：xiaolincoding.com
 # Agent网站：xiaolinnote.com
 # 简历模版：jianli.xiaolinnote.com
+"""SQLAlchemy 数据表定义，包含问题池、诊断任务、审核记录和发布版本。"""
 from datetime import datetime
+import uuid
 
 from sqlalchemy import BigInteger, DateTime, Enum, ForeignKey, Integer, JSON, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
@@ -153,8 +155,22 @@ class LowConfidenceQuestion(Base):
     retrieved_chunks: Mapped[list | None] = mapped_column(JSON(none_as_null=True), nullable=True)
     matched_review_id: Mapped[int | None] = mapped_column(
         BigInteger, ForeignKey("review_queue.id"), nullable=True)               # ch09 查重归并落点
+    processing_status: Mapped[str] = mapped_column(String(16), server_default="pending", nullable=False)
+    processing_note: Mapped[str | None] = mapped_column(String(255), nullable=True)
     diagnosis_case_id: Mapped[str | None] = mapped_column(
         String(36), ForeignKey("diagnosis_cases.case_id"), unique=True, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class CanonicalQuestion(Base):
+    """跨批次复用的规范问题身份；与单次归并结果记录分开。"""
+    __tablename__ = "canonical_questions"
+
+    canonical_question_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    normalized_question: Mapped[str] = mapped_column(String(512))
+    status: Mapped[str] = mapped_column(String(16), server_default="active")
+    split_from_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("canonical_questions.canonical_question_id"), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
 
@@ -163,6 +179,9 @@ class ReviewQueue(Base):
     __tablename__ = "review_queue"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    canonical_question_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("canonical_questions.canonical_question_id"),
+        unique=True, default=lambda: str(uuid.uuid4()))
     normalized_question: Mapped[str] = mapped_column(String(512))
     ai_suggested_answer: Mapped[str | None] = mapped_column(Text, nullable=True)
     occurrence_count: Mapped[int] = mapped_column(Integer, server_default="1")
@@ -185,6 +204,147 @@ class EvalRun(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
 
+class FlywheelTask(Base):
+    """持久化归并/分析逻辑任务状态，供失败恢复与幂等重跑使用。"""
+    __tablename__ = "flywheel_tasks"
+
+    task_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    task_type: Mapped[str] = mapped_column(String(32))
+    input_fingerprint: Mapped[str] = mapped_column(String(64))
+    analysis_config_version: Mapped[str] = mapped_column(String(64))
+    output_schema_version: Mapped[str] = mapped_column(String(32))
+    execution_status: Mapped[str] = mapped_column(String(16), server_default="pending")
+    attempts: Mapped[int] = mapped_column(Integer, server_default="0")
+    result_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    result_expires_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    last_error_type: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now()
+    )
+
+
+class FlywheelInvocation(Base):
+    """记录一次真实模型调用的状态和响应摘要，不保存原始提示词与响应。"""
+    __tablename__ = "flywheel_invocations"
+
+    invocation_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    task_id: Mapped[str] = mapped_column(String(64), ForeignKey("flywheel_tasks.task_id"))
+    call_type: Mapped[str] = mapped_column(String(32))
+    status: Mapped[str] = mapped_column(String(16), server_default="running")
+    response_hash: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    error_type: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class KnowledgeSnapshot(Base):
+    """不可变知识索引快照及其构建清单。"""
+    __tablename__ = "knowledge_snapshots"
+
+    snapshot_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    collection_name: Mapped[str] = mapped_column(String(128), unique=True)
+    manifest_sha256: Mapped[str] = mapped_column(String(64))
+    manifest: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[str] = mapped_column(String(16), server_default="building")
+    created_by: Mapped[str] = mapped_column(String(128))
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class SystemConfigVersion(Base):
+    __tablename__ = "system_config_versions"
+
+    config_version: Mapped[str] = mapped_column(String(64), primary_key=True)
+    config_sha256: Mapped[str] = mapped_column(String(64), unique=True)
+    config: Mapped[dict] = mapped_column(JSON)
+    created_by: Mapped[str] = mapped_column(String(128))
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class EvolutionRelease(Base):
+    """发布记录：绑定知识快照、系统配置、评估结果与审批人。"""
+    __tablename__ = "evolution_releases"
+
+    release_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    snapshot_id: Mapped[str] = mapped_column(
+        String(64), ForeignKey("knowledge_snapshots.snapshot_id"))
+    config_version: Mapped[str] = mapped_column(
+        String(64), ForeignKey("system_config_versions.config_version"))
+    evaluation: Mapped[dict] = mapped_column(JSON)
+    approved_by: Mapped[str] = mapped_column(String(128))
+    status: Mapped[str] = mapped_column(String(16), server_default="prepared")
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class ActiveRelease(Base):
+    __tablename__ = "active_release"
+
+    singleton_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    release_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("evolution_releases.release_id"), nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now())
+
+
+class ReleaseEvent(Base):
+    __tablename__ = "release_events"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    from_release_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    to_release_id: Mapped[str] = mapped_column(String(36))
+    event_type: Mapped[str] = mapped_column(String(16))
+    actor: Mapped[str] = mapped_column(String(128))
+    reason: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class FlywheelGroupResult(Base):
+    """某次归并任务生成的分组结果及其内容修订信息。"""
+    __tablename__ = "flywheel_group_results"
+
+    group_result_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    merge_task_id: Mapped[str] = mapped_column(String(64))
+    canonical_question_id: Mapped[str] = mapped_column(String(36))
+    member_case_ids: Mapped[list] = mapped_column(JSON)
+    normalized_question: Mapped[str] = mapped_column(String(512))
+    content_sha256: Mapped[str] = mapped_column(String(64))
+    result_revision: Mapped[int] = mapped_column(Integer, server_default="1")
+    evidence_status: Mapped[str] = mapped_column(String(24), server_default="needs_verification")
+    review_status: Mapped[str] = mapped_column(String(16), server_default="pending")
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class FlywheelPairRelation(Base):
+    """案例对级归并提议、最终判断及审核状态。"""
+    __tablename__ = "flywheel_pair_relations"
+
+    relation_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    merge_task_id: Mapped[str] = mapped_column(String(64))
+    case_id_a: Mapped[str] = mapped_column(String(64))
+    case_id_b: Mapped[str] = mapped_column(String(64))
+    relation_proposed: Mapped[str] = mapped_column(String(16))
+    relation_final: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    review_status: Mapped[str] = mapped_column(String(16), server_default="pending")
+    review_source: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    confirmation_source: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    rationale: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now())
+
+
+class FlywheelPairReviewEvent(Base):
+    __tablename__ = "flywheel_pair_review_events"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    relation_id: Mapped[str] = mapped_column(String(64), ForeignKey(
+        "flywheel_pair_relations.relation_id", ondelete="CASCADE"))
+    decision: Mapped[str] = mapped_column(String(16))
+    reviewer_id: Mapped[str] = mapped_column(String(128))
+    comment: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
 class DiagnosisCase(Base):
     """按需保存的失败案例；case_id 可在 Langfuse metadata 中搜索。"""
     __tablename__ = "diagnosis_cases"
@@ -195,10 +355,12 @@ class DiagnosisCase(Base):
     conversation_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     question: Mapped[str] = mapped_column(Text)
     intent: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    topic_labels: Mapped[list | None] = mapped_column(JSON, nullable=True)
     failure_type: Mapped[str] = mapped_column(String(32), server_default="unknown")
     predicted_failure_type: Mapped[str] = mapped_column(String(32), server_default="unknown")
     human_failure_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
     diagnosis_status: Mapped[str] = mapped_column(String(32), server_default="pending")
+    case_diagnosis_status: Mapped[str] = mapped_column(String(32), server_default="in_progress")
     diagnosis_reason: Mapped[str] = mapped_column(Text)
     retrieved_docs: Mapped[list | None] = mapped_column(JSON, nullable=True)
     evidence_confidence: Mapped[float | None] = mapped_column(nullable=True)
@@ -209,6 +371,57 @@ class DiagnosisCase(Base):
     config_version: Mapped[str | None] = mapped_column(String(128), nullable=True)
     review_queue_id: Mapped[int | None] = mapped_column(
         BigInteger, ForeignKey("review_queue.id"), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+
+class DiagnosisTask(Base):
+    """一个案例中的独立诊断子任务，可单独重试和完成。"""
+    __tablename__ = "diagnosis_tasks"
+
+    task_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    case_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("diagnosis_cases.case_id", ondelete="CASCADE"))
+    diagnostic_scope: Mapped[str] = mapped_column(String(64))
+    execution_status: Mapped[str] = mapped_column(String(16), server_default="pending")
+    outcome_proposed: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    outcome_final: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    evidence_refs: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    error_type: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    attempts: Mapped[int] = mapped_column(Integer, server_default="0")
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now())
+
+
+class DiagnosisFault(Base):
+    """单个故障提议及其证据、复核意见和最终确认来源。"""
+    __tablename__ = "diagnosis_faults"
+
+    fault_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    task_id: Mapped[str] = mapped_column(
+        String(64), ForeignKey("diagnosis_tasks.task_id", ondelete="CASCADE"))
+    fault_type: Mapped[str] = mapped_column(String(32))
+    status: Mapped[str] = mapped_column(String(16), server_default="proposed")
+    proposal_source: Mapped[str] = mapped_column(String(16))
+    review_source: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    confirmation_source: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    evidence_refs: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    reason: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now())
+
+
+class DiagnosisReviewEvent(Base):
+    """单个故障项的追加式人工审核历史，不覆盖旧决定。"""
+    __tablename__ = "diagnosis_review_events"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    fault_id: Mapped[str] = mapped_column(
+        String(64), ForeignKey("diagnosis_faults.fault_id", ondelete="CASCADE"))
+    decision: Mapped[str] = mapped_column(String(16))
+    reviewer_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    comment: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
 

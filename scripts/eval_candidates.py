@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from app.config import settings
 from app.core.confidence import compute_evidence_confidence
 from app.core import optimization_candidates, retrieval
+from app.kb import milvus_client
 from scripts.eval_ch04 import (
     GRADED_BUCKETS, RECALL_K, _mean, _ranks_per_group, _recall_at, _rr,
 )
@@ -57,7 +58,8 @@ def _kb_source_hash() -> str:
     return digest.hexdigest()
 
 
-async def _score_candidate(samples: list[dict], candidate) -> dict:
+async def _score_candidate(samples: list[dict], candidate,
+                           collection: str = milvus_client.COLLECTION) -> dict:
     semaphore = asyncio.Semaphore(5)
 
     def is_transient(exc: Exception) -> bool:
@@ -74,15 +76,15 @@ async def _score_candidate(samples: list[dict], candidate) -> dict:
                     hits = await retrieval.search_knowledge(
                         sample["query"], strategy=candidate.strategy,
                         top_k=candidate.rerank_top_k, recall_top_k=candidate.recall_top_k,
-                        split=candidate.split,
+                        split=candidate.split, collection=collection, return_stages=True,
                     )
-                    return sample, hits, None
+                    return sample, hits["final"], hits["candidates"], None
                 except Exception as exc:
                     if attempt < 3 and is_transient(exc):
                         await asyncio.sleep(0.5 * (2 ** attempt))
                         continue
                     # Keep terminal failures explicit so the release gate cannot pass partial data.
-                    return sample, [], f"{type(exc).__name__}: {exc}"
+                    return sample, [], [], f"{type(exc).__name__}: {exc}"
 
     relevant = [s for s in samples if s.get("bucket") in BUCKETS]
     graded = [s for s in relevant if s.get("bucket") in GRADED_BUCKETS]
@@ -90,7 +92,7 @@ async def _score_candidate(samples: list[dict], candidate) -> dict:
     buckets: dict[str, dict] = {}
     failures = []
     sample_results = []
-    for sample, hits, error in rows:
+    for sample, hits, pre_hits, error in rows:
         annotation = {
             "expected_refusal": bool(sample.get("should_refuse", False)),
             "expected_handling": sample.get("expected_handling"),
@@ -106,25 +108,29 @@ async def _score_candidate(samples: list[dict], candidate) -> dict:
         metrics = {"confidence_gate_refusal": refused}
         if sample.get("bucket") in GRADED_BUCKETS:
             ranks = _ranks_per_group(hits, sample)
-            metrics.update({"recall_at_5": _recall_at(ranks, RECALL_K),
+            pre_ranks = _ranks_per_group(pre_hits, sample)
+            metrics.update({"pre_rerank_recall_at_20": _recall_at(pre_ranks, 20),
+                            "recall_at_5": _recall_at(ranks, RECALL_K),
                             "mrr": _rr(ranks)})
         sample_results.append({"id": sample.get("id"), "bucket": sample.get("bucket"),
                               "status": "complete", "metrics": metrics, **annotation})
     for bucket in GRADED_BUCKETS:
-        group = [(sample, hits) for sample, hits, error in rows
+        group = [(sample, hits, pre_hits) for sample, hits, pre_hits, error in rows
                  if sample.get("bucket") == bucket and error is None]
-        recs, mrrs = [], []
-        for sample, hits in group:
+        pre_recs, recs, mrrs = [], [], []
+        for sample, hits, pre_hits in group:
             ranks = _ranks_per_group(hits, sample)
+            pre_recs.append(_recall_at(_ranks_per_group(pre_hits, sample), 20))
             recs.append(_recall_at(ranks, RECALL_K))
             mrrs.append(_rr(ranks))
         expected = sum(1 for sample in graded if sample.get("bucket") == bucket)
         buckets[bucket] = {
             "expected": expected, "evaluated": len(group),
+            "pre_rerank_recall_at_20": round(_mean(pre_recs), 4) if group else None,
             "recall_at_5": round(_mean(recs), 4) if group else None,
             "mrr": round(_mean(mrrs), 4) if group else None,
         }
-    absent_rows = [(sample, hits) for sample, hits, error in rows
+    absent_rows = [(sample, hits) for sample, hits, _, error in rows
                    if sample.get("bucket") == "D_absent" and error is None]
     absent_expected = sum(1 for sample in relevant if sample.get("bucket") == "D_absent")
     absent_refused = sum(
@@ -136,20 +142,24 @@ async def _score_candidate(samples: list[dict], candidate) -> dict:
         "confidence_gate_refusal_rate": round(absent_refused / len(absent_rows), 4)
         if absent_rows else None,
     }
-    recs, mrrs = [], []
-    for sample, hits, error in rows:
+    pre_recs, recs, mrrs = [], [], []
+    for sample, hits, pre_hits, error in rows:
         if error is None and sample.get("bucket") in GRADED_BUCKETS:
             ranks = _ranks_per_group(hits, sample)
+            pre_recs.append(_recall_at(_ranks_per_group(pre_hits, sample), 20))
             recs.append(_recall_at(ranks, RECALL_K))
             mrrs.append(_rr(ranks))
     graded_confidence = [
         compute_evidence_confidence(hits).score < settings.evidence_confidence_threshold
-        for sample, hits, error in rows if sample.get("bucket") in GRADED_BUCKETS and error is None
+        for sample, hits, _, error in rows
+        if sample.get("bucket") in GRADED_BUCKETS and error is None
     ]
     return {
         "status": "complete" if not failures and len(rows) == len(relevant) else "incomplete",
         "expected_samples": len(relevant), "evaluated_samples": len(rows) - len(failures),
-        "metrics": {"recall_at_5": round(_mean(recs), 4) if recs else None,
+        "metrics": {"pre_rerank_recall_at_20": round(_mean(pre_recs), 4)
+                    if pre_recs else None,
+                    "recall_at_5": round(_mean(recs), 4) if recs else None,
                     "mrr": round(_mean(mrrs), 4) if mrrs else None,
                     "confidence_gate_refusal_rate": round(absent_refused / len(absent_rows), 4)
                     if absent_rows else None,
@@ -190,6 +200,8 @@ async def main() -> int:
                         help="independent test-set provenance JSON; required for a final PASS")
     parser.add_argument("--knowledge-version", required=True,
                         help="operator-supplied ID of the Milvus knowledge snapshot used")
+    parser.add_argument("--collection", default=milvus_client.COLLECTION,
+                        help="Milvus collection to evaluate; may be an immutable snapshot")
     parser.add_argument("--out", type=pathlib.Path, default=OUT)
     parser.add_argument("--candidate", action="append", dest="candidates",
                         help="candidate name; repeat to select. Default evaluates all safe defaults.")
@@ -227,6 +239,7 @@ async def main() -> int:
             "dataset_provenance": provenance,
             "dataset_provenance_sha256": provenance_sha256,
             "knowledge_version": args.knowledge_version,
+            "collection_name": args.collection,
             "knowledge_source_sha256": _kb_source_hash(),
             "models": {"embed": settings.embed_model, "rerank": settings.rerank_model,
                        "chat": settings.chat_model},
@@ -242,7 +255,7 @@ async def main() -> int:
     for name in selected:
         candidate = available[name]
         print(f"Evaluating {name}: {candidate.to_dict()}", flush=True)
-        result = await _score_candidate(samples, candidate)
+        result = await _score_candidate(samples, candidate, args.collection)
         report["candidates"][name] = {"config": candidate.to_dict(), **result}
         print(f"  {result['status']} {result['metrics']}", flush=True)
     baseline = report["candidates"].get("baseline")

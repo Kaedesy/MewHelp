@@ -1,3 +1,4 @@
+"""验证离线检索候选的边界、默认配置和参数解析。"""
 import pytest
 
 from app.core.optimization_candidates import RetrievalCandidate, default_candidates, parse_candidate

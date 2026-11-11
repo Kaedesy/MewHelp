@@ -41,6 +41,18 @@ The `NO_PROXY` entries keep local Milvus traffic and configured model APIs out o
 
 At the current smoke check the endpoint returned HTTP 200 and zero confirmed cases. Real customer-feedback-driven proposals will appear after reviewed cases accumulate; the offline cycle below was exercised with the existing evaluation failure sets.
 
+## Batch knowledge-gap consolidation
+
+The existing low-confidence-question flywheel now processes at most 10 cases per normalization call. A first model role proposes canonical questions and candidate matches; a second review role runs only when cases would be merged with each other or with an existing review item. Both roles currently use the configured chat model in separate calls. The reviewer checks that intent and applicable policy match, rather than relying on shared keywords. If that check rejects a merge, the cases remain separate. If either structured response is incomplete or invalid, the batch stays unmatched for a later retry. Versioned logical tasks and per-request `invocation_id` records are persisted in `flywheel_tasks` and `flywheel_invocations`; a completed normalization result can be reused if merge review or the database commit fails. The validated queue writes and source links are committed atomically per batch, so a retry does not duplicate queue rows or occurrence counts. Invocation records keep response hashes and error types, not raw prompts or responses. Persisted structured task results expire after 30 days; invocation hashes and task metadata remain for audit.
+
+This reduces repeated model calls while preserving the current human approval boundary: outputs are written to `review_queue`, original cases remain linked for inspection, and nothing is written directly to the knowledge index. The scheduled `make flywheel` run prints normalization and merge-review call counts for cost tracking. On an existing local database, run `make migrate-self-evolution` once before running the updated pipeline; this applies the ch12 through ch15 schema changes.
+
+Diagnosis capture retains the legacy case fields for existing screens and now also stores independent diagnostic scopes and evidence-linked fault items. Explicit tool execution failures and deterministic evidence-gate refusals can coexist in one case; user dissatisfaction by itself remains inconclusive. Human changes append review events and recompute the case-level diagnosis status from subtask state.
+
+## Topic classification and diagnosis proposals
+
+`make diagnose-cases` now runs a separate batch workflow over unresolved diagnosis cases. It classifies questions through the existing RoBERTa service at `:8110`, then asks the chat model for per-case, evidence-referenced fault proposals. A batch contains at most 10 cases. The classifier service exposes a SHA-256 version over its ONNX model, tokenizer, and threshold artifacts; that version and the analysis prompt/schema version form the diagnostic scope, so changing either creates a new logical task. The model output is checked for exact case coverage and evidence references before each case task and proposed fault item is persisted. Model proposals remain unconfirmed; human review and deterministic rules continue to own confirmation. `make diagnose-cases LIMIT=50 BATCH_SIZE=10` requires the ch12 through ch16 migrations, a working MySQL database, classifier service, and chat API. This code path has not yet had live-service acceptance.
+
 ## Cycle result and points-withdrawal repair
 
 The earlier post-review retrieval rerun (before correcting the E40 answer labels and prompt boundary) reported different Recall@5 values. Use the current same-revision results in “Existing challenge-set rerun after the policy and evaluation repairs” below; those reports supersede the earlier retrieval numbers.
@@ -77,3 +89,16 @@ Reports:
 - `data/ch11/reports/release_gate_postfix_diagnostic_20261023.json` (diagnostic gate; expected `INCONCLUSIVE`)
 - `data/ch11/reports/evolution_cycle1_automated_decision_postreview_20261023.json` (pre-fix answer gate)
 - `data/ch11/failure_development_review.csv`
+
+
+## Self-evolution implementation additions
+
+The code now includes database-backed knowledge snapshots, immutable system-config versions and release records, plus a Milvus `knowledge_active` alias used for switching a prepared snapshot. `make migrate-self-evolution` applies the ch12 through ch16 schema. `make kb-snapshot ACTOR=<id>` builds an immutable collection and manifest. A release is activated only when the candidate report, PASS gate report, independent-test metadata, exact snapshot collection and source hash agree: `make release-activate SNAPSHOT=<id> CANDIDATE_REPORT=<path> GATE_REPORT=<path> CANDIDATE=<name> APPROVED_BY=<id>`. Rollback is `make release-rollback RELEASE=<id> ACTOR=<id> REASON=<text>`. Activation/rollback returns `restart_required=true`; restart the app so the saved runtime config and active collection are loaded together. Credentials remain in `.env` and are not copied into release records.
+
+The RoBERTa diagnosis workflow is invoked with `make diagnose-cases`. It fingerprints the classifier artifact and analysis configuration, classifies topic labels for bucketing, and stores evidence-referenced LLM fault proposals without confirming them. The case-pair review page is `/review/pairs`; it records human final labels and append-only review events. The metrics endpoint reports only the human-reviewed recorded sample and must not be presented as a population estimate. Stratified audits of unproposed same-bucket, cross-bucket-neighbor and random pairs remain necessary for estimating missed merges.
+
+These additions have passed static Python compilation and whitespace checks only. Database migrations, ONNX classification, model diagnosis, Milvus alias switching and rollback still require live environment acceptance; they have not been represented as runtime-verified.
+
+## Current local runtime status (2026-10-26)
+
+Docker services were started and ch12-ch16 migrations applied. The API docs endpoint responds with HTTP 200, and MySQL/Milvus report healthy. The intake gate now retains obvious one-character/numeric noise cases as `ignored`, and the live rerun did not recreate review candidates. Retrieval evaluation is currently incomplete because the configured SiliconFlow embedding/rerank account has insufficient balance; no quality pass is claimed. The RoBERTa ONNX artifacts are absent, so diagnosis runtime acceptance remains pending.

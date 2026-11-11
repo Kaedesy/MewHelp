@@ -1,7 +1,6 @@
-"""Create bounded offline-evaluation proposals from human-confirmed cases.
+"""根据人工确认的故障案例，生成范围受限的离线评估候选。
 
-This module never changes runtime settings. It only maps confirmed failure
-categories to already validated retrieval profiles for offline evaluation.
+本模块只提出候选，不修改运行时配置；候选必须经过离线评估和发布门禁。
 """
 from __future__ import annotations
 
@@ -28,10 +27,11 @@ def _value(case, name: str):
 
 
 def propose_from_confirmed_cases(cases: list, *, min_cases: int = MIN_CASES_PER_PROPOSAL) -> dict:
-    """Return reviewable offline candidates from cases with human-confirmed labels."""
+    """汇总已确认故障；达到样本门槛时，为检索/重排问题提出离线候选。"""
     if min_cases < 1:
         raise ValueError("min_cases must be at least 1")
 
+    # 未经确认或字段不完整的案例不能作为自动提出候选的依据。
     grouped: dict[str, list[str]] = defaultdict(list)
     ignored = 0
     for case in cases:
@@ -45,6 +45,7 @@ def propose_from_confirmed_cases(cases: list, *, min_cases: int = MIN_CASES_PER_
             continue
         grouped[failure_type].append(str(case_id))
 
+    # 只从预先定义的候选配置中选择，不在这里直接改线上参数。
     profiles = default_candidates()
     baseline = next(item for item in profiles if item.name == "baseline")
     proposals = []

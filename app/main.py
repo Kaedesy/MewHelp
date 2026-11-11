@@ -55,6 +55,14 @@ async def lifespan(app: FastAPI):
     """启动预热 Milvus:加载集合并轮询直到可检索,避免首个用户请求撞上 Standalone 的加载竞态
     (集合 load 在后台异步完成,未就绪时检索会静默返回空)。预热失败不阻塞启动。"""
     try:
+        from app.core.knowledge_snapshots import apply_active_release_config
+        active_release = await apply_active_release_config()
+        if active_release:
+            logger.info("已加载活动发布配置 release_id=%s", active_release)
+    except Exception:
+        logger.exception("加载活动发布配置失败，拒绝使用可能不兼容的版本组合")
+        raise
+    try:
         from app.core import retrieval
         for _ in range(15):
             hits = await retrieval.search_knowledge("退货运费", strategy="bm25", top_k=1)
@@ -136,6 +144,11 @@ async def rageval_page() -> FileResponse:
 async def review_page() -> FileResponse:
     """ch09 飞轮待审队列后台管理页。"""
     return FileResponse(_STATIC_DIR / "review.html")
+
+
+@app.get("/review/pairs", include_in_schema=False)
+async def flywheel_pair_review_page() -> FileResponse:
+    return FileResponse(_STATIC_DIR / "flywheel-pairs.html")
 
 
 @app.get("/observability", include_in_schema=False)

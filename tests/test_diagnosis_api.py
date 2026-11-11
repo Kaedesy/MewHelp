@@ -1,3 +1,4 @@
+"""验证故障案例查询、审核抽样及候选查询 API。"""
 from types import SimpleNamespace
 
 from fastapi import FastAPI

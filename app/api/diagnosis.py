@@ -1,4 +1,4 @@
-"""Read and human-confirm automatically collected failure cases."""
+"""提供故障案例查询、人工确认、审核抽样和离线优化候选查询接口。"""
 from fastapi import APIRouter, HTTPException, Query
 
 from app.core.failure_diagnosis import DIAGNOSIS_STATUSES, FAILURE_TYPES
@@ -13,10 +13,12 @@ def _out(row) -> dict:
     return {
         "case_id": row.case_id, "trace_id": row.trace_id,
         "conversation_id": row.conversation_id, "question": row.question,
-        "intent": row.intent, "failure_type": row.failure_type,
+        "intent": row.intent, "topic_labels": row.topic_labels,
+        "failure_type": row.failure_type,
         "predicted_failure_type": row.predicted_failure_type,
         "human_failure_type": row.human_failure_type,
         "diagnosis_status": row.diagnosis_status, "diagnosis_reason": row.diagnosis_reason,
+        "case_diagnosis_status": row.case_diagnosis_status,
         "review_queue_id": row.review_queue_id,
         "retrieved_docs": row.retrieved_docs,
         "evidence_confidence": row.evidence_confidence,
@@ -80,7 +82,8 @@ async def diagnosis_workload() -> dict:
     for failure_type, rule in policy["categories"].items():
         item = by_type.get(failure_type, {
             "failure_type": failure_type, "raw_cases": 0, "pending_diagnosis": 0,
-            "human_reviewed": 0, "linked_cases": 0, "review_clusters": 0,
+            "human_reviewed": 0, "partially_diagnosed": 0, "blocked": 0,
+            "linked_cases": 0, "review_clusters": 0,
             "open_review_clusters": 0, "cluster_occurrences": 0,
             "deduplication_rate": None, "human_review_coverage": None,
         })
@@ -98,7 +101,7 @@ async def diagnosis_workload() -> dict:
 async def diagnosis_evolution_proposals(
     min_cases: int = Query(evolution_proposals.MIN_CASES_PER_PROPOSAL, ge=1, le=50),
 ) -> dict:
-    """Suggest bounded offline candidates from human-confirmed case categories."""
+    """根据人工确认的故障类别返回离线候选；此接口不会修改线上配置。"""
     cases = []
     offset = 0
     page_size = 500
@@ -117,14 +120,19 @@ async def get_case(case_id: str) -> dict:
     row = await repository.get_diagnosis_case(case_id)
     if row is None:
         raise HTTPException(status_code=404, detail="案例不存在")
-    return _out(row)
+    result = _out(row)
+    result["diagnosis_tasks"] = await repository.list_diagnosis_tasks(case_id)
+    return result
 
 
 @router.post("/{case_id}/status")
 async def update_case(case_id: str, req: DiagnosisUpdate) -> dict:
     row = await repository.update_diagnosis_case(
         case_id, failure_type=req.failure_type,
-        diagnosis_status=req.diagnosis_status, diagnosis_reason=req.diagnosis_reason)
+        diagnosis_status=req.diagnosis_status, diagnosis_reason=req.diagnosis_reason,
+        reviewer_id=req.reviewer_id)
     if row is None:
         raise HTTPException(status_code=404, detail="案例不存在")
-    return _out(row)
+    result = _out(row)
+    result["diagnosis_tasks"] = await repository.list_diagnosis_tasks(case_id)
+    return result

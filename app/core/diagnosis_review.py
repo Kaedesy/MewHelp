@@ -1,8 +1,6 @@
-"""Configurable deterministic audit sampling for diagnosis cases.
+"""按配置对故障诊断案例抽样，送人工检查诊断质量。
 
-Sampling chooses cases for a human quality audit. It never approves knowledge
-or changes the diagnosis; confirmed knowledge gaps still use the existing
-clustered review queue before any write-back.
+抽样只决定哪些案例进入审核，不会自动确认故障或批准知识修改。
 """
 from __future__ import annotations
 

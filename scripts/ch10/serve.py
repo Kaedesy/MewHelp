@@ -4,6 +4,7 @@
 # 简历模版：jianli.xiaolinnote.com
 """ch10 推理服务:ONNX + FastAPI 独立进程 :8110,轻运行时(onnxruntime + tokenizers,不背 torch)。
 起停:make classifier-up / classifier-down(仓库惯例 nohup + pid 文件)。"""
+import hashlib
 import json
 import pathlib
 
@@ -25,6 +26,10 @@ _tok = Tokenizer.from_file(str(DIR / "tokenizer.json"))
 _tok.enable_truncation(max_length=128)
 _tok.enable_padding(pad_id=0, pad_token="[PAD]")
 _threshold: float = json.loads((DIR / "threshold.json").read_text())["threshold"]
+_model_version = hashlib.sha256(b"".join(
+    (DIR / name).read_bytes()
+    for name in ("model.onnx", "tokenizer.json", "threshold.json")
+)).hexdigest()
 
 
 class ClassifyIn(BaseModel):
@@ -33,7 +38,7 @@ class ClassifyIn(BaseModel):
 
 @app.get("/healthz")
 def healthz():
-    return {"ok": True}
+    return {"ok": True, "model_version": _model_version}
 
 
 @app.post("/classify")

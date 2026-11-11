@@ -54,10 +54,11 @@ def arrange_head_tail(items: list) -> list:
 
 async def search_knowledge(
     query: str, strategy: str = "hybrid_rerank", top_k: int | None = None,
-    category: str | None = None, client=None, collection: str = "knowledge",
+    category: str | None = None, client=None, collection: str = milvus_client.COLLECTION,
     bm25_text: str | None = None, split: bool = True,
     recall_top_k: int | None = None,
-) -> list[dict]:
+    return_stages: bool = False,
+) -> list[dict] | dict[str, list[dict]]:
     """strategy: vector | bm25 | hybrid | hybrid_rerank。
     返回最终排序的 hit(hybrid_rerank 含 rerank_score);不做首尾组装(调用侧按需)。
 
@@ -78,8 +79,13 @@ async def search_knowledge(
             per = [await search_knowledge(c, strategy=strategy, top_k=top_k,
                                           category=category, client=client,
                                           collection=collection, split=False,
-                                          recall_top_k=recall_top_k)
+                                          recall_top_k=recall_top_k,
+                                          return_stages=return_stages)
                    for c in clauses]
+            if return_stages:
+                candidates = _merge_round_robin([p["candidates"] for p in per])[:recall_top_k]
+                final = _merge_round_robin([p["final"] for p in per])[:top_k]
+                return {"candidates": candidates, "final": final}
             return _merge_round_robin(per)[:top_k]
 
     if strategy == "bm25":
@@ -87,7 +93,8 @@ async def search_knowledge(
             c = client or milvus_client.get_client()
             milvus_client.ensure_collection(c, collection=collection)
             return milvus_client.bm25_search(c, bt, top_k, category, collection)
-        return await milvus_client.acall(work)
+        hits = await milvus_client.acall(work)
+        return {"candidates": hits, "final": hits} if return_stages else hits
 
     if strategy == "vector":
         vec = await embeddings.embed_query(query)
@@ -96,7 +103,8 @@ async def search_knowledge(
             c = client or milvus_client.get_client()
             milvus_client.ensure_collection(c, collection=collection)
             return milvus_client.dense_search(c, vec, top_k, category, collection)
-        return await milvus_client.acall(work)
+        hits = await milvus_client.acall(work)
+        return {"candidates": hits, "final": hits} if return_stages else hits
 
     # hybrid / hybrid_rerank:dense 用 query 向量、BM25 用 bt,先混合召回 recall_top_k
     vec = await embeddings.embed_query(query)
@@ -109,7 +117,8 @@ async def search_knowledge(
     hits = await milvus_client.acall(work)
 
     if strategy == "hybrid":
-        return hits[:top_k]
+        final = hits[:top_k]
+        return {"candidates": hits, "final": final} if return_stages else final
 
     # hybrid_rerank:对召回结果精排(rerank 走上游 async,不进 Milvus 线程)
     docs = [f"{h['question']} {h['answer']}" for h in hits]
@@ -118,4 +127,4 @@ async def search_knowledge(
     for idx, score in ranked:
         h = dict(hits[idx]); h["rerank_score"] = score
         out.append(h)
-    return out
+    return {"candidates": hits, "final": out} if return_stages else out

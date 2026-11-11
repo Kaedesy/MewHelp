@@ -1,3 +1,4 @@
+"""验证失败信号如何生成诊断案例和多故障子任务。"""
 from langchain_core.messages import AIMessage, HumanMessage
 
 from app.core.failure_diagnosis import diagnose

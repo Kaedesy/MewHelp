@@ -1,8 +1,6 @@
-"""Safely select retrieval candidates from failure-focused evals.
+"""依据失败案例评估结果筛选检索候选，并检查发布门禁。
 
-This command compares candidate reports on two development sets and checks each
-candidate against the independent-test release gate. It only emits a
-recommendation; it never changes runtime settings or the knowledge base.
+脚本只输出建议，不直接改运行配置或知识库。
 """
 from __future__ import annotations
 

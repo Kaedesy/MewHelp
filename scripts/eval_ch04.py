@@ -237,8 +237,10 @@ async def _retrieve(strat, s):
                     return await retrieval.search_knowledge(
                         s["query"], strategy=candidate.strategy, top_k=candidate.rerank_top_k,
                         recall_top_k=candidate.recall_top_k, split=candidate.split,
+                        return_stages=True,
                     )
-                return await retrieval.search_knowledge(s["query"], strategy=strat, top_k=K)
+                return await retrieval.search_knowledge(
+                    s["query"], strategy=strat, top_k=K, return_stages=True)
             except Exception as exc:
                 response = getattr(exc, "response", None)
                 status = (getattr(exc, "status_code", None)
@@ -256,16 +258,22 @@ async def _deterministic(samples):
     """返回 (retrieval_dict, coverage_dict, HITS)。HITS[strat][id]=hits 供生成段复用。"""
     graded = [s for s in samples if s["bucket"] in GRADED_BUCKETS]
     other = [s for s in samples if s["bucket"] not in GRADED_BUCKETS]
-    retrieval_out, coverage_out, HITS = {}, {}, {}
+    retrieval_out, coverage_out, HITS, PRE_HITS = {}, {}, {}, {}
     _log("=== 段1 检索:四策略 × 分桶 Recall@%d / MRR ===" % RECALL_K)
     header = f"{'strategy':16s}" + "".join(f"{b.split('_')[0]:>16s}" for b in GRADED_BUCKETS) + f"{'OVERALL':>16s}"
     _log(header)
     for strat in STRATEGIES:
-        hits_list = await asyncio.gather(*(_retrieve(strat, s) for s in graded))
+        stages = await asyncio.gather(*(_retrieve(strat, s) for s in graded))
+        hits_list = [stage["final"] for stage in stages]
+        pre_hits = [stage["candidates"] for stage in stages]
         HITS[strat] = {s["id"]: h for s, h in zip(graded, hits_list)}
+        PRE_HITS[strat] = {s["id"]: h for s, h in zip(graded, pre_hits)}
         if other:
-            other_hits = await asyncio.gather(*(_retrieve(strat, s) for s in other))
-            HITS[strat].update({s["id"]: h for s, h in zip(other, other_hits)})
+            other_stages = await asyncio.gather(*(_retrieve(strat, s) for s in other))
+            HITS[strat].update({s["id"]: stage["final"]
+                                for s, stage in zip(other, other_stages)})
+            PRE_HITS[strat].update({s["id"]: stage["candidates"]
+                                    for s, stage in zip(other, other_stages)})
         by_bucket, cov_bucket = {}, {}
         row = f"{strat:16s}"
         all_rec, all_rr, all_cov = [], [], []
@@ -295,7 +303,21 @@ async def _deterministic(samples):
         row = f"{strat:16s}" + "".join(f"{coverage_out[strat][b]:>12.2f}" for b in GRADED_BUCKETS)
         row += f"{coverage_out[strat]['overall']:>12.2f}"
         _log(row)
-    return retrieval_out, coverage_out, HITS
+    pre_recall = {}
+    for strat in STRATEGIES:
+        by_bucket = {}
+        for bucket in GRADED_BUCKETS:
+            bucket_samples = [sample for sample in graded if sample["bucket"] == bucket]
+            by_bucket[bucket] = round(_mean([
+                _recall_at(_ranks_per_group(PRE_HITS[strat][sample["id"]], sample), 20)
+                for sample in bucket_samples
+            ]), 3)
+        by_bucket["overall"] = round(_mean([
+            _recall_at(_ranks_per_group(PRE_HITS[strat][sample["id"]], sample), 20)
+            for sample in graded
+        ]), 3)
+        pre_recall[strat] = by_bucket
+    return retrieval_out, coverage_out, HITS, pre_recall
 
 
 # ---------- 段3:四策略生成 + 覆盖度判分 + Faithfulness(glm) ----------
@@ -628,7 +650,8 @@ async def _read_notes(retrieval_data, coverage_data, generation_data):
 
 
 def _write_report(retrieval_data, coverage_data, generation_data, meta, notes=None,
-                  out_json: pathlib.Path | None = None, out_txt: pathlib.Path | None = None):
+                  out_json: pathlib.Path | None = None, out_txt: pathlib.Path | None = None,
+                  *, pre_rerank_recall_20=None):
     out_json = out_json or _OUT_JSON
     out_txt = out_txt or _OUT_TXT
     out_json.parent.mkdir(parents=True, exist_ok=True)
@@ -637,6 +660,8 @@ def _write_report(retrieval_data, coverage_data, generation_data, meta, notes=No
     report = {"meta": meta, "retrieval": retrieval_data,
               "evidence_coverage": coverage_data, "generation": generation_data,
               "read_notes": notes or {}}
+    if pre_rerank_recall_20 is not None:
+        report["pre_rerank_recall_at_20"] = pre_rerank_recall_20
     # generation 为 None 也照样落盘:页面据此显示「生成段未完成」,而不是一片空白
     out_json.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n",
                         encoding="utf-8")
@@ -690,7 +715,7 @@ async def main():
     _log(f"评估集:{len(samples)} 题(" + "、".join(
         f"{BUCKET_LABEL.get(b, b)} {n}" for b, n in per.most_common()) + f"),策略 {STRATEGIES}")
     _log(f"检索并发 {RETR_CONCURRENCY} · 生成并发 {GEN_CONCURRENCY} · 单调用超时 {CALL_TIMEOUT:.0f}s\n")
-    retrieval_data, coverage_data, HITS = await _deterministic(samples)
+    retrieval_data, coverage_data, HITS, pre_recall_20 = await _deterministic(samples)
     generation_data = None
     if SKIP_GEN:
         _log("\n[生成段跳过] --skip-gen:本轮只跑确定性两段,页面按「生成段未完成」显示。")
@@ -727,6 +752,7 @@ async def main():
     notes = {} if SKIP_GEN or args.skip_read_notes else await _read_notes(
         retrieval_data, coverage_data, generation_data)
     _write_report(retrieval_data, coverage_data, generation_data, meta, notes,
+                  pre_rerank_recall_20=pre_recall_20,
                   out_json=out_json, out_txt=out_txt)
     _log(f"\n已生成:{out_json} · {out_txt}")
     _log("页面:http://localhost:8000/rag-eval(后台 → RAG 评估)")

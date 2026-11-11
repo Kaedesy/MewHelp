@@ -1,8 +1,12 @@
 # Python 强制 UTF-8。中文 Windows 默认 GBK,读本仓库里带中文的 markdown / jsonl
 # (知识库、评估集)会抛 UnicodeDecodeError。必须在 Python 启动前生效,所以设在这里而不是 .env。
 export PYTHONUTF8 = 1
+comma := ,
+NO_PROXY := $(if $(NO_PROXY),$(NO_PROXY)$(comma),)localhost$(comma)127.0.0.1$(comma)::1$(comma)api.siliconflow.cn
+no_proxy := $(if $(no_proxy),$(no_proxy)$(comma),)localhost$(comma)127.0.0.1$(comma)::1$(comma)api.siliconflow.cn
+export NO_PROXY no_proxy
 
-.PHONY: help kb-repatch dev test eval eval-check judge-check seed eval-ch07 eval-agent kb-preview kb-build kb-vectorize kb-mine eval-retrieval seed-conv eval-mining kb-reset milvus-up milvus-down smoke-rag eval-rag smoke-interrupt eval-ch06 mcp-up mcp-down langfuse-up langfuse-down eval-candidates calibrate-release-thresholds release-gate
+.PHONY: help kb-repatch dev test eval eval-check judge-check seed eval-ch07 eval-agent kb-preview kb-build kb-vectorize kb-mine eval-retrieval seed-conv eval-mining kb-reset milvus-up milvus-down smoke-rag eval-rag smoke-interrupt eval-ch06 mcp-up mcp-down langfuse-up langfuse-down eval-candidates calibrate-release-thresholds release-gate migrate-self-evolution diagnose-cases kb-snapshot release-activate release-rollback
 
 # 目标一多就记不住谁要什么前置条件,带 ## 注释的挑出来列一遍
 help:  ## 列出带说明的目标
@@ -28,6 +32,28 @@ calibrate-confidence:  ## ch09 置信度阈值校准(需 milvus + 上游可调�
 flywheel:  ## ch09 飞轮批处理:问题池 → 标准化查重 → 待审队列(需 mysql + 聊天上游)
 	PYTHONPATH=. uv run python scripts/flywheel_pipeline.py
 
+migrate-self-evolution:  ## apply ch12-ch16 self-evolution schema to local MySQL (one time)
+	docker exec -i mewhelp-mysql mysql --default-character-set=utf8mb4 -uroot -proot mewhelp < sql/ch12-flywheel-execution.sql
+	docker exec -i mewhelp-mysql mysql --default-character-set=utf8mb4 -uroot -proot mewhelp < sql/ch13-diagnosis-subtasks.sql
+	docker exec -i mewhelp-mysql mysql --default-character-set=utf8mb4 -uroot -proot mewhelp < sql/ch14-release-catalog.sql
+	docker exec -i mewhelp-mysql mysql --default-character-set=utf8mb4 -uroot -proot mewhelp < sql/ch15-canonical-questions.sql
+	docker exec -i mewhelp-mysql mysql --default-character-set=utf8mb4 -uroot -proot mewhelp < sql/ch16-low-confidence-processing-status.sql
+
+kb-snapshot:  ## build immutable versioned Milvus collection and manifest (ACTOR=reviewer)
+	@if [ -z "$(ACTOR)" ]; then echo "请指定 ACTOR=操作人"; exit 2; fi
+	PYTHONPATH=. uv run python scripts/knowledge_release.py snapshot --created-by "$(ACTOR)"
+
+release-activate:  ## create approved release and switch active alias (SNAPSHOT, CANDIDATE_REPORT, GATE_REPORT, CANDIDATE, APPROVED_BY)
+	@if [ -z "$(SNAPSHOT)" ] || [ -z "$(CANDIDATE_REPORT)" ] || [ -z "$(GATE_REPORT)" ] || [ -z "$(CANDIDATE)" ] || [ -z "$(APPROVED_BY)" ]; then echo "请提供 SNAPSHOT、CANDIDATE_REPORT、GATE_REPORT、CANDIDATE、APPROVED_BY"; exit 2; fi
+	PYTHONPATH=. uv run python scripts/knowledge_release.py activate --snapshot-id "$(SNAPSHOT)" --candidate-report "$(CANDIDATE_REPORT)" --gate-report "$(GATE_REPORT)" --candidate "$(CANDIDATE)" --approved-by "$(APPROVED_BY)"
+
+release-rollback:  ## restore a previous compatible release (RELEASE=... ACTOR=... REASON=...)
+	@if [ -z "$(RELEASE)" ] || [ -z "$(ACTOR)" ] || [ -z "$(REASON)" ]; then echo "请指定 RELEASE=... ACTOR=... REASON=..."; exit 2; fi
+	PYTHONPATH=. uv run python scripts/knowledge_release.py rollback --release-id "$(RELEASE)" --actor "$(ACTOR)" --reason "$(REASON)"
+
+diagnose-cases:  ## classify topics with RoBERTa and propose evidence-linked diagnosis (needs mysql, :8110 and chat API)
+	PYTHONPATH=. uv run python scripts/diagnose_cases.py --limit $(or $(LIMIT),50) --batch-size $(or $(BATCH_SIZE),10)
+
 flywheel-samples:  ## ch09 标准化查重 prompt 标注样例验证(通过率 ≥ 80%)
 	PYTHONPATH=. uv run python scripts/validate_flywheel_samples.py
 
@@ -39,7 +65,7 @@ cost-report:  ## ch09 按意图 token 账(需 Langfuse 在跑;DAYS=窗口天数)
 
 eval-candidates:  ## ch11 检索候选离线比较(DATASET=... DATASET_ROLE=... KB_VERSION=...;需 Milvus/上游)
 	@if [ -z "$(DATASET)" ] || [ -z "$(KB_VERSION)" ]; then echo "请指定 DATASET=...、DATASET_ROLE=validation|test 和 KB_VERSION=..."; exit 2; fi
-	PYTHONPATH=. uv run python scripts/eval_candidates.py --dataset "$(DATASET)" --dataset-role "$(or $(DATASET_ROLE),validation)" --knowledge-version "$(KB_VERSION)" --out "$(or $(OUT),data/ch11/reports/eval_candidates.json)" $(foreach c,$(CANDIDATES),--candidate $(c))
+	PYTHONPATH=. uv run python scripts/eval_candidates.py --dataset "$(DATASET)" --dataset-role "$(or $(DATASET_ROLE),validation)" --knowledge-version "$(KB_VERSION)" --collection "$(or $(COLLECTION),knowledge_active)" --out "$(or $(OUT),data/ch11/reports/eval_candidates.json)" $(foreach c,$(CANDIDATES),--candidate $(c))
 
 calibrate-release-thresholds:  ## ch11 由重复 validation 基线波动生成门禁阈值(REPORTS=至少3个文件)
 	@if [ "$(words $(REPORTS))" -lt 3 ] || [ -z "$(MIN_SAMPLES)" ] || [ -z "$(MIN_ABSENT_REFUSAL_RATE)" ] || [ -z "$(MAX_FALSE_REFUSAL_RATE)" ]; then echo "请提供至少3个 REPORTS、MIN_SAMPLES、MIN_ABSENT_REFUSAL_RATE、MAX_FALSE_REFUSAL_RATE"; exit 2; fi
@@ -179,8 +205,8 @@ eval-mining:
 
 # 干净重建知识库:清 MySQL 两表 + drop Milvus collection(ch04 Standalone 无独占锁,app 可不停)
 kb-reset:
+	PYTHONPATH=. uv run python -c "from app.kb import milvus_client as m; m.drop(m.get_client(), m.COLLECTION)"
 	docker exec -i mewhelp-mysql mysql -uroot -proot mewhelp -e "SET FOREIGN_KEY_CHECKS=0; DELETE FROM knowledge_chunks; DELETE FROM qa_extraction_staging; SET FOREIGN_KEY_CHECKS=1;"
-	PYTHONPATH=. uv run python -c "from app.kb import milvus_client as m; m.drop(m.get_client(), 'knowledge')"
 	@echo "KB 已重置(Milvus Standalone drop collection)。重跑: make kb-build && make kb-vectorize"
 
 eval-ch07:

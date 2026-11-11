@@ -11,7 +11,10 @@ import pathlib
 
 import numpy as np
 import torch
-from sklearn.metrics import multilabel_confusion_matrix, precision_recall_fscore_support
+from sklearn.metrics import (
+    accuracy_score, hamming_loss, multilabel_confusion_matrix,
+    precision_recall_fscore_support,
+)
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from app.core.taxonomy import LABEL2ID, NUM_CLASSES, SEVERITY, TOPIC_NAMES
@@ -58,13 +61,17 @@ def main() -> None:
         gold, preds, average="micro", zero_division=0)
     macro_p, macro_r, macro_f1, _ = precision_recall_fscore_support(
         gold, preds, average="macro", zero_division=0)
+    subset_accuracy = accuracy_score(gold, preds)
+    label_hamming_loss = hamming_loss(gold, preds)
     cms = multilabel_confusion_matrix(gold, preds)
 
     REPORTS.mkdir(parents=True, exist_ok=True)
     lines = ["# ch10 分类器评测报告(留出测试集)", "",
              f"测试集 {len(samples)} 条;判定阈值 {threshold}(验证集扫描所得)。", "",
              f"**micro**: P={micro_p:.3f} R={micro_r:.3f} F1={micro_f1:.3f}  |  "
-             f"**macro**: P={macro_p:.3f} R={macro_r:.3f} F1={macro_f1:.3f}", "",
+             f"**macro**: P={macro_p:.3f} R={macro_r:.3f} F1={macro_f1:.3f}",
+             f"Hamming Loss={label_hamming_loss:.4f}；Subset Accuracy={subset_accuracy:.4f} "
+             "(整条样本的标签集合完全一致比例)", "",
              "## 每类指标(容错红线:严档 F1 ≥ 0.9,中档 ≥ 0.8,宽档不设线)", "",
              "| 类目 | 档位 | P | R | F1 | support | 红线 |",
              "|---|---|---|---|---|---|---|"]
@@ -110,6 +117,8 @@ def main() -> None:
                   "f1": round(float(micro_f1), 4)},
         "macro": {"p": round(float(macro_p), 4), "r": round(float(macro_r), 4),
                   "f1": round(float(macro_f1), 4)},
+        "hamming_loss": round(float(label_hamming_loss), 6),
+        "subset_accuracy": round(float(subset_accuracy), 6),
         "classes": [
             {"name": name, "severity": SEVERITY[name],
              "p": round(float(p[i]), 4), "r": round(float(r[i]), 4),

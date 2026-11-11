@@ -1,3 +1,4 @@
+"""验证按故障类别配置的确定性人工抽样策略。"""
 from app.core.diagnosis_review import load_policy, review_decision
 
 

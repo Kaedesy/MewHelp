@@ -17,6 +17,11 @@ if [ ! -f .env ]; then
 fi
 set -a; source .env; set +a
 
+# Keep local gRPC/HTTP services off the user's corporate/system proxy.
+NO_PROXY="${NO_PROXY:+$NO_PROXY,}localhost,127.0.0.1,::1,api.siliconflow.cn"
+no_proxy="${no_proxy:+$no_proxy,}localhost,127.0.0.1,::1,api.siliconflow.cn"
+export NO_PROXY no_proxy
+
 # --- preflight:确保依赖基建活着(Colima → 容器 → Milvus 就绪)---
 # 没有这步的话,Docker VM 一挂,应用只打个「Milvus 预热异常,继续启动」的非致命
 # warning 就带故障起来了,知识类问答全哑,很难排查。

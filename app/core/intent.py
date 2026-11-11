@@ -2,6 +2,7 @@
 # 后端八股网站：xiaolincoding.com
 # Agent网站：xiaolinnote.com
 # 简历模版：jianli.xiaolinnote.com
+"""实时对话使用的九类意图分类；与离线 RoBERTa 主题分桶用途不同。"""
 from typing import Literal
 
 from pydantic import BaseModel, Field

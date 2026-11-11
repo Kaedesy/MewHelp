@@ -2,7 +2,7 @@
 # 后端八股网站：xiaolincoding.com
 # Agent网站：xiaolinnote.com
 # 简历模版：jianli.xiaolinnote.com
-"""ch09 审核后台 API:待审队列列表/详情/通过(写回知识库)/驳回。
+"""人工审核后台接口：查询知识候选、审阅归并关系、通过后写回知识库。
 通过 = 核准答案以 QA chunk 走 ch03 落库流程(write_pending → vectorize_pending 同步),
 向量化成功才置「通过」——保证审核页点了通过,下一问就能检索命中(验收 3)。"""
 import logging
@@ -12,7 +12,7 @@ from fastapi import APIRouter, HTTPException
 from app.db import repository
 from app.kb import dualwrite
 from app.kb.documents import Chunk, is_key
-from app.schemas.review import ApproveRequest
+from app.schemas.review import ApproveRequest, PairRelationReviewRequest
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -27,7 +27,8 @@ async def _vectorize() -> int:
 
 
 def _item_out(r) -> dict:
-    return {"id": r.id, "normalized_question": r.normalized_question,
+    return {"id": r.id, "canonical_question_id": r.canonical_question_id,
+            "normalized_question": r.normalized_question,
             "ai_suggested_answer": r.ai_suggested_answer,
             "occurrence_count": r.occurrence_count, "review_status": r.review_status,
             "created_at": r.created_at.isoformat() if r.created_at else None}
@@ -35,7 +36,7 @@ def _item_out(r) -> dict:
 
 @router.get("/api/review/queue")
 async def review_queue(status: str | None = None) -> dict:
-    """列表按 occurrence_count 降序:一个缺口被越多用户反复问到,越该优先补(README)。"""
+    """查询待审核的问题归并/知识候选，按重复出现次数降序排列。"""
     rows = await repository.list_review_queue(status)
     return {"items": [_item_out(r) for r in rows]}
 
@@ -49,6 +50,8 @@ async def review_detail(review_id: int) -> dict:
     item, raws = detail
     out = _item_out(item)
     out["approved_answer"] = item.approved_answer
+    out["group_results"] = await repository.list_flywheel_group_results(
+        item.canonical_question_id)
     out["raws"] = [{"raw_question": r.raw_question, "source": r.source, "reason": r.reason,
                     "diagnosis_case_id": r.diagnosis_case_id,
                     "created_at": r.created_at.isoformat() if r.created_at else None,
@@ -59,6 +62,7 @@ async def review_detail(review_id: int) -> dict:
 
 @router.post("/api/review/{review_id}/approve")
 async def approve(review_id: int, req: ApproveRequest) -> dict:
+    """审核通过后才将候选内容写入知识库并触发向量化。"""
     detail = await repository.get_review_detail(review_id)
     if detail is None:
         raise HTTPException(status_code=404, detail="缺口不存在")
@@ -102,3 +106,43 @@ async def reject(review_id: int) -> dict:
             raise HTTPException(status_code=404, detail="缺口不存在")
         raise HTTPException(status_code=409, detail="仅待审状态可驳回")
     return {"ok": True}
+
+
+@router.get("/api/review/flywheel/pairs")
+async def flywheel_pair_queue(status: str | None = None, limit: int = 100,
+                              offset: int = 0) -> dict:
+    if status not in {None, "unreviewed", "pending", "confirmed", "rejected"}:
+        raise HTTPException(status_code=422, detail="invalid review status")
+    status = status or "unreviewed"
+    items = await repository.list_flywheel_pair_relations(
+        review_status=status, limit=limit, offset=offset)
+    return {"items": items, "limit": max(1, min(limit, 500)), "offset": max(0, offset)}
+
+
+@router.get("/api/review/flywheel/pairs/metrics")
+async def flywheel_pair_metrics() -> dict:
+    return await repository.get_flywheel_pair_metrics()
+
+
+@router.get("/api/review/flywheel/pairs/{relation_id}")
+async def flywheel_pair_detail(relation_id: str) -> dict:
+    item = await repository.get_flywheel_pair_relation(relation_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail="pair relation not found")
+    item["review_events"] = await repository.list_flywheel_pair_review_events(relation_id)
+    return item
+
+
+@router.post("/api/review/flywheel/pairs/{relation_id}/review")
+async def review_flywheel_pair(relation_id: str,
+                               req: PairRelationReviewRequest) -> dict:
+    try:
+        result = await repository.finalize_flywheel_pair_relation(
+            relation_id=relation_id, decision=req.decision,
+            reviewer_id=req.reviewer_id, comment=req.comment)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    if result is None:
+        raise HTTPException(status_code=404, detail="pair relation not found")
+    result["review_events"] = await repository.list_flywheel_pair_review_events(relation_id)
+    return result

@@ -12,7 +12,9 @@ from pymilvus import (
 
 from app.config import settings
 
-COLLECTION = "knowledge"
+COLLECTION = "knowledge_active"
+LEGACY_COLLECTION = "knowledge"
+INITIAL_COLLECTION = "knowledge_initial"
 DIM = 1024
 
 # 专用单线程执行器:同步 pymilvus(gRPC)客户端在多线程间共享会间歇静默返回空
@@ -47,32 +49,76 @@ def ensure_collection(client: MilvusClient, collection: str = COLLECTION) -> Non
     单例默认集合只实际执行一次;不同集合名(测试临时库)各自 ensure。"""
     if client is _CLIENT and collection in _ensured:
         return
+    if collection == COLLECTION:
+        aliases = set(client.list_aliases().get("aliases", []))
+        if collection in aliases:
+            client.load_collection(collection)
+            if client is _CLIENT:
+                _ensured.add(collection)
+            return
+        if client.has_collection(collection):
+            # Compatibility with an installation that already created the alias target name.
+            client.load_collection(collection)
+            return
+        if client.has_collection(LEGACY_COLLECTION):
+            target = LEGACY_COLLECTION
+        else:
+            target = INITIAL_COLLECTION
+            if not client.has_collection(target):
+                _create_collection(client, target)
+        client.create_alias(collection_name=target, alias=collection)
+        client.load_collection(collection)
+        if client is _CLIENT:
+            _ensured.add(collection)
+        return
     if client.has_collection(collection):
         client.load_collection(collection)
     else:
-        schema = client.create_schema(auto_id=False)
-        schema.add_field("id", DataType.INT64, is_primary=True)
-        schema.add_field("dense", DataType.FLOAT_VECTOR, dim=DIM)
-        # text = category+questions+answer 拼接,恒长于 answer(8192);放宽到 16384 防长块 upsert 溢出
-        schema.add_field("text", DataType.VARCHAR, max_length=16384,
-                         enable_analyzer=True, analyzer_params={"type": "chinese"})
-        schema.add_field("sparse", DataType.SPARSE_FLOAT_VECTOR)
-        schema.add_field("question", DataType.VARCHAR, max_length=2048)
-        schema.add_field("answer", DataType.VARCHAR, max_length=8192)
-        schema.add_field("section_path", DataType.VARCHAR, max_length=512)
-        schema.add_field("content_type", DataType.VARCHAR, max_length=32)
-        schema.add_field("category", DataType.VARCHAR, max_length=255)
-        schema.add_function(Function(
-            name="text_bm25", input_field_names=["text"],
-            output_field_names=["sparse"], function_type=FunctionType.BM25,
-        ))
-        index_params = client.prepare_index_params()
-        index_params.add_index(field_name="dense", index_type="AUTOINDEX", metric_type="COSINE")
-        index_params.add_index(field_name="sparse", index_type="SPARSE_INVERTED_INDEX", metric_type="BM25")
-        client.create_collection(collection, schema=schema, index_params=index_params)
+        _create_collection(client, collection)
         client.load_collection(collection)
     if client is _CLIENT:
         _ensured.add(collection)
+
+
+def _create_collection(client: MilvusClient, collection: str) -> None:
+    schema = client.create_schema(auto_id=False)
+    schema.add_field("id", DataType.INT64, is_primary=True)
+    schema.add_field("dense", DataType.FLOAT_VECTOR, dim=DIM)
+    # text = category+questions+answer 拼接,恒长于 answer(8192);放宽到 16384 防长块 upsert 溢出
+    schema.add_field("text", DataType.VARCHAR, max_length=16384,
+                     enable_analyzer=True, analyzer_params={"type": "chinese"})
+    schema.add_field("sparse", DataType.SPARSE_FLOAT_VECTOR)
+    schema.add_field("question", DataType.VARCHAR, max_length=2048)
+    schema.add_field("answer", DataType.VARCHAR, max_length=8192)
+    schema.add_field("section_path", DataType.VARCHAR, max_length=512)
+    schema.add_field("content_type", DataType.VARCHAR, max_length=32)
+    schema.add_field("category", DataType.VARCHAR, max_length=255)
+    schema.add_function(Function(
+        name="text_bm25", input_field_names=["text"],
+        output_field_names=["sparse"], function_type=FunctionType.BM25,
+    ))
+    index_params = client.prepare_index_params()
+    index_params.add_index(field_name="dense", index_type="AUTOINDEX", metric_type="COSINE")
+    index_params.add_index(field_name="sparse", index_type="SPARSE_INVERTED_INDEX", metric_type="BM25")
+    client.create_collection(collection, schema=schema, index_params=index_params)
+
+
+def activate_collection(client: MilvusClient, target: str, alias: str = COLLECTION) -> str:
+    """Atomically move the active alias to a prebuilt, loaded immutable collection."""
+    if not client.has_collection(target):
+        raise ValueError(f"target Milvus collection does not exist: {target}")
+    client.load_collection(target)
+    aliases = set(client.list_aliases().get("aliases", []))
+    if alias in aliases:
+        client.alter_alias(collection_name=target, alias=alias)
+    elif client.has_collection(alias):
+        # One-time conversion from the legacy physical `knowledge` collection.
+        legacy_target = f"knowledge_legacy_{target[-12:]}"
+        client.rename_collection(old_name=alias, new_name=legacy_target)
+        client.create_alias(collection_name=target, alias=alias)
+    else:
+        client.create_alias(collection_name=target, alias=alias)
+    return target
 
 
 def upsert_vectors(client: MilvusClient, rows: list[dict], collection: str = COLLECTION) -> None:
@@ -128,5 +174,16 @@ def count(client, collection: str = COLLECTION) -> int:
 
 
 def drop(client, collection: str) -> None:
+    if collection in set(client.list_aliases().get("aliases", [])):
+        target = client.describe_alias(collection)["collection_name"]
+        if target.startswith("knowledge_ks_"):
+            raise ValueError(
+                "refusing to delete an immutable snapshot through the active alias; "
+                "use release rollback or archive it explicitly"
+            )
+        client.drop_alias(collection)
+        if client.has_collection(target):
+            client.drop_collection(target)
+        return
     if client.has_collection(collection):
         client.drop_collection(collection)

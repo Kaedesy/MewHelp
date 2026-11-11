@@ -1,5 +1,6 @@
 """Compare a candidate with its baseline; never publishes anything."""
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
@@ -20,7 +21,8 @@ def main() -> int:
                         help="matching eval_ch04.py answer-quality report")
     args = parser.parse_args()
     try:
-        report = json.loads(args.report.read_text(encoding="utf-8"))
+        report_bytes = args.report.read_bytes()
+        report = json.loads(report_bytes.decode("utf-8"))
         thresholds = json.loads(args.thresholds.read_text(encoding="utf-8"))
         answer_report = (json.loads(args.answer_report.read_text(encoding="utf-8"))
                          if args.answer_report else None)
@@ -29,6 +31,8 @@ def main() -> int:
                          ensure_ascii=False, indent=2))
         return 2
     result = evaluate_gate(report, args.candidate, thresholds, answer_report=answer_report)
+    result["candidate_name"] = args.candidate
+    result["candidate_report_sha256"] = hashlib.sha256(report_bytes).hexdigest()
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return {"PASS": 0, "FAIL": 1, "INCONCLUSIVE": 2}[result["status"]]
 

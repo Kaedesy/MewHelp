@@ -27,11 +27,15 @@ _DDL_FILES = [
     pathlib.Path(__file__).resolve().parent.parent / "sql" / "ch10-ddl.sql",
     pathlib.Path(__file__).resolve().parent.parent / "sql" / "ch11-ddl.sql",
     pathlib.Path(__file__).resolve().parent.parent / "sql" / "ch11-flywheel-link.sql",
+    pathlib.Path(__file__).resolve().parent.parent / "sql" / "ch12-flywheel-execution.sql",
+    pathlib.Path(__file__).resolve().parent.parent / "sql" / "ch13-diagnosis-subtasks.sql",
+    pathlib.Path(__file__).resolve().parent.parent / "sql" / "ch14-release-catalog.sql",
+    pathlib.Path(__file__).resolve().parent.parent / "sql" / "ch15-canonical-questions.sql",
 ]
 # 删除顺序:先子表后父表;knowledge_chunks 自引用 FK 靠 FOREIGN_KEY_CHECKS=0 兜
 # ch09:low_confidence_questions 有 FK 指向 review_queue,排它前面
 # ch10:topic_classifications 有 FK 指向 low_confidence_questions,必须排它前面先删
-_TABLES = ["faith_cases", "topic_classifications", "diagnosis_cases", "low_confidence_questions", "review_queue", "eval_runs",
+_TABLES = ["release_events", "active_release", "evolution_releases", "system_config_versions", "knowledge_snapshots", "flywheel_pair_review_events", "flywheel_pair_relations", "flywheel_group_results", "diagnosis_review_events", "diagnosis_faults", "diagnosis_tasks", "flywheel_invocations", "flywheel_tasks", "faith_cases", "topic_classifications", "diagnosis_cases", "low_confidence_questions", "review_queue", "canonical_questions", "eval_runs",
            "conversation_summaries",
            "messages", "tickets", "tool_audit_logs", "conversations", "faq",
            "qa_extraction_staging", "knowledge_chunks"]

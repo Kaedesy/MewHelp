@@ -1,3 +1,4 @@
+"""定义故障案例人工审核接口使用的故障类别和状态字段。"""
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -14,3 +15,4 @@ class DiagnosisUpdate(BaseModel):
     failure_type: FailureType
     diagnosis_status: DiagnosisStatus
     diagnosis_reason: str = Field(min_length=3, max_length=4000)
+    reviewer_id: str | None = Field(default=None, max_length=128)

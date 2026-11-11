@@ -2,7 +2,11 @@
 # 后端八股网站：xiaolincoding.com
 # Agent网站：xiaolinnote.com
 # 简历模版：jianli.xiaolinnote.com
-from datetime import datetime
+"""数据库访问层：封装问题收集、诊断/归并持久化、审核及知识发布记录。"""
+from datetime import datetime, timedelta
+import hashlib
+import json
+import uuid
 
 from sqlalchemy import case, func, select, update
 
@@ -12,19 +16,170 @@ from app.db.models import (
     Conversation,
     ConversationSummary,
     DiagnosisCase,
+    DiagnosisFault,
+    DiagnosisReviewEvent,
+    DiagnosisTask,
+    ActiveRelease,
+    CanonicalQuestion,
+    EvolutionRelease,
     EvalRun,
     FaithCase,
+    FlywheelGroupResult,
+    FlywheelPairRelation,
+    FlywheelPairReviewEvent,
+    FlywheelInvocation,
+    FlywheelTask,
     KnowledgeChunk,
+    KnowledgeSnapshot,
     LowConfidenceQuestion,
     Message,
     QaExtractionStaging,
     ReviewQueue,
+    ReleaseEvent,
+    SystemConfigVersion,
     Ticket,
     ToolAuditLog,
     TopicClassification,
 )
 
 _TICKET_SEQ = 0
+
+
+def _case_diagnosis_summary(tasks: list[DiagnosisTask], faults: list[DiagnosisFault]) -> str:
+    if not tasks:
+        return "in_progress"
+    if any(task.execution_status == "failed" for task in tasks):
+        return "blocked"
+    confirmed = any(item.status == "confirmed" for item in faults)
+    unresolved_faults = any(item.status == "proposed" for item in faults)
+    uncertain_faults = any(item.status == "uncertain" for item in faults)
+    incomplete = any(task.execution_status != "completed" for task in tasks)
+    unresolved_outcome = any(task.outcome_final is None for task in tasks)
+    inconclusive = any(task.outcome_final == "inconclusive" for task in tasks)
+    if incomplete or unresolved_outcome or unresolved_faults:
+        return "partially_diagnosed" if confirmed else "in_progress"
+    if confirmed and (inconclusive or uncertain_faults):
+        return "partially_diagnosed"
+    if confirmed:
+        return "faults_found"
+    if inconclusive or uncertain_faults:
+        return "inconclusive"
+    return "no_fault_found"
+
+
+async def get_flywheel_task(task_id: str) -> dict | None:
+    async with db.async_session() as s:
+        row = await s.get(FlywheelTask, task_id)
+        if row is None:
+            return None
+        return {
+            "task_id": row.task_id,
+            "task_type": row.task_type,
+            "execution_status": row.execution_status,
+            "attempts": row.attempts,
+            "result_json": row.result_json,
+        }
+
+
+async def start_flywheel_task(*, task_id: str, task_type: str,
+                              input_fingerprint: str,
+                              analysis_config_version: str,
+                              output_schema_version: str) -> int:
+    """Mark one logical task running and return its incremented attempt count."""
+    async with db.async_session() as s:
+        row = await s.scalar(select(FlywheelTask).where(
+            FlywheelTask.task_id == task_id).with_for_update())
+        if row is None:
+            row = FlywheelTask(
+                task_id=task_id, task_type=task_type,
+                input_fingerprint=input_fingerprint,
+                analysis_config_version=analysis_config_version,
+                output_schema_version=output_schema_version,
+                execution_status="running", attempts=1,
+            )
+            s.add(row)
+        else:
+            if row.execution_status == "completed" and row.result_json is not None:
+                return row.attempts
+            row.execution_status = "running"
+            row.attempts += 1
+            row.last_error_type = None
+        await s.commit()
+        return row.attempts
+
+
+async def finish_flywheel_task(task_id: str, *, status: str,
+                               result_json: dict | None = None,
+                               error_type: str | None = None) -> None:
+    if status not in {"completed", "retryable", "failed"}:
+        raise ValueError(f"invalid flywheel task status: {status}")
+    async with db.async_session() as s:
+        row = await s.get(FlywheelTask, task_id)
+        if row is None:
+            raise ValueError(f"flywheel task {task_id} does not exist")
+        # A completed result is immutable. A replay may observe it, but cannot
+        # replace a result that has already passed validation and been stored.
+        if row.execution_status == "completed":
+            return
+        row.execution_status = status
+        if status == "completed":
+            row.result_json = result_json
+            row.result_expires_at = datetime.utcnow() + timedelta(days=30)
+            row.last_error_type = None
+        else:
+            row.last_error_type = error_type
+        await s.commit()
+
+
+async def start_flywheel_invocation(*, invocation_id: str, task_id: str,
+                                    call_type: str) -> None:
+    async with db.async_session() as s:
+        s.add(FlywheelInvocation(
+            invocation_id=invocation_id, task_id=task_id,
+            call_type=call_type, status="running",
+        ))
+        await s.commit()
+
+
+async def finish_flywheel_execution(invocation_id: str, task_id: str, *,
+                                    task_status: str,
+                                    result_json: dict | None = None,
+                                    response_hash: str | None = None,
+                                    error_type: str | None = None) -> None:
+    """Finalize one invocation and its logical task atomically."""
+    if task_status not in {"completed", "retryable", "failed"}:
+        raise ValueError(f"invalid flywheel task status: {task_status}")
+    async with db.async_session() as s:
+        task = await s.get(FlywheelTask, task_id)
+        invocation = await s.get(FlywheelInvocation, invocation_id)
+        if task is None or invocation is None:
+            raise ValueError("flywheel task or invocation does not exist")
+        invocation.status = "completed" if task_status == "completed" else "failed"
+        invocation.response_hash = response_hash
+        invocation.error_type = error_type
+        invocation.finished_at = datetime.utcnow()
+        if task.execution_status != "completed":
+            task.execution_status = task_status
+            if task_status == "completed":
+                task.result_json = result_json
+                task.result_expires_at = datetime.utcnow() + timedelta(days=30)
+                task.last_error_type = None
+            else:
+                task.last_error_type = error_type
+        await s.commit()
+
+
+async def expire_flywheel_task_results() -> int:
+    """Drop persisted semantic outputs after 30 days; retain non-content audit hashes."""
+    async with db.async_session() as s:
+        result = await s.execute(
+            update(FlywheelTask)
+            .where(FlywheelTask.result_expires_at <= datetime.utcnow())
+            .values(result_json=None, result_expires_at=None,
+                    execution_status="expired", attempts=0)
+        )
+        await s.commit()
+        return result.rowcount or 0
 
 
 def _gen_ticket_no() -> str:
@@ -232,6 +387,111 @@ async def list_pending_chunks() -> list[KnowledgeChunk]:
         return list(result.scalars())
 
 
+async def list_vectorized_chunks() -> list[dict]:
+    async with db.async_session() as s:
+        rows = (await s.execute(select(KnowledgeChunk).where(
+            KnowledgeChunk.vectorize_status == "done").order_by(KnowledgeChunk.id))).scalars()
+        return [{"id": row.id, "category": row.category, "questions": row.questions,
+                 "answer": row.answer, "section_path": row.section_path,
+                 "content_type": row.content_type, "is_key_clause": row.is_key_clause}
+                for row in rows]
+
+
+async def save_knowledge_snapshot(*, snapshot_id: str, collection_name: str,
+                                 manifest_sha256: str, manifest: dict,
+                                 created_by: str, status: str) -> None:
+    async with db.async_session() as s:
+        row = await s.get(KnowledgeSnapshot, snapshot_id)
+        if row is None:
+            s.add(KnowledgeSnapshot(
+                snapshot_id=snapshot_id, collection_name=collection_name,
+                manifest_sha256=manifest_sha256, manifest=manifest,
+                status=status, created_by=created_by))
+        else:
+            if row.manifest_sha256 != manifest_sha256 or row.collection_name != collection_name:
+                raise ValueError("snapshot IDs are immutable and cannot change their manifest")
+            row.status = status
+        await s.commit()
+
+
+async def get_knowledge_snapshot(snapshot_id: str) -> dict | None:
+    async with db.async_session() as s:
+        row = await s.get(KnowledgeSnapshot, snapshot_id)
+        if row is None:
+            return None
+        return {"snapshot_id": row.snapshot_id, "collection_name": row.collection_name,
+                "manifest_sha256": row.manifest_sha256, "manifest": row.manifest,
+                "status": row.status, "created_by": row.created_by}
+
+
+async def save_system_config_version(*, config_version: str, config_sha256: str,
+                                     config: dict, created_by: str) -> None:
+    async with db.async_session() as s:
+        row = await s.get(SystemConfigVersion, config_version)
+        if row is None:
+            s.add(SystemConfigVersion(
+                config_version=config_version, config_sha256=config_sha256,
+                config=config, created_by=created_by))
+        elif row.config_sha256 != config_sha256:
+            raise ValueError("configuration versions are immutable")
+        await s.commit()
+
+
+async def create_evolution_release(*, release_id: str, snapshot_id: str,
+                                   config_version: str, evaluation: dict,
+                                   approved_by: str) -> None:
+    async with db.async_session() as s:
+        row = await s.get(EvolutionRelease, release_id)
+        if row is not None:
+            if (row.snapshot_id != snapshot_id or row.config_version != config_version
+                    or row.evaluation != evaluation or row.approved_by != approved_by):
+                raise ValueError("release IDs are immutable")
+            return
+        s.add(EvolutionRelease(
+            release_id=release_id, snapshot_id=snapshot_id,
+            config_version=config_version, evaluation=evaluation,
+            approved_by=approved_by, status="prepared"))
+        await s.commit()
+
+
+async def get_evolution_release(release_id: str) -> dict | None:
+    async with db.async_session() as s:
+        row = await s.get(EvolutionRelease, release_id)
+        if row is None:
+            return None
+        snapshot = await s.get(KnowledgeSnapshot, row.snapshot_id)
+        config = await s.get(SystemConfigVersion, row.config_version)
+        if snapshot is None or config is None:
+            return None
+        return {"release_id": row.release_id, "snapshot_id": row.snapshot_id,
+                "collection_name": snapshot.collection_name,
+                "snapshot_manifest": snapshot.manifest,
+                "config_version": row.config_version, "config": config.config,
+                "evaluation": row.evaluation, "approved_by": row.approved_by}
+
+
+async def get_active_release_id() -> str | None:
+    async with db.async_session() as s:
+        row = await s.get(ActiveRelease, 1)
+        return row.release_id if row else None
+
+
+async def set_active_release(*, release_id: str, actor: str, reason: str,
+                             event_type: str = "activate") -> str | None:
+    async with db.async_session() as s:
+        pointer = await s.get(ActiveRelease, 1, with_for_update=True)
+        previous = pointer.release_id if pointer else None
+        if pointer is None:
+            pointer = ActiveRelease(singleton_id=1, release_id=release_id)
+            s.add(pointer)
+        else:
+            pointer.release_id = release_id
+        s.add(ReleaseEvent(from_release_id=previous, to_release_id=release_id,
+                           event_type=event_type, actor=actor, reason=reason))
+        await s.commit()
+        return previous
+
+
 async def mark_chunk_vectorized(chunk_id: int, vector_id: str) -> None:
     async with db.async_session() as s:
         row = await s.get(KnowledgeChunk, chunk_id)
@@ -401,6 +661,8 @@ async def insert_low_confidence(
     conversation_id: int | None, raw_question: str, source: str, reason: str | None,
     retrieved_chunks: list | None = None,
 ) -> int:
+    """将拒答或用户反馈案例写入待处理问题池，并保留当时召回快照。"""
+    """将拒答或用户反馈案例写入待处理问题池，并保留当时召回快照。"""
     async with db.async_session() as s:
         row = LowConfidenceQuestion(
             conversation_id=conversation_id, raw_question=raw_question,
@@ -414,15 +676,17 @@ async def insert_low_confidence(
 
 async def upsert_diagnosis_case(case: dict) -> DiagnosisCase:
     """创建或更新一个需跟进的案例；case_id 是应用生成的幂等键。"""
+    diagnosis_tasks = case.get("_diagnosis_tasks") or []
+    case_fields = {key: value for key, value in case.items() if not key.startswith("_")}
     async with db.async_session() as s:
         row = await s.scalar(select(DiagnosisCase).where(
-            DiagnosisCase.case_id == case["case_id"]))
+            DiagnosisCase.case_id == case_fields["case_id"]))
         if row is None:
-            row = DiagnosisCase(**case)
+            row = DiagnosisCase(**case_fields)
             s.add(row)
         else:
             human_confirmed = row.diagnosis_status in {"confirmed", "false_positive"}
-            for key, value in case.items():
+            for key, value in case_fields.items():
                 if key != "case_id" and value is not None:
                     if human_confirmed and key in {
                         "failure_type", "predicted_failure_type", "human_failure_type",
@@ -430,6 +694,51 @@ async def upsert_diagnosis_case(case: dict) -> DiagnosisCase:
                     }:
                         continue
                     setattr(row, key, value)
+
+        for proposed_task in diagnosis_tasks:
+            task = await s.get(DiagnosisTask, proposed_task["task_id"])
+            if task is None:
+                task = DiagnosisTask(
+                    task_id=proposed_task["task_id"], case_id=case_fields["case_id"],
+                    diagnostic_scope=proposed_task["diagnostic_scope"],
+                    execution_status=proposed_task["execution_status"],
+                    outcome_proposed=proposed_task.get("outcome_proposed"),
+                    outcome_final=proposed_task.get("outcome_final"),
+                    evidence_refs=proposed_task.get("evidence_refs"),
+                    error_type=proposed_task.get("error_type"),
+                    attempts=proposed_task.get("attempts", 0),
+                )
+                s.add(task)
+                await s.flush()
+            elif task.outcome_final is None:
+                task.execution_status = proposed_task["execution_status"]
+                task.outcome_proposed = proposed_task.get("outcome_proposed")
+                task.evidence_refs = proposed_task.get("evidence_refs")
+
+            for proposed_fault in proposed_task.get("faults", []):
+                fault = await s.get(DiagnosisFault, proposed_fault["fault_id"])
+                if fault is None:
+                    s.add(DiagnosisFault(
+                        fault_id=proposed_fault["fault_id"], task_id=task.task_id,
+                        fault_type=proposed_fault["fault_type"],
+                        status=proposed_fault.get("status", "proposed"),
+                        proposal_source=proposed_fault.get("proposal_source", "rule"),
+                        review_source=proposed_fault.get("review_source"),
+                        confirmation_source=proposed_fault.get("confirmation_source"),
+                        evidence_refs=proposed_fault.get("evidence_refs"),
+                        reason=proposed_fault.get("reason", ""),
+                    ))
+                elif fault.status == "proposed":
+                    fault.evidence_refs = proposed_fault.get("evidence_refs")
+                    fault.reason = proposed_fault.get("reason", fault.reason)
+
+        await s.flush()
+        tasks = list((await s.execute(select(DiagnosisTask).where(
+            DiagnosisTask.case_id == case_fields["case_id"]))).scalars())
+        task_ids = [task.task_id for task in tasks]
+        faults = (list((await s.execute(select(DiagnosisFault).where(
+            DiagnosisFault.task_id.in_(task_ids)))).scalars()) if task_ids else [])
+        row.case_diagnosis_status = _case_diagnosis_summary(tasks, faults)
         await s.commit()
         await s.refresh(row)
         return row
@@ -447,13 +756,141 @@ async def list_diagnosis_cases(status: str | None = None, limit: int = 50,
         return list((await s.execute(stmt.offset(offset).limit(limit))).scalars())
 
 
+async def fetch_diagnosis_analysis_cases(scope: str, limit: int = 50) -> list[dict]:
+    """取出尚未人工定案、且当前分析版本还未完成的诊断案例。"""
+    async with db.async_session() as s:
+        cases = list((await s.execute(
+            select(DiagnosisCase)
+            .where(DiagnosisCase.diagnosis_status.in_(("pending", "insufficient_data")))
+            .order_by(DiagnosisCase.created_at, DiagnosisCase.id)
+            .limit(max(limit * 3, limit))
+        )).scalars())
+        result = []
+        for case in cases:
+            task = await s.scalar(select(DiagnosisTask).where(
+                DiagnosisTask.case_id == case.case_id,
+                DiagnosisTask.diagnostic_scope == scope))
+            if task and task.execution_status == "completed":
+                continue
+            if task and task.execution_status == "failed":
+                continue
+            result.append({
+                "case_id": case.case_id, "question": case.question,
+                "diagnosis_reason": case.diagnosis_reason,
+                "retrieved_docs": case.retrieved_docs,
+                "evidence_confidence": case.evidence_confidence,
+                "selfcheck_result": case.selfcheck_result,
+                "tool_status": case.tool_status,
+                "final_answer": case.final_answer,
+                "user_feedback": case.user_feedback,
+                "topic_labels": case.topic_labels,
+                "triage_attempts": task.attempts if task else 0,
+            })
+            if len(result) >= limit:
+                break
+        return result
+
+
+async def persist_diagnosis_analysis(*, case_id: str, diagnostic_scope: str,
+                                     task_id: str, topic_labels: list[str],
+                                     proposal: dict | None = None,
+                                     error_type: str | None = None) -> str:
+    """保存单案例的有效初诊建议或失败状态；已完成人工处理的结论不被覆盖。"""
+    async with db.async_session() as s:
+        case = await s.scalar(select(DiagnosisCase).where(
+            DiagnosisCase.case_id == case_id).with_for_update())
+        if case is None:
+            raise ValueError(f"diagnosis case {case_id} does not exist")
+        case.topic_labels = topic_labels
+        task = await s.get(DiagnosisTask, task_id)
+        if task is None:
+            task = DiagnosisTask(
+                task_id=task_id, case_id=case_id,
+                diagnostic_scope=diagnostic_scope,
+                execution_status="pending", attempts=0,
+            )
+            s.add(task)
+            await s.flush()
+        if task.execution_status == "completed":
+            return task.execution_status
+
+        task.attempts += 1
+        if proposal is None:
+            task.execution_status = "failed" if task.attempts >= 3 else "retryable"
+            task.error_type = error_type or "invalid_model_output"
+            task.outcome_proposed = None
+            task.outcome_final = None
+        else:
+            task.execution_status = "completed"
+            task.error_type = None
+            task.outcome_proposed = proposal["outcome_proposed"]
+            task.outcome_final = None
+            task.evidence_refs = proposal.get("evidence_refs") or None
+            for item in proposal.get("faults", []):
+                evidence_refs = item["evidence_refs"]
+                fault_id = hashlib.sha256((
+                    f"{task_id}:{item['fault_type']}:" + json.dumps(
+                        evidence_refs, ensure_ascii=False, sort_keys=True,
+                        separators=(",", ":"))
+                ).encode("utf-8")).hexdigest()
+                fault = await s.get(DiagnosisFault, fault_id)
+                if fault is None:
+                    s.add(DiagnosisFault(
+                        fault_id=fault_id, task_id=task_id,
+                        fault_type=item["fault_type"], status="proposed",
+                        proposal_source="model", review_source=None,
+                        confirmation_source=None, evidence_refs=evidence_refs,
+                        reason=item.get("reason", ""),
+                    ))
+
+        await s.flush()
+        tasks = list((await s.execute(select(DiagnosisTask).where(
+            DiagnosisTask.case_id == case_id))).scalars())
+        task_ids = [row.task_id for row in tasks]
+        faults = (list((await s.execute(select(DiagnosisFault).where(
+            DiagnosisFault.task_id.in_(task_ids)))).scalars()) if task_ids else [])
+        case.case_diagnosis_status = _case_diagnosis_summary(tasks, faults)
+        await s.commit()
+        return task.execution_status
+
+
 async def get_diagnosis_case(case_id: str) -> DiagnosisCase | None:
     async with db.async_session() as s:
         return await s.scalar(select(DiagnosisCase).where(DiagnosisCase.case_id == case_id))
 
 
+async def list_diagnosis_tasks(case_id: str) -> list[dict]:
+    async with db.async_session() as s:
+        tasks = list((await s.execute(select(DiagnosisTask).where(
+            DiagnosisTask.case_id == case_id).order_by(DiagnosisTask.created_at,
+                                                        DiagnosisTask.task_id))).scalars())
+        task_ids = [task.task_id for task in tasks]
+        faults = (list((await s.execute(select(DiagnosisFault).where(
+            DiagnosisFault.task_id.in_(task_ids)).order_by(DiagnosisFault.created_at,
+                                                            DiagnosisFault.fault_id))).scalars())
+                  if task_ids else [])
+    faults_by_task: dict[str, list[dict]] = {}
+    for fault in faults:
+        faults_by_task.setdefault(fault.task_id, []).append({
+            "fault_id": fault.fault_id, "fault_type": fault.fault_type,
+            "status": fault.status, "proposal_source": fault.proposal_source,
+            "review_source": fault.review_source,
+            "confirmation_source": fault.confirmation_source,
+            "evidence_refs": fault.evidence_refs, "reason": fault.reason,
+        })
+    return [{
+        "task_id": task.task_id, "diagnostic_scope": task.diagnostic_scope,
+        "execution_status": task.execution_status,
+        "outcome_proposed": task.outcome_proposed,
+        "outcome_final": task.outcome_final,
+        "evidence_refs": task.evidence_refs, "error_type": task.error_type,
+        "attempts": task.attempts, "faults": faults_by_task.get(task.task_id, []),
+    } for task in tasks]
+
+
 async def update_diagnosis_case(case_id: str, *, failure_type: str,
-                                diagnosis_status: str, diagnosis_reason: str) -> DiagnosisCase | None:
+                                diagnosis_status: str, diagnosis_reason: str,
+                                reviewer_id: str | None = None) -> DiagnosisCase | None:
     async with db.async_session() as s:
         row = await s.scalar(select(DiagnosisCase).where(DiagnosisCase.case_id == case_id))
         if row is None:
@@ -462,6 +899,84 @@ async def update_diagnosis_case(case_id: str, *, failure_type: str,
         row.human_failure_type = failure_type
         row.diagnosis_status = diagnosis_status
         row.diagnosis_reason = diagnosis_reason
+
+        tasks = list((await s.execute(select(DiagnosisTask).where(
+            DiagnosisTask.case_id == case_id).with_for_update())).scalars())
+        task_ids = [task.task_id for task in tasks]
+        faults = (list((await s.execute(select(DiagnosisFault).where(
+            DiagnosisFault.task_id.in_(task_ids)).with_for_update())).scalars())
+                  if task_ids else [])
+        matched_faults = [fault for fault in faults if fault.fault_type == failure_type]
+        if diagnosis_status == "confirmed" and not matched_faults:
+            # Human diagnosis can add a fault category that the automatic path
+            # did not propose; preserve it as a separately sourced finding.
+            task_id = hashlib.sha256(
+                f"{case_id}:human_diagnosis:{failure_type}".encode("utf-8")).hexdigest()
+            task = await s.get(DiagnosisTask, task_id)
+            if task is None:
+                task = DiagnosisTask(
+                    task_id=task_id, case_id=case_id,
+                    diagnostic_scope="human_diagnosis", execution_status="completed",
+                    outcome_proposed="faults_found", outcome_final="faults_found",
+                    evidence_refs=[{"source": "human_review", "case_id": case_id}],
+                )
+                s.add(task)
+                await s.flush()
+            evidence = [{"source": "human_review", "case_id": case_id}]
+            fault_id = hashlib.sha256(
+                f"{task_id}:{failure_type}".encode("utf-8")).hexdigest()
+            fault = await s.get(DiagnosisFault, fault_id)
+            if fault is None:
+                fault = DiagnosisFault(
+                    fault_id=fault_id, task_id=task_id, fault_type=failure_type,
+                    status="confirmed", proposal_source="human", review_source="human",
+                    confirmation_source="human", evidence_refs=evidence,
+                    reason=diagnosis_reason,
+                )
+                s.add(fault)
+                await s.flush()
+            matched_faults = [fault]
+
+        for fault in matched_faults:
+            if diagnosis_status == "confirmed":
+                fault.status = "confirmed"
+                fault.confirmation_source = "human"
+            elif diagnosis_status == "false_positive":
+                fault.status = "rejected"
+                fault.confirmation_source = None
+            else:
+                fault.status = "uncertain"
+                fault.confirmation_source = None
+            fault.review_source = "human"
+            s.add(DiagnosisReviewEvent(
+                fault_id=fault.fault_id, decision=diagnosis_status,
+                reviewer_id=reviewer_id, comment=diagnosis_reason,
+            ))
+
+        # A case-level review of the primary category must not overwrite other
+        # scopes. Recompute each affected task from its independently reviewed
+        # fault items, keeping unresolved proposals unresolved.
+        for task in tasks:
+            task_faults = [fault for fault in faults if fault.task_id == task.task_id]
+            if task.execution_status != "completed":
+                continue
+            if any(fault.status == "proposed" for fault in task_faults):
+                task.outcome_final = None
+            elif any(fault.status == "confirmed" for fault in task_faults):
+                task.outcome_final = "faults_found"
+            elif any(fault.status == "uncertain" for fault in task_faults):
+                task.outcome_final = "inconclusive"
+            elif task.outcome_proposed == "inconclusive":
+                task.outcome_final = "inconclusive"
+            else:
+                task.outcome_final = "no_fault_found"
+
+        tasks = list((await s.execute(select(DiagnosisTask).where(
+            DiagnosisTask.case_id == case_id))).scalars())
+        task_ids = [task.task_id for task in tasks]
+        faults = (list((await s.execute(select(DiagnosisFault).where(
+            DiagnosisFault.task_id.in_(task_ids)))).scalars()) if task_ids else [])
+        row.case_diagnosis_status = _case_diagnosis_summary(tasks, faults)
         if failure_type == "knowledge_gap" and diagnosis_status == "confirmed":
             # Human-confirmed gaps enter the existing normalization/deduplication pipeline.
             # The unique diagnosis_case_id makes retries (or repeated PUT-like updates) idempotent.
@@ -489,14 +1004,45 @@ async def diagnosis_label_summary() -> dict:
             DiagnosisCase.human_failure_type,
             DiagnosisCase.diagnosis_status,
         ).where(DiagnosisCase.human_failure_type.is_not(None)))).all()
+        fault_rows = (await s.execute(select(
+            DiagnosisFault.fault_type, DiagnosisFault.status,
+            DiagnosisFault.proposal_source, DiagnosisFault.review_source,
+        ))).all()
     labeled = [r for r in rows if r.diagnosis_status == "confirmed"]
     matched = sum(r.predicted_failure_type == r.human_failure_type for r in labeled)
+    per_type: dict[str, dict[str, int]] = {}
+    reviewed_faults = [r for r in fault_rows if r.review_source == "human"]
+    for fault_type, status, proposal_source, _ in reviewed_faults:
+        metric = per_type.setdefault(fault_type, {"tp": 0, "fp": 0, "fn": 0, "uncertain": 0})
+        if status == "confirmed":
+            metric["fn" if proposal_source == "human" else "tp"] += 1
+        elif status == "rejected":
+            metric["fp"] += 1
+        elif status == "uncertain":
+            metric["uncertain"] += 1
+    fault_metrics = []
+    for fault_type, counts in sorted(per_type.items()):
+        precision_den = counts["tp"] + counts["fp"]
+        recall_den = counts["tp"] + counts["fn"]
+        precision = counts["tp"] / precision_den if precision_den else None
+        recall = counts["tp"] / recall_den if recall_den else None
+        f1 = (2 * precision * recall / (precision + recall)
+              if precision is not None and recall is not None and precision + recall else 0.0)
+        fault_metrics.append({
+            "fault_type": fault_type, **counts,
+            "precision": round(precision, 4) if precision is not None else None,
+            "recall": round(recall, 4) if recall is not None else None,
+            "f1": round(f1, 4), "support": recall_den,
+        })
     return {
         "labeled_confirmed": len(labeled),
         "type_matches": matched,
         "type_agreement": round(matched / len(labeled), 4) if labeled else None,
         "false_positives": sum(r.diagnosis_status == "false_positive" for r in rows),
         "insufficient_data": sum(r.diagnosis_status == "insufficient_data" for r in rows),
+        "fault_item_metrics": fault_metrics,
+        "human_reviewed_fault_items": len(reviewed_faults),
+        "human_reviewed_uncertain_fault_items": sum(r.status == "uncertain" for r in reviewed_faults),
     }
 
 
@@ -506,6 +1052,7 @@ async def diagnosis_review_workload() -> dict:
         rows = (await s.execute(select(
             DiagnosisCase.failure_type,
             DiagnosisCase.diagnosis_status,
+            DiagnosisCase.case_diagnosis_status,
             DiagnosisCase.human_failure_type,
             DiagnosisCase.review_queue_id,
             ReviewQueue.review_status,
@@ -513,13 +1060,16 @@ async def diagnosis_review_workload() -> dict:
         ).outerjoin(ReviewQueue, DiagnosisCase.review_queue_id == ReviewQueue.id))).all()
 
     groups: dict[str, dict] = {}
-    for failure_type, status, human_type, queue_id, queue_status, occurrences in rows:
+    for failure_type, status, case_status, human_type, queue_id, queue_status, occurrences in rows:
         group = groups.setdefault(failure_type, {
             "failure_type": failure_type, "raw_cases": 0, "pending_diagnosis": 0,
-            "human_reviewed": 0, "linked_cases": 0, "clusters": {},
+            "human_reviewed": 0, "partially_diagnosed": 0, "blocked": 0,
+            "linked_cases": 0, "clusters": {},
         })
         group["raw_cases"] += 1
         group["pending_diagnosis"] += status == "pending"
+        group["partially_diagnosed"] += case_status == "partially_diagnosed"
+        group["blocked"] += case_status == "blocked"
         group["human_reviewed"] += human_type is not None or status in {
             "confirmed", "false_positive", "insufficient_data"}
         if queue_id is not None:
@@ -549,6 +1099,8 @@ async def diagnosis_review_workload() -> dict:
             "totals": {"raw_cases": sum(x["raw_cases"] for x in categories),
                        "pending_diagnosis": sum(x["pending_diagnosis"] for x in categories),
                        "human_reviewed": sum(x["human_reviewed"] for x in categories),
+                       "partially_diagnosed": sum(x["partially_diagnosed"] for x in categories),
+                       "blocked": sum(x["blocked"] for x in categories),
                        "review_clusters": sum(x["review_clusters"] for x in categories),
                        "open_review_clusters": sum(x["open_review_clusters"] for x in categories)}}
 
@@ -579,9 +1131,25 @@ async def fetch_unmatched_low_conf(limit: int) -> list[LowConfidenceQuestion]:
         result = await s.execute(
             select(LowConfidenceQuestion)
             .where(LowConfidenceQuestion.matched_review_id.is_(None))
+            .where(LowConfidenceQuestion.processing_status == "pending")
             .order_by(LowConfidenceQuestion.id).limit(limit)
         )
         return list(result.scalars())
+
+
+async def mark_low_confidence_ignored(case_ids: list[int], note: str) -> int:
+    if not case_ids:
+        return 0
+    async with db.async_session() as s:
+        result = await s.execute(
+            update(LowConfidenceQuestion)
+            .where(LowConfidenceQuestion.id.in_(case_ids))
+            .where(LowConfidenceQuestion.matched_review_id.is_(None))
+            .where(LowConfidenceQuestion.processing_status == "pending")
+            .values(processing_status="ignored", processing_note=note[:255])
+        )
+        await s.commit()
+        return result.rowcount or 0
 
 
 async def list_review_candidates(limit: int = 200) -> list[dict]:
@@ -596,7 +1164,11 @@ async def list_review_candidates(limit: int = 200) -> list[dict]:
 
 async def insert_review_item(normalized_question: str, ai_suggested_answer: str | None) -> int:
     async with db.async_session() as s:
+        canonical_question_id = str(uuid.uuid4())
+        s.add(CanonicalQuestion(canonical_question_id=canonical_question_id,
+                                normalized_question=normalized_question))
         row = ReviewQueue(normalized_question=normalized_question,
+                          canonical_question_id=canonical_question_id,
                           ai_suggested_answer=ai_suggested_answer)
         s.add(row)
         await s.commit()
@@ -620,12 +1192,142 @@ async def set_matched_review(lcq_id: int, review_id: int) -> None:
         row = await s.get(LowConfidenceQuestion, lcq_id)
         if row is not None:
             row.matched_review_id = review_id
+            row.processing_status = "queued"
+            row.processing_note = None
             if row.diagnosis_case_id:
                 case = await s.scalar(select(DiagnosisCase).where(
                     DiagnosisCase.case_id == row.diagnosis_case_id))
                 if case is not None:
                     case.review_queue_id = review_id
             await s.commit()
+
+
+async def complete_flywheel_batch(assignments: list[dict],
+                                  pair_relations: list[dict] | None = None) -> dict[str, int]:
+    """事务性写入归并分组、案例关联和审核关系；失败时整批回滚以支持安全重试。"""
+    if not assignments:
+        return {"processed": 0, "created": 0, "merged": 0, "skipped": 0}
+    ordered = sorted(assignments, key=lambda item: item["lcq_id"])
+    async with db.async_session() as s:
+        rows: dict[int, LowConfidenceQuestion] = {}
+        for item in ordered:
+            row = await s.scalar(select(LowConfidenceQuestion).where(
+                LowConfidenceQuestion.id == item["lcq_id"]).with_for_update())
+            if row is not None:
+                rows[item["lcq_id"]] = row
+
+        group_reviews: dict[str, int] = {}
+        group_members: dict[str, list[str]] = {}
+        group_metadata: dict[str, dict] = {}
+        stats = {"processed": 0, "created": 0, "merged": 0, "skipped": 0}
+        for item in assignments:
+            row = rows.get(item["lcq_id"])
+            if row is None:
+                raise ValueError(f"low-confidence case {item['lcq_id']} does not exist")
+            if row.matched_review_id is not None:
+                group_reviews.setdefault(item["group_key"], row.matched_review_id)
+                stats["skipped"] += 1
+                continue
+
+            review_id = item.get("review_id") or group_reviews.get(item["group_key"])
+            created = False
+            if review_id is None:
+                if not item.get("normalized_question"):
+                    raise ValueError("normalized_question is required for a new review item")
+                canonical_question_id = str(uuid.uuid4())
+                s.add(CanonicalQuestion(
+                    canonical_question_id=canonical_question_id,
+                    normalized_question=item["normalized_question"],
+                ))
+                review = ReviewQueue(
+                    canonical_question_id=canonical_question_id,
+                    normalized_question=item["normalized_question"],
+                    ai_suggested_answer=item.get("ai_suggested_answer"),
+                )
+                s.add(review)
+                await s.flush()
+                review_id = review.id
+                created = True
+            else:
+                review = await s.scalar(select(ReviewQueue).where(
+                    ReviewQueue.id == review_id).with_for_update())
+                if review is None:
+                    raise ValueError(f"review item {review_id} does not exist")
+                review.occurrence_count += 1
+
+            row.matched_review_id = review_id
+            group_members.setdefault(item["group_key"], []).append(
+                row.diagnosis_case_id or f"lcq:{row.id}")
+            group_metadata.setdefault(item["group_key"], {
+                "merge_task_id": item["merge_task_id"],
+                "canonical_question_id": review.canonical_question_id,
+                "normalized_question": review.normalized_question,
+            })
+            if row.diagnosis_case_id:
+                case = await s.scalar(select(DiagnosisCase).where(
+                    DiagnosisCase.case_id == row.diagnosis_case_id))
+                if case is not None:
+                    case.review_queue_id = review_id
+            group_reviews.setdefault(item["group_key"], review_id)
+            stats["processed"] += 1
+            stats["created" if created else "merged"] += 1
+
+        for group_key, members in group_members.items():
+            metadata = group_metadata[group_key]
+            member_ids = sorted(set(members))
+            identity = json.dumps(member_ids, ensure_ascii=False, separators=(",", ":"))
+            group_result_id = hashlib.sha256(
+                f"{metadata['merge_task_id']}:{identity}".encode("utf-8")).hexdigest()
+            content_sha = hashlib.sha256(json.dumps({
+                "canonical_question_id": metadata["canonical_question_id"],
+                "member_case_ids": member_ids,
+                "normalized_question": metadata["normalized_question"],
+            }, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+            saved = await s.get(FlywheelGroupResult, group_result_id)
+            if saved is None:
+                s.add(FlywheelGroupResult(
+                    group_result_id=group_result_id,
+                    merge_task_id=metadata["merge_task_id"],
+                    canonical_question_id=metadata["canonical_question_id"],
+                    member_case_ids=member_ids,
+                    normalized_question=metadata["normalized_question"],
+                    content_sha256=content_sha,
+                    result_revision=1,
+                    evidence_status="needs_verification",
+                    review_status="pending",
+                ))
+            elif saved.content_sha256 != content_sha:
+                raise ValueError("persisted flywheel group result cannot be overwritten")
+
+        for pair in pair_relations or []:
+            left = rows.get(pair["source_id_a"])
+            right = rows.get(pair["source_id_b"])
+            if left is None or right is None or left.id == right.id:
+                raise ValueError("pair relation references an unknown or duplicate source case")
+            case_a = left.diagnosis_case_id or f"lcq:{left.id}"
+            case_b = right.diagnosis_case_id or f"lcq:{right.id}"
+            case_a, case_b = sorted((case_a, case_b))
+            relation_id = hashlib.sha256(
+                f"{pair['merge_task_id']}:{case_a}:{case_b}".encode("utf-8")).hexdigest()
+            saved = await s.get(FlywheelPairRelation, relation_id)
+            if saved is None:
+                s.add(FlywheelPairRelation(
+                    relation_id=relation_id,
+                    merge_task_id=pair["merge_task_id"],
+                    case_id_a=case_a, case_id_b=case_b,
+                    relation_proposed=pair["relation_proposed"],
+                    relation_final=None,
+                    review_status=pair.get("review_status", "pending"),
+                    review_source=pair.get("review_source"),
+                    confirmation_source=None,
+                    rationale=pair.get("rationale", ""),
+                ))
+            elif (saved.relation_proposed != pair["relation_proposed"]
+                  or saved.case_id_a != case_a or saved.case_id_b != case_b):
+                raise ValueError("persisted case-pair proposal cannot be overwritten")
+
+        await s.commit()
+        return stats
 
 
 async def list_review_queue(status: str | None) -> list[ReviewQueue]:
@@ -636,6 +1338,193 @@ async def list_review_queue(status: str | None) -> list[ReviewQueue]:
         if status:
             q = q.where(ReviewQueue.review_status == status)
         return list((await s.execute(q)).scalars())
+
+
+async def list_flywheel_group_results(canonical_question_id: str) -> list[dict]:
+    async with db.async_session() as s:
+        rows = (await s.execute(select(FlywheelGroupResult).where(
+            FlywheelGroupResult.canonical_question_id == canonical_question_id
+        ).order_by(FlywheelGroupResult.created_at, FlywheelGroupResult.group_result_id))).scalars()
+        return [{
+            "group_result_id": row.group_result_id,
+            "merge_task_id": row.merge_task_id,
+            "canonical_question_id": row.canonical_question_id,
+            "member_case_ids": row.member_case_ids,
+            "normalized_question": row.normalized_question,
+            "result_revision": row.result_revision,
+            "evidence_status": row.evidence_status,
+            "review_status": row.review_status,
+            "created_at": row.created_at.isoformat() if row.created_at else None,
+        } for row in rows]
+
+
+async def list_flywheel_pair_relations(*, review_status: str | None = None,
+                                       limit: int = 100, offset: int = 0) -> list[dict]:
+    limit = max(1, min(limit, 500))
+    offset = max(0, offset)
+    async with db.async_session() as s:
+        query = select(FlywheelPairRelation).order_by(
+            FlywheelPairRelation.created_at, FlywheelPairRelation.relation_id)
+        if review_status == "unreviewed":
+            query = query.where(FlywheelPairRelation.relation_final.is_(None)) \
+                .where(FlywheelPairRelation.review_status == "pending")
+        elif review_status:
+            query = query.where(FlywheelPairRelation.review_status == review_status)
+        rows = list((await s.execute(query.limit(limit).offset(offset))).scalars())
+        low_ids = {int(value[4:]) for row in rows for value in
+                   (row.case_id_a, row.case_id_b) if value.startswith("lcq:")}
+        diagnosis_ids = {value for row in rows for value in
+                         (row.case_id_a, row.case_id_b) if not value.startswith("lcq:")}
+        low_questions = {}
+        if low_ids:
+            low_questions = {f"lcq:{item.id}": item.raw_question for item in
+                             (await s.execute(select(LowConfidenceQuestion).where(
+                                 LowConfidenceQuestion.id.in_(low_ids)))).scalars()}
+        diagnosis_questions = {}
+        if diagnosis_ids:
+            diagnosis_questions = {item.case_id: item.question for item in
+                                   (await s.execute(select(DiagnosisCase).where(
+                                       DiagnosisCase.case_id.in_(diagnosis_ids)))).scalars()}
+        return [{
+            "relation_id": row.relation_id,
+            "merge_task_id": row.merge_task_id,
+            "case_id_a": row.case_id_a,
+            "case_id_b": row.case_id_b,
+            "question_a": low_questions.get(row.case_id_a)
+                or diagnosis_questions.get(row.case_id_a),
+            "question_b": low_questions.get(row.case_id_b)
+                or diagnosis_questions.get(row.case_id_b),
+            "relation_proposed": row.relation_proposed,
+            "relation_final": row.relation_final,
+            "review_status": row.review_status,
+            "review_source": row.review_source,
+            "confirmation_source": row.confirmation_source,
+            "rationale": row.rationale,
+            "created_at": row.created_at.isoformat() if row.created_at else None,
+        } for row in rows]
+
+
+async def get_flywheel_pair_relation(relation_id: str) -> dict | None:
+    async with db.async_session() as s:
+        row = await s.get(FlywheelPairRelation, relation_id)
+        if row is None:
+            return None
+        questions = []
+        for case_id in (row.case_id_a, row.case_id_b):
+            if case_id.startswith("lcq:"):
+                try:
+                    source = await s.get(LowConfidenceQuestion, int(case_id[4:]))
+                except ValueError:
+                    source = None
+                questions.append(source.raw_question if source else None)
+            else:
+                source = await s.scalar(select(DiagnosisCase).where(
+                    DiagnosisCase.case_id == case_id))
+                questions.append(source.question if source else None)
+        return {
+            "relation_id": row.relation_id,
+            "merge_task_id": row.merge_task_id,
+            "case_id_a": row.case_id_a, "case_id_b": row.case_id_b,
+            "question_a": questions[0], "question_b": questions[1],
+            "relation_proposed": row.relation_proposed,
+            "relation_final": row.relation_final,
+            "review_status": row.review_status,
+            "review_source": row.review_source,
+            "confirmation_source": row.confirmation_source,
+            "rationale": row.rationale,
+            "created_at": row.created_at.isoformat() if row.created_at else None,
+        }
+
+
+async def list_flywheel_pair_review_events(relation_id: str) -> list[dict]:
+    async with db.async_session() as s:
+        rows = (await s.execute(select(FlywheelPairReviewEvent).where(
+            FlywheelPairReviewEvent.relation_id == relation_id
+        ).order_by(FlywheelPairReviewEvent.created_at,
+                   FlywheelPairReviewEvent.id))).scalars()
+        return [{
+            "decision": row.decision,
+            "reviewer_id": row.reviewer_id,
+            "comment": row.comment,
+            "created_at": row.created_at.isoformat() if row.created_at else None,
+        } for row in rows]
+
+
+async def finalize_flywheel_pair_relation(*, relation_id: str, decision: str,
+                                          reviewer_id: str,
+                                          comment: str | None = None) -> dict | None:
+    if decision not in {"merge", "no_merge", "uncertain"}:
+        raise ValueError("decision must be merge, no_merge, or uncertain")
+    if not reviewer_id.strip():
+        raise ValueError("reviewer_id is required")
+    async with db.async_session() as s:
+        row = await s.scalar(select(FlywheelPairRelation).where(
+            FlywheelPairRelation.relation_id == relation_id).with_for_update())
+        if row is None:
+            return None
+        row.relation_final = decision
+        row.review_status = "confirmed" if decision == row.relation_proposed else "rejected"
+        row.review_source = "human"
+        row.confirmation_source = "human" if decision in {"merge", "no_merge"} else None
+        s.add(FlywheelPairReviewEvent(
+            relation_id=relation_id, decision=decision,
+            reviewer_id=reviewer_id.strip(), comment=comment,
+        ))
+        await s.commit()
+        return {
+            "relation_id": row.relation_id,
+            "relation_proposed": row.relation_proposed,
+            "relation_final": row.relation_final,
+            "review_status": row.review_status,
+            "review_source": row.review_source,
+            "confirmation_source": row.confirmation_source,
+        }
+
+
+async def get_flywheel_pair_metrics() -> dict:
+    """Metrics on the human-audited pair sample only; do not extrapolate to all traffic."""
+    async with db.async_session() as s:
+        all_rows = list((await s.execute(select(
+            FlywheelPairRelation.relation_proposed,
+            FlywheelPairRelation.relation_final,
+        ).where(FlywheelPairRelation.review_status != "withdrawn"))).all())
+    rows = [(proposed, final) for proposed, final in all_rows if final is not None]
+    tp = fp = fn = tn = abstain = 0
+    final_uncertain = 0
+    for proposed, final in rows:
+        if proposed == "uncertain":
+            abstain += 1
+        if final == "uncertain":
+            final_uncertain += 1
+        if final == "merge":
+            if proposed == "merge":
+                tp += 1
+            else:
+                fn += 1
+        elif final == "no_merge":
+            if proposed == "merge":
+                fp += 1
+            elif proposed == "no_merge":
+                tn += 1
+    precision_denominator = tp + fp
+    recall_denominator = tp + fn
+    changed = sum(proposed != final for proposed, final in rows)
+    return {
+        "scope": "human_audited_pairs_only",
+        "audited_pair_count": len(rows),
+        "total_recorded_pairs": len(all_rows),
+        "human_review_coverage": len(rows) / len(all_rows) if all_rows else None,
+        "human_override_count": changed,
+        "human_override_rate": changed / len(rows) if rows else None,
+        "true_positive": tp, "false_positive": fp,
+        "false_negative": fn, "true_negative": tn,
+        "model_abstention_count": abstain,
+        "final_uncertain_count": final_uncertain,
+        "merge_precision": tp / precision_denominator if precision_denominator else None,
+        "merge_recall": tp / recall_denominator if recall_denominator else None,
+        "merge_f1": (2 * tp / (2 * tp + fp + fn)) if (2 * tp + fp + fn) else None,
+        "warning": "Reviewed-sample metrics only; use documented sampling weights before estimating population rates.",
+    }
 
 
 async def get_review_detail(review_id: int) -> tuple[ReviewQueue, list[LowConfidenceQuestion]] | None:

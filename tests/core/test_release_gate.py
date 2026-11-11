@@ -1,3 +1,4 @@
+"""验证候选评估报告是否满足发布门禁。"""
 import hashlib
 import json
 import math

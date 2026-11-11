@@ -1,3 +1,4 @@
+"""验证检索评估命令行对数据文件编码和参数的处理。"""
 import json
 from types import SimpleNamespace
 

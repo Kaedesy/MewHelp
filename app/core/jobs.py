@@ -78,6 +78,10 @@ JOBS: dict[str, JobSpec] = {
                 "需 mysql + :8110"),
         JobSpec("classify-pool-force", "旁路批量归类(不足一批强跑)",
                 ("make", "classify-pool", "FORCE=1"), "需 mysql + :8110"),
+        # 自进化诊断:RoBERTa 只负责主题分桶,大模型提出带证据的多故障诊断
+        JobSpec("diagnose-cases", "自进化诊断提议(主题分类 + 故障归因)",
+                ("make", "diagnose-cases"),
+                "需 mysql 迁移 ch12/ch13 + 分类器 :8110 + 聊天上游", heavy=True),
     )
 }
 
