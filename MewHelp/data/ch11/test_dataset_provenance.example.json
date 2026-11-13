@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "dataset_role": "test",
+  "dataset_sha256": "<sha256 of the final test JSONL>",
+  "derived_from_existing_eval_data": false,
+  "previously_evaluated": false,
+  "used_for_candidate_tuning": false,
+  "curation_method": "manual",
+  "curator_id": "<reviewer identifier>",
+  "source_references": [
+    "<source document and section for each labeled case>"
+  ]
+}

@@ -1,0 +1,35 @@
+评估集:50 题(政策类 10、型号类 10、口语类 10、跨文档类 10、D_absent 10),策略 ['hybrid_rerank']
+检索并发 5 · 生成并发 5 · 单调用超时 45s
+
+=== 段1 检索:四策略 × 分桶 Recall@5 / MRR ===
+strategy                       A               B               C               E         OVERALL
+hybrid_rerank        R1.00/M0.97     R1.00/M1.00     R1.00/M0.93     R0.97/M0.64     R0.99/M0.89
+
+=== 段2 证据覆盖度(Top-10 证据盖住标准要点的比例,机械匹配·确定性)===
+strategy                   A           B           C           E     OVERALL
+hybrid_rerank           0.57        0.78        0.78        0.33        0.61
+
+=== 段3 生成:四策略答案覆盖度(glm 判分)+ Faithfulness + D 桶拒答 ===
+
+-- 答案覆盖度(生成答案盖住标准要点的比例)--
+strategy                   A           B           C           E     OVERALL
+hybrid_rerank           1.00        1.00        1.00        0.97        0.99
+
+-- Faithfulness(hybrid_rerank 线上管线,答案不编造)--
+A_policy       faithfulness=1.000 (评 10 题)
+B_model        faithfulness=1.000 (评 10 题)
+C_colloquial   faithfulness=1.000 (评 10 题)
+E_multi        faithfulness=1.000 (评 10 题)
+D_absent       faithfulness=1.000 (评 10 题)
+
+-- 被判不忠实(编造)个案:0 例 --
+
+-- D 桶拒答率(线上管线)= 1.000(10/10 正确拒答;评 10/10 题)--
+   该拒没拒:0 例
+
+-- expected_handling 合规率(LLM 裁判；逐题结果写入报告供人工抽查)--
+hybrid_rerank D_absent: compliant=1.000, unsupported_claim=0.000, n=10
+
+-- 型号机械闸:命中 0 次,重写救回 0 次 --
+
+-- 编造个案台账:本轮 0 例,无需写入 --

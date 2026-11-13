@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.portal.dao.PortalOrderDao">
+    <resultMap id="orderDetailMap" type="com.macro.mall.portal.domain.OmsOrderDetail"
+               extends="com.macro.mall.mapper.OmsOrderMapper.BaseResultMap">
+        <collection property="orderItemList" columnPrefix="ot_"
+                    resultMap="com.macro.mall.mapper.OmsOrderItemMapper.BaseResultMap">
+        </collection>
+    </resultMap>
+    <resultMap id="orderIdempotencyMap" type="com.macro.mall.portal.domain.OmsOrderIdempotency">
+        <id column="id" property="id"/>
+        <result column="member_id" property="memberId"/>
+        <result column="idempotency_key" property="idempotencyKey"/>
+        <result column="request_hash" property="requestHash"/>
+        <result column="order_id" property="orderId"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <insert id="insertIdempotencyRequest">
+        INSERT IGNORE INTO oms_order_idempotency
+            (member_id, idempotency_key, request_hash, status)
+        VALUES
+            (#{memberId}, #{idempotencyKey}, #{requestHash}, 'PROCESSING')
+    </insert>
+    <select id="selectIdempotencyRequestForUpdate" resultMap="orderIdempotencyMap">
+        SELECT id, member_id, idempotency_key, request_hash, order_id, status, create_time, update_time
+        FROM oms_order_idempotency
+        WHERE member_id = #{memberId}
+          AND idempotency_key = #{idempotencyKey}
+        FOR UPDATE
+    </select>
+    <update id="completeIdempotencyRequest">
+        UPDATE oms_order_idempotency
+        SET order_id = #{orderId},
+            status = 'SUCCESS',
+            update_time = NOW()
+        WHERE member_id = #{memberId}
+          AND idempotency_key = #{idempotencyKey}
+          AND request_hash = #{requestHash}
+          AND status = 'PROCESSING'
+    </update>
+    <select id="getDetail" resultMap="orderDetailMap">
+        SELECT
+            o.id,
+            o.order_sn,
+            o.coupon_id,
+            o.integration,
+            o.member_id,
+            ot.id ot_id,
+            ot.product_name ot_product_name,
+            ot.product_sku_id ot_product_sku_id,
+            ot.product_sku_code ot_product_sku_code,
+            ot.product_quantity ot_product_quantity
+        FROM
+            oms_order o
+            LEFT JOIN oms_order_item ot ON o.id = ot.order_id
+        WHERE
+            o.id = #{orderId}
+    </select>
+
+    <select id="getTimeOutOrders" resultMap="orderDetailMap">
+        SELECT
+            o.id,
+            o.order_sn,
+            o.coupon_id,
+            o.integration,
+            o.member_id,
+            o.use_integration,
+            ot.id               ot_id,
+            ot.product_name     ot_product_name,
+            ot.product_sku_id   ot_product_sku_id,
+            ot.product_sku_code ot_product_sku_code,
+            ot.product_quantity ot_product_quantity
+        FROM
+            oms_order o
+            LEFT JOIN oms_order_item ot ON o.id = ot.order_id
+        WHERE
+            o.status = 0
+            AND o.create_time &lt;= date_add(NOW(), INTERVAL -#{minute} MINUTE);
+    </select>
+
+    <update id="lockSkuStock">
+        UPDATE pms_sku_stock
+        SET lock_stock = GREATEST(COALESCE(lock_stock, 0), 0) + #{quantity}
+        WHERE id = #{skuId}
+          AND #{quantity} &gt; 0
+          AND COALESCE(stock, 0) &gt;= 0
+          AND COALESCE(stock, 0) - GREATEST(COALESCE(lock_stock, 0), 0) &gt;= #{quantity}
+    </update>
+
+    <update id="transitionOrderStatus">
+        UPDATE oms_order
+        SET status = #{targetStatus},
+            <if test="targetStatus == 1">
+                pay_type = #{payType},
+                payment_time = #{paymentTime},
+            </if>
+            modify_time = NOW()
+        WHERE id = #{orderId}
+          AND status = #{expectedStatus}
+          AND delete_status = 0
+    </update>
+
+    <update id="confirmSkuStock">
+        UPDATE pms_sku_stock
+        SET stock = COALESCE(stock, 0) - #{quantity},
+            lock_stock = COALESCE(lock_stock, 0) - #{quantity}
+        WHERE id = #{skuId}
+          AND #{quantity} &gt; 0
+          AND COALESCE(stock, 0) &gt;= #{quantity}
+          AND COALESCE(lock_stock, 0) &gt;= #{quantity}
+    </update>
+
+    <update id="releaseSkuStockLockForItem">
+        UPDATE pms_sku_stock
+        SET lock_stock = COALESCE(lock_stock, 0) - #{quantity}
+        WHERE id = #{skuId}
+          AND #{quantity} &gt; 0
+          AND COALESCE(lock_stock, 0) &gt;= #{quantity}
+    </update>
+</mapper>

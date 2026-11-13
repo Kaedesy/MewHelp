@@ -1,0 +1,3479 @@
+{
+ "meta": {
+  "n_samples": 50,
+  "kb_chunks": 52,
+  "recall_k": 5,
+  "retrieve_k": 10,
+  "concurrency": 5,
+  "chat_model": "deepseek-v4-flash",
+  "dataset": "tests\\data\\eval_ch11_test_independent.jsonl",
+  "dataset_role": "test",
+  "dataset_sha256": "28a6892a2d84962851bddb77e9add70cfc7bed3ece427a91ed6aed1130077cdd",
+  "dataset_provenance": {
+   "schema_version": 1,
+   "dataset": "tests/data/eval_ch11_test_independent.jsonl",
+   "dataset_role": "test",
+   "dataset_sha256": "28a6892a2d84962851bddb77e9add70cfc7bed3ece427a91ed6aed1130077cdd",
+   "derived_from_existing_eval_data": false,
+   "previously_evaluated": true,
+   "used_for_candidate_tuning": true,
+   "curation_method": "manual",
+   "curator_id": "wxz",
+   "curation_status": "diagnostic_only",
+   "curation_note": "Post-fix diagnostic only. FTC-D-005 informed the prompt and KB repair; this report is not eligible as an independent final release gate.",
+   "source_references": [
+    "FTC-A-001: data/kb/returns-policy.md#无理由退货 / 适用范围",
+    "FTC-A-001: data/kb/product-faq.md#价格保护怎么申请",
+    "FTC-A-002: data/kb/billing-shipping.md#可开票类型",
+    "FTC-A-003: data/kb/billing-shipping.md#可开票类型",
+    "FTC-A-004: data/kb/member-benefits.md#积分怎么攒",
+    "FTC-A-005: data/kb/returns-policy.md#预售与定金",
+    "FTC-A-006: data/kb/returns-policy.md#换货运费 / 退换货运费承担",
+    "FTC-A-007: data/kb/returns-policy.md#换货运费 / 退换货运费承担",
+    "FTC-A-008: data/kb/product-faq.md#猫窝是否可以机洗",
+    "FTC-A-009: data/kb/member-benefits.md#积分怎么用",
+    "FTC-A-010: data/kb/member-benefits.md#会员等级",
+    "FTC-B-001: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-002: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-003: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-004: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-005: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-006: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-007: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-008: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-009: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-B-010: data/kb/product-faq.md#猫窝是否可以机洗",
+    "FTC-C-001: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-C-002: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-C-003: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-C-004: data/kb/product-faq.md#猫窝是否可以机洗",
+    "FTC-C-005: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-C-006: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-C-007: data/kb/member-benefits.md#会员等级",
+    "FTC-C-008: data/kb/billing-shipping.md#开票时效",
+    "FTC-C-009: data/kb/after-sales-manual.md#常见故障自查",
+    "FTC-C-010: data/kb/product-specs.md#对应商品型号规格章节",
+    "FTC-E-001: data/kb/billing-shipping.md#可开票类型 / 开票时效",
+    "FTC-E-002: data/kb/member-benefits.md#积分怎么攒",
+    "FTC-E-002: data/kb/after-sales-manual.md#常见问题处理时限",
+    "FTC-E-003: data/kb/after-sales-manual.md#会员专属售后权益 / 常见问题处理时限",
+    "FTC-E-003: data/kb/returns-policy.md#运输破损处理",
+    "FTC-E-004: data/kb/returns-policy.md#运输破损处理",
+    "FTC-E-004: data/kb/after-sales-manual.md#人工客服入口与时间",
+    "FTC-E-005: data/kb/after-sales-manual.md#常见故障自查 / 常见问题处理时限",
+    "FTC-E-006: data/kb/member-benefits.md#积分怎么用",
+    "FTC-E-006: data/kb/billing-shipping.md#可开票类型 / 运费与包邮",
+    "FTC-E-007: data/kb/product-specs.md#四季保暖猫窝(型号 MH-NEST20)",
+    "FTC-E-007: data/kb/after-sales-manual.md#维修寄修流程",
+    "FTC-E-008: data/kb/product-specs.md#智能猫砂盆 Pro(型号 MH-LP100)",
+    "FTC-E-009: data/kb/billing-shipping.md#运费与包邮",
+    "FTC-E-009: data/kb/product-faq.md#配送范围与偏远地区",
+    "FTC-E-010: data/kb/member-benefits.md#会员等级 / 会员运费权益",
+    "FTC-D-001: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-001: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-001: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-001: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-001: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-001: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-002: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-002: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-002: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-002: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-002: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-002: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-003: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-003: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-003: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-003: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-003: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-003: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-004: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-004: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-004: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-004: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-004: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-004: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-005: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-005: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-005: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-005: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-005: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-005: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-006: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-006: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-006: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-006: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-006: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-006: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-007: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-007: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-007: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-007: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-007: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-007: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-008: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-008: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-008: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-008: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-008: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-008: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-009: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-009: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-009: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-009: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-009: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-009: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-010: data/kb/after-sales-manual.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-010: data/kb/billing-shipping.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-010: data/kb/member-benefits.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-010: data/kb/product-faq.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-010: data/kb/product-specs.md#全库检索范围（该能力未见说明；待人工确认）",
+    "FTC-D-010: data/kb/returns-policy.md#全库检索范围（该能力未见说明；待人工确认）"
+   ],
+   "items": {
+    "FTC-A-001": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "无理由退货 / 适用范围"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "价格保护怎么申请"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-A-002": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "可开票类型"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-A-003": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "可开票类型"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-A-004": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "积分怎么攒"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-A-005": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "预售与定金"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-A-006": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "换货运费 / 退换货运费承担"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-A-007": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "换货运费 / 退换货运费承担"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-A-008": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "猫窝是否可以机洗"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-A-009": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "积分怎么用"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-A-010": {
+     "bucket": "A_policy",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "会员等级"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-B-001": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-002": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-003": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-004": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-005": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-006": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-007": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-008": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-B-009": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-B-010": {
+     "bucket": "B_model",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "猫窝是否可以机洗"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-001": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-002": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-003": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-004": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "猫窝是否可以机洗"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-005": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-C-006": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-007": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "会员等级"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-008": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "开票时效"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-009": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "常见故障自查"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-C-010": {
+     "bucket": "C_colloquial",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "对应商品型号规格章节"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-E-001": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "可开票类型 / 开票时效"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-002": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "积分怎么攒"
+      },
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "常见问题处理时限"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-003": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "会员专属售后权益 / 常见问题处理时限"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "运输破损处理"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-004": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "运输破损处理"
+      },
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "人工客服入口与时间"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-005": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "常见故障自查 / 常见问题处理时限"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-006": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "积分怎么用"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "可开票类型 / 运费与包邮"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-007": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "四季保暖猫窝(型号 MH-NEST20)"
+      },
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "维修寄修流程"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-008": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "智能猫砂盆 Pro(型号 MH-LP100)"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-009": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "运费与包邮"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "配送范围与偏远地区"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-E-010": {
+     "bucket": "E_multi",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "会员等级 / 会员运费权益"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-001": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-002": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-003": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-004": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-D-005": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-006": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-007": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-008": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": "重点核查：与旧题文本相似"
+    },
+    "FTC-D-009": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    },
+    "FTC-D-010": {
+     "bucket": "D_absent",
+     "query_origin": "Synthetic customer support scenario drafted from current knowledge base and approved by curator wxz.",
+     "source_references": [
+      {
+       "document": "data/kb/after-sales-manual.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/billing-shipping.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/member-benefits.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-faq.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/product-specs.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      },
+      {
+       "document": "data/kb/returns-policy.md",
+       "section": "全库检索范围（该能力未见说明；待人工确认）"
+      }
+     ],
+     "human_verified": true,
+     "curator_id": "wxz",
+     "review_status": "approve",
+     "review_note": "Curator wxz reviewed the complete set and requested no changes.",
+     "similarity_flag": ""
+    }
+   }
+  },
+  "dataset_provenance_sha256": "de49f3ef1bc625d640298a503b33875240a1a31af91d15706fa6ecb17bb9e5b7",
+  "knowledge_version": "milvus-shipping-6-yuan-points-withdrawal-clarified-2026-10-23",
+  "knowledge_source_sha256": "1f2afe88e2cf9618983d5d0fb0247696d103fa99720abc8bc502a6b1a3853bc7",
+  "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:77537220723c",
+  "models": {
+   "embed": "BAAI/bge-m3",
+   "rerank": "BAAI/bge-reranker-v2-m3",
+   "chat": "deepseek-v4-flash"
+  },
+  "strategies": [
+   "baseline",
+   "recall_20",
+   "rerank_5"
+  ],
+  "candidate_configs": {
+   "baseline": {
+    "name": "baseline",
+    "recall_top_k": 50,
+    "rerank_top_k": 10,
+    "strategy": "hybrid_rerank",
+    "split": true
+   },
+   "recall_20": {
+    "name": "recall_20",
+    "recall_top_k": 20,
+    "rerank_top_k": 10,
+    "strategy": "hybrid_rerank",
+    "split": true
+   },
+   "rerank_5": {
+    "name": "rerank_5",
+    "recall_top_k": 50,
+    "rerank_top_k": 5,
+    "strategy": "hybrid_rerank",
+    "split": true
+   }
+  },
+  "generation_sample_count": 50,
+  "expected_handling_counts": {
+   "A_policy": 0,
+   "B_model": 0,
+   "C_colloquial": 0,
+   "E_multi": 0,
+   "D_absent": 10
+  },
+  "generated_at": "2026-10-23 19:25"
+ },
+ "retrieval": {
+  "baseline": {
+   "A_policy": {
+    "recall": 1.0,
+    "mrr": 0.975
+   },
+   "B_model": {
+    "recall": 1.0,
+    "mrr": 1.0
+   },
+   "C_colloquial": {
+    "recall": 1.0,
+    "mrr": 0.925
+   },
+   "E_multi": {
+    "recall": 0.967,
+    "mrr": 0.641
+   },
+   "overall": {
+    "recall": 0.992,
+    "mrr": 0.885
+   }
+  },
+  "recall_20": {
+   "A_policy": {
+    "recall": 1.0,
+    "mrr": 0.975
+   },
+   "B_model": {
+    "recall": 1.0,
+    "mrr": 1.0
+   },
+   "C_colloquial": {
+    "recall": 1.0,
+    "mrr": 0.925
+   },
+   "E_multi": {
+    "recall": 0.967,
+    "mrr": 0.641
+   },
+   "overall": {
+    "recall": 0.992,
+    "mrr": 0.885
+   }
+  },
+  "rerank_5": {
+   "A_policy": {
+    "recall": 1.0,
+    "mrr": 0.975
+   },
+   "B_model": {
+    "recall": 1.0,
+    "mrr": 1.0
+   },
+   "C_colloquial": {
+    "recall": 1.0,
+    "mrr": 0.925
+   },
+   "E_multi": {
+    "recall": 0.967,
+    "mrr": 0.636
+   },
+   "overall": {
+    "recall": 0.992,
+    "mrr": 0.884
+   }
+  }
+ },
+ "evidence_coverage": {
+  "baseline": {
+   "A_policy": 0.567,
+   "B_model": 0.783,
+   "C_colloquial": 0.783,
+   "E_multi": 0.325,
+   "overall": 0.615
+  },
+  "recall_20": {
+   "A_policy": 0.567,
+   "B_model": 0.783,
+   "C_colloquial": 0.783,
+   "E_multi": 0.325,
+   "overall": 0.615
+  },
+  "rerank_5": {
+   "A_policy": 0.567,
+   "B_model": 0.783,
+   "C_colloquial": 0.783,
+   "E_multi": 0.325,
+   "overall": 0.615
+  }
+ },
+ "generation": {
+  "answer_coverage": {
+   "baseline": {
+    "A_policy": 1.0,
+    "B_model": 1.0,
+    "C_colloquial": 1.0,
+    "E_multi": 1.0,
+    "overall": 1.0
+   },
+   "recall_20": {
+    "A_policy": 1.0,
+    "B_model": 1.0,
+    "C_colloquial": 1.0,
+    "E_multi": 1.0,
+    "overall": 1.0
+   },
+   "rerank_5": {
+    "A_policy": 1.0,
+    "B_model": 1.0,
+    "C_colloquial": 1.0,
+    "E_multi": 0.967,
+    "overall": 0.992
+   }
+  },
+  "faithfulness": {
+   "A_policy": {
+    "v": 1.0,
+    "answered": 10
+   },
+   "B_model": {
+    "v": 1.0,
+    "answered": 10
+   },
+   "C_colloquial": {
+    "v": 1.0,
+    "answered": 10
+   },
+   "E_multi": {
+    "v": 1.0,
+    "answered": 10
+   },
+   "D_absent": {
+    "v": 1.0,
+    "answered": 10
+   }
+  },
+  "faithfulness_by_candidate": {
+   "baseline": {
+    "A_policy": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "B_model": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "C_colloquial": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "E_multi": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "D_absent": {
+     "v": 1.0,
+     "answered": 10
+    }
+   },
+   "recall_20": {
+    "A_policy": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "B_model": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "C_colloquial": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "E_multi": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "D_absent": {
+     "v": 1.0,
+     "answered": 10
+    }
+   },
+   "rerank_5": {
+    "A_policy": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "B_model": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "C_colloquial": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "E_multi": {
+     "v": 1.0,
+     "answered": 10
+    },
+    "D_absent": {
+     "v": 1.0,
+     "answered": 10
+    }
+   }
+  },
+  "faithfulness_cases": [],
+  "model_guard": {
+   "hits": 0,
+   "fixed": 0,
+   "cases": []
+  },
+  "answer_cases": [
+   {
+    "strat": "baseline",
+    "id": "FTC-A-001",
+    "bucket": "A_policy",
+    "query": "价保和七天无理由退货，两个期限分别从哪天开始算？",
+    "answer": "两个期限的起算点不一样，请注意区分：\n\n- **七天无理由退货**：自**签收之日**起 7 天内，商品完好、不影响二次销售的，支持无理由退货；定制类、生鲜类商品除外[1][3]。\n- **价格保护**：自营商品支持**下单后 7 天内**价保，这 7 天自**下单时间**起算，不是从签收之日起算[1][2]。期间若同款降价，可在「我的订单」-「申请价保」提交，差价退回原支付渠道[2]。\n\n简言之：无理由退货看签收日，价保看下单时间，两者起算点不同、别混用[1][2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中无理由退货的7天自签收日起算、价保7天自下单时间起算、申请路径与差价退回原支付渠道，均分别落在证据[1][2][3]上，起算点未串线，无编造数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-002",
+    "bucket": "A_policy",
+    "query": "纸质发票可以寄到改过的地址吗，邮费怎么收？",
+    "answer": "您好，关于纸质发票的邮寄问题：\n\n**地址方面**：纸质发票需要在**申请开票时备注邮寄地址**，并且**不接受面单改寄**，因此无法寄到申请之后才修改的地址[1]。\n\n**邮费方面**：纸质发票的**快递费为到付**[1]。\n\n如果您的地址填写有误需要处理，现有资料暂未说明申请后能否修改地址，建议您通过 App 人工客服入口联系人工客服核实（人工客服工作时间 9:00–22:00）[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "地址需申请时备注、不接受面单改寄、快递费到付均出自证据[1]；人工客服工作时间9:00–22:00出自证据[3]；对能否修改地址以\"暂未说明、建议联系人工客服核实\"表述属合理兜底，未编造具体规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-003",
+    "bucket": "A_policy",
+    "query": "发票金额是按商品原价算，还是按我实际付的钱算？积分抵掉的部分算进去吗？",
+    "answer": "您好，发票金额是**按您的实付金额**计算的，不是按商品原价[1]。\n\n具体来说：**发票金额以实付金额为准，不含运费与积分抵扣部分**[1]。也就是说，积分抵掉的那部分金额不会计入发票金额里。\n\n如果您需要申请开票，可以在「我的订单」-「申请开票」中提交抬头与税号[10]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "发票金额以实付金额为准、不含运费与积分抵扣部分均出自证据[1]，开票入口「我的订单」-「申请开票」提交抬头与税号出自证据[10]，无编造数值或串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-004",
+    "bucket": "A_policy",
+    "query": "双倍积分活动攒到的积分，会把会员等级升级金额也翻倍吗？",
+    "answer": "不会的～活动期间的双倍积分**只影响可用积分**，双倍积分部分**不计入等级升级的累计消费**[1]。\n\n会员等级是按累计消费金额自动升级的（每消费 1 元累计 1 元消费额），与活动赠送的积分无关[2][4]。所以双倍积分能让可用积分变多，但不会让升级金额翻倍哦。\n\n如果你对某笔订单的累计消费有疑问，建议通过 App 人工客服入口进一步核实～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "核心结论\"双倍积分只影响可用积分、不计入等级升级累计消费\"直接来自证据[1]，\"会员按累计消费自动升级\"来自证据[2][4]；末尾引导App人工客服属平台既定渠道话术，无编造具体数值或串线规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-005",
+    "bucket": "A_policy",
+    "query": "我买的预售商品没按时付尾款，定金会怎么处理？",
+    "answer": "您好，关于预售商品未按时支付尾款时定金的处理：\n\n- 定金支付后**不支持无理由退定金**[1]；\n- 尾款未按时支付的，**定金按该活动的规则处理**[1]。\n\n需要说明的是，具体活动规则（如定金是否退还、如何处理）目前在资料中暂时没有查到更细的说明，建议您通过 App 内的人工客服入口联系人工客服，核实您所在活动的具体规则。\n\n另外提醒：预售商品以商品详情页标注的时间发货[1][6]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答的定金不退、尾款未付按活动规则处理、预售按详情页时间发货均直接来自证据[1][6]；对具体活动规则未编造数值，仅以\"以活动规则为准\"兜底并引导App内人工客服，属豁免话术。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-006",
+    "bucket": "A_policy",
+    "query": "买家自己原因换货，寄过去和平台再寄回来这两段运费谁付？",
+    "answer": "买家自己原因属于「非质量问题」的换货，寄回和平台再寄出的**往返运费均由买家承担**[1][2]。运费承担最终以平台售后规则判定为准[2]。\n\n如对判定有疑问，可走 App 内人工客服入口进一步核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "\"非质量问题换货往返运费由买家承担\"有证据[1][2]支撑，\"以平台售后规则判定为准\"为兜底表述，App内人工客服入口属标准渠道引导，均无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-007",
+    "bucket": "A_policy",
+    "query": "少发了配件要换货，来回运费要我承担吗？",
+    "answer": "不用您承担。少发漏发导致的换货，往返运费由平台承担[1][2]；非质量问题的换货才由买家承担往返运费，您这种情况不属于该情形[1]。\n\n补充两点：\n- 运费承担最终以平台售后规则判定为准[2]。\n- 少发漏发属于售后问题，您可在「喵喵优选」App 通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，并按页面指引提交订单号、开箱视频或商品照片等凭证[5]。人工客服服务时间为每日 9:00 至 22:00[5]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "少发漏发换货往返运费由平台承担见证据[1][2]，非质量问题换货由买家承担见[1]，以平台售后规则判定为准见[2]，客服入口与9:00-22:00服务时间见[5]，均为有据内容，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-008",
+    "bucket": "A_policy",
+    "query": "猫窝里的垫芯能放洗衣机吗？",
+    "answer": "不能。猫窝的内部垫芯**不可机洗**，进水后填充物会结块变形，只能局部擦洗后晾干[1]。猫窝外套可以机洗：拆掉内部垫芯后装进洗衣袋，选轻柔模式冷水洗，洗后阴干、不要暴晒[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答关于内部垫芯不可机洗、进水结块变形、只能局部擦洗晾干，以及外套可机洗（拆垫芯、装洗衣袋、轻柔冷水、阴干不暴晒）均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-009",
+    "bucket": "A_policy",
+    "query": "积分兑换的实物有哪些档位？两千积分可以换什么服务？",
+    "answer": "您好，关于积分兑换实物和服务，目前有以下档位[1]：\n\n- **800 积分**：兑换猫零食小样一份[1]\n- **1500 积分**：兑换自动饮水机滤芯 3 片[1]\n- **2000 积分**：兑换**上门更换一次滤芯的服务**[1]\n\n另外提醒您，积分有效期为 24 个月，过期会自动清零哦[1]。如需了解兑换入口或具体规则，可在会员中心查看，或联系人工客服核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "三档兑换档位（800/1500/2000积分）与24个月有效期、过期清零均直接来自证据[1]，无编造；末尾引导会员中心查看或联系人工客服属标准兜底话术。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-A-010",
+    "bucket": "A_policy",
+    "query": "金卡生日礼要自己领取吗，错过当月还能补领吗？",
+    "answer": "您好，关于金卡生日礼：\n\n- 金卡会员生日当月可领取猫罐头礼盒一份，需要您在**会员中心手动领取**，不是自动发放的[1]。\n- 该礼盒**过期不补发**，所以如果错过生日当月，是无法补领的[1]。\n\n建议您在生日当月及时到会员中心领取，以免错过～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"金卡生日当月可领猫罐头礼盒、需在会员中心手动领取、过期不补发\"均直接来自证据[1],无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-001",
+    "bucket": "B_model",
+    "query": "MH-LP200 放两只猫用，废砂盒大概隔几天清一次？",
+    "answer": "MH-LP200 是智能猫砂盆 Max，废砂盒容量约为 10 天（单猫）；不过多猫家庭建议每 3 至 5 天倾倒一次废砂盒[1]。您放两只猫使用属于多猫场景，因此建议按 **3 至 5 天** 清一次；废砂盒满时，App 也会推送提醒[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的型号MH-LP200、废砂盒约10天（单猫）、多猫家庭建议每3至5天倾倒、废砂盒满时App推送提醒，均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-002",
+    "bucket": "B_model",
+    "query": "MH-W20 的水泵清洁频率和滤芯更换频率分别是多少？",
+    "answer": "MH-W20 自动饮水机的清洁与更换频率如下：\n\n- **水泵清洁频率**：水泵可拆卸，建议**每周清洗一次**[1]\n- **滤芯更换频率**：该机型采用三重过滤棉，建议**每 2 周更换一次滤芯**[1]\n\n如果您需要购买配件，积分可在会员中心兑换自动饮水机滤芯 3 片（1500 积分）[4]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "水泵每周清洗、三重过滤棉每2周更换均出自证据[1]；1500积分兑滤芯3片出自证据[4]，全部有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-003",
+    "bucket": "B_model",
+    "query": "W60 饮水机的滤芯是串联还是并联，多久换一次？",
+    "answer": "关于您问的 W60 饮水机(MH-W60)滤芯:\n\n- **连接方式**:双滤芯并联[1]\n- **更换周期**:建议每 4 周更换一次滤芯[1]\n\n如果您还想了解该机型的清洗建议,也可以随时问小喵哦~",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"双滤芯并联\"\"建议每 4 周更换一次滤芯\"均直接来自证据[1]对 MH-W60 的型号参数描述,无编造内容。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-004",
+    "bucket": "B_model",
+    "query": "CT30 猫爬架最上面有吊床吗，每一层最多承重多少？",
+    "answer": "关于 MH-CT30 猫爬架：\n\n- **顶部吊床**：有，这款共四层，带顶层吊床[1]。\n- **承重**：单层最大承重 10kg[1]。\n\n另外，这款猫爬架需要自行组装，随附六角扳手与图解说明书[1][2]。如果还有其他想了解的，可以随时问我～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"四层带顶层吊床\"\"单层最大承重10kg\"\"需自行组装、随附六角扳手与图解说明书\"均直接来自证据[1]，组装说明亦与证据[2]一致，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-005",
+    "bucket": "B_model",
+    "query": "HP12 加热垫的尺寸和建议连续通电时长是什么？",
+    "answer": "HP12 加热垫（型号 **MH-HP12**）的相关信息如下：\n\n- **尺寸**：40cm × 30cm[1]\n- **建议连续通电时长**：连续通电不超过 12 小时为宜[1]\n\n另外补充：该款为恒温 38℃ 加热，内置过热保护[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的型号 MH-HP12、尺寸 40cm×30cm、连续通电不超过 12 小时、恒温 38℃ 与内置过热保护均直接来自证据[1]，无编造内容。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-006",
+    "bucket": "B_model",
+    "query": "HP20 能调到哪三档温度？它有没有定时关机？",
+    "answer": "关于您询问的 HP20 加热垫，为您查到以下信息：\n\n- 这款对应的是大号三档加热垫（型号 MH-HP20），温度支持三档可调：**30℃ / 38℃ / 45℃**[1]。\n- 它**带定时关机功能**，并且内置过热保护[1]。\n\n另外补充一下它的规格：尺寸为 60cm × 45cm，表面绒布可拆洗，适合大型猫、多猫窝及冬季保暖使用[1]。\n\n如果您想了解其他型号或使用细节，可以再告诉我～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中关于MH-HP20的三档温度30℃/38℃/45℃、定时关机、过热保护、尺寸60cm×45cm、绒布可拆洗、适用大型猫/多猫窝/冬季保暖均逐条对应证据[1]，无杜撰数值或张冠李戴。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-007",
+    "bucket": "B_model",
+    "query": "FD10 停电后靠什么继续喂，能撑多久？",
+    "answer": "FD10（型号 MH-FD10）断电后靠 **4 节 5 号电池**应急供电，市电断开时可维持定时定量投喂**约 24 小时**[1]。\n\n另外提醒一下：基础版没有 App，断电期间不会推送提醒[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"4 节 5 号电池应急供电\"\"约 24 小时\"\"基础版无 App、断电期间不推送提醒\"均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-008",
+    "bucket": "B_model",
+    "query": "FD30 停电时还能在 App 里手动加餐或者看回放吗？",
+    "answer": "不能。MH-FD30 在市电断开后会自动切换到内置应急电池，可维持定时投喂约 48 小时；但**断电期间不支持视频回看与 App 远程手动投喂**[1]。\n\n也就是说，停电时定时投喂仍可继续运行，但 App 手动加餐和看回放都用不了[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"MH-FD30 断电后切换内置应急电池、维持定时投喂约 48 小时、断电期间不支持视频回看与 App 远程手动投喂\"均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-009",
+    "bucket": "B_model",
+    "query": "MH-CAM1 能转多少度，存储卡最大支持多大？",
+    "answer": "MH-CAM1 全景看护摄像头的旋转角度和存储卡支持情况如下：\n\n- **旋转角度**：支持 355° 水平旋转、90° 俯仰[1]\n- **存储卡**：最大支持 128G TF 卡（也支持云存储）[1]\n\n另外请放心，MH-CAM1 是独立的全景看护摄像头；自动喂食器摄像头版 MH-FD30 是另一款商品，不会混淆[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的旋转角度（355°水平、90°俯仰）、存储（最大128G TF卡或云存储）以及MH-CAM1与MH-FD30为不同型号的说明均直接来自证据[1]，无编造内容。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-B-010",
+    "bucket": "B_model",
+    "query": "NEST20 猫窝垫芯可以机洗吗，外套怎么清洁？",
+    "answer": "关于 MH-NEST20 猫窝的清洁方式：\n\n- **垫芯：不可机洗**。内部垫芯进水后填充物会结块变形，只能局部擦洗后晾干[2]。\n- **外套：可以机洗，也可以手洗**。机洗时，先拆掉内部垫芯，把外套装进洗衣袋，选择轻柔模式用冷水洗涤；洗后放在阴凉处晾干，不要暴晒[2]。产品参数中也标注外套可手洗[1]。\n\n如果你对清洁方式还有疑问，或需要售后协助，可进入「喵喵优选」App，通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口，转接在线人工客服（每日 9:00 至 22:00）[8]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "垫芯不可机洗、外套可机洗/手洗及洗涤方式均出自证据[2]，外套可手洗出自证据[1]，客服入口与9:00-22:00服务时间出自证据[8]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-001",
+    "bucket": "C_colloquial",
+    "query": "我家 LP50 的垃圾盒没法手机提醒吧？那我大概几天倒一回？",
+    "answer": "您好~ 关于您问的这台机器，小喵帮您确认了一下：\n\n- 这款智能猫砂盆 Lite（型号 MH-LP50）**不含 App 联网功能，确实不支持废砂盒满溢的手机推送提醒**[1]。\n- 倾倒频率方面，它的废砂盒容量约为 5 天（单猫），建议**每 4 至 5 天倾倒一次废砂盒**[1]。\n\n如果您是单猫家庭，按这个节奏定时清理就可以啦；如果家里猫咪较多或使用频繁，也可以根据实际情况适当提前倾倒。还有其他想了解的，随时问小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"Lite 型号 MH-LP50 不含 App 联网、不支持满溢推送\"及\"废砂盒约 5 天（单猫）、建议每 4 至 5 天倾倒\"均直接来自证据[1]；末尾\"根据实际情况适当提前倾倒\"属不确定语气的建议，未新增事实主张。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-002",
+    "bucket": "C_colloquial",
+    "query": "W40 那个滤芯老换不换啊，机器要不要隔段时间拆开洗？",
+    "answer": "关于您问的 W40 自动饮水机(型号 **MH-W40**),滤芯更换和整机清洗的建议如下:\n\n- **滤芯更换**:采用五重过滤棉 + 椰壳活性炭,建议**每 3 周更换一次滤芯**[1]。\n- **清洗频率**:支持**整机拆分水洗**,建议**每周清洗一次**[1]。\n\n您按这个节奏维护,能帮助保持水质和设备运行状态。如果需要购买滤芯,可以看看会员中心的相关兑换或购买渠道;具体库存和下单请以 App 页面显示为准。若机器出现异常,也可以再找小喵帮您排查~",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "滤芯每3周更换、五重过滤棉+椰壳活性炭、整机拆分水洗、每周清洗一次均直接来自证据[1]；\"以App页面显示为准\"属兜底表述，会员中心兑换渠道有证据[2]支撑，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-003",
+    "bucket": "C_colloquial",
+    "query": "我买的是FD10基础款，断电了手机会不会跳通知啊？",
+    "answer": "不会跳通知。您买的这款基础版（型号 MH-FD10）没有 App，断电期间不推送提醒[1]。\n\n补充一下断电时的表现：市电断开后会靠 4 节 5 号电池维持定时定量投喂约 24 小时[1]；基础版本身不含摄像头，也不支持 App 远程投喂[1]。\n\n如果您需要断电提醒、远程查看这类功能，可以看看支持 App 的摄像头版（型号 MH-FD30）[1][3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中所有具体事实（MH-FD10 无 App、断电不推送提醒、4 节 5 号电池维持约 24 小时、不含摄像头、不支持 App 远程投喂、MH-FD30 为摄像头版支持 App）均可在证据[1][3]中找到依据，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-004",
+    "bucket": "C_colloquial",
+    "query": "这猫窝套子我拆下来能扔洗衣机不，芯子也一起洗行吗？",
+    "answer": "可以分开处理，具体如下：\n\n**外套：可以机洗**——把内部垫芯拆掉后，将外套装进洗衣袋，选轻柔模式、冷水洗，洗后阴干，不要暴晒[1]。产品页也注明外套可手洗，您按习惯选择即可[2]。\n\n**垫芯：不能一起洗**——内部垫芯不可机洗，进水后填充物会结块变形，只能局部擦洗后晾干[1][2]。\n\n如果您这款猫窝的清洗方式和使用上还有疑问，可以再告诉我具体型号，我帮您核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "外套机洗方式（拆垫芯、洗衣袋、轻柔冷水、阴干不暴晒）与垫芯不可机洗、只能局部擦洗晾干均出自证据[1]，外套可手洗出自证据[2]，无编造数值或规则串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-005",
+    "bucket": "C_colloquial",
+    "query": "HP20表面那层绒布能拆下来洗不？温度有几档来着？",
+    "answer": "关于您问的这款（型号 MH-HP20）：\n\n- **表面绒布可以拆下来清洗**[1]。\n- **温度共有三档可调**，分别为 30℃ / 38℃ / 45℃，并内置过热保护与定时关机[1]。\n\n另外提醒一下，这款尺寸是 60cm × 45cm，适合大型猫、多猫窝及冬季保暖[1]。如还有其他想了解的，随时问我～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中型号 MH-HP20、表面绒布可拆洗、三档 30℃/38℃/45℃、过热保护与定时关机、尺寸 60cm×45cm、适用大型猫多猫窝等均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-006",
+    "bucket": "C_colloquial",
+    "query": "猫砂盆 Pro 两只猫的话，那个废砂盒是不是两三天就得倒？",
+    "answer": "关于智能猫砂盆 Pro（型号 MH-LP100）的废砂盒倾倒频率：\n\n- 单猫使用时，废砂盒容量约 7 天，建议每 5 至 7 天倾倒一次[1]。\n- 如果两只猫使用，建议每 **3 至 4 天**倾倒一次，比“两三天”略长一些[1]。\n- 废砂盒满时，App 会推送提醒。平时也可以根据 App 提醒来判断是否该倒废砂盒了[1]。\n\n如果你家的猫体型较大或排泄量较多，具体频次也可以参考 App 的满溢提醒来调整。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的具体数值（单猫约7天、每5至7天倾倒、双猫每3至4天倾倒、App满溢推送提醒）均出自证据[1]，型号MH-LP100也对得上；末尾\"参考App提醒调整\"属不确定语气提醒，未新增事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-007",
+    "bucket": "C_colloquial",
+    "query": "金卡那个生日罐头是自动寄来的吗，还是我得自己去领？",
+    "answer": "金卡会员的生日猫罐头礼盒**需要您自己在会员中心手动领取**，并不是自动寄送的[1]。领取时间为生日当月，过期不补发[1]。具体权益以会员中心页面标注为准[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"需在会员中心手动领取\"\"生日当月\"\"过期不补发\"均出自证据[1]，\"具体权益以会员中心页面标注为准\"出自证据[2]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-008",
+    "bucket": "C_colloquial",
+    "query": "我订单签收都快一个月了，还能自己点开发票申请吗？",
+    "answer": "您好，小喵来帮您确认～\n\n**关于能否自己申请开票：**\n开票的有效期是「订单完成收货后 30 天内可申请开票，超过 30 天需联系客服单独处理」[4]。您订单签收快一个月，还在 30 天范围内，可以自己申请开票；但如果实际已超过 30 天，就需要联系人工客服单独处理了[4]。\n\n**自助申请入口：**\n在「我的订单」-「申请开票」提交抬头与税号即可[6]。个人账户默认开具电子普通发票，抬头填个人姓名或单位名称均可[2]；电子专票仅企业账户可申请，提交时必须填写完整的纳税人识别号、开户行与对公账号，信息不全不予受理[2]。\n\n**几点提醒：**\n- 一笔订单只开一次票，发票金额以实付金额为准，不含运费与积分抵扣部分[2]。\n- 电子发票开好后会发送到申请时填写的邮箱[4]；具体开出与送达时间以平台实际处理为准。\n- 开票相关问题可在人工客服工作时间 9:00 至 22:00 咨询[4]。\n\n如果您的订单确实已超过 30 天，建议通过 App 内的人工客服入口联系客服单独处理哦～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中30天开票时效、超期联系客服、申请入口、个人/企业开票类型与所需信息、一单一票与金额口径、邮箱送达、客服工作时间9:00-22:00均分别对应证据[4][6][2]，无凭空数值或条件串线；\"以平台实际处理为准\"属兜底表述，App内人工客服入口属标准渠道引导，均不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-009",
+    "bucket": "C_colloquial",
+    "query": "我家喂食器老卡粮，是不是颗粒太大或者受潮了？咋先排查？",
+    "answer": "您先按这几步排查喂食器卡粮[1]：\n\n1. **看颗粒大小**：检查粮食颗粒直径是否超过 **12mm**，颗粒过大容易卡在出粮口[1]。\n2. **看是否受潮**：检查粮桶里的粮食是否受潮、结块，结块也容易导致卡粮[1]。\n3. **清理出粮口**：把出粮口清理干净后再重新试一次[1]。\n\n如果按上面排查、清理后还是反复卡粮，建议您通过 App 内的人工客服入口联系客服进一步核实处理。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的12mm颗粒直径、受潮结块、清理出粮口后重试均出自证据[1]的喂食器卡粮自查条目；末尾引导通过App内人工客服入口联系客服属平台既定服务渠道引导，按豁免视为有据，无编造具体数值或串线规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-C-010",
+    "bucket": "C_colloquial",
+    "query": "W60 缺水会不会在手机上吱一声提醒我？",
+    "answer": "关于您问的 W60 缺水提醒，情况如下：\n\n- MH-W60 的核心功能包含**无线水位提醒推送 App**，并且支持缺水断电保护[1]。也就是说，缺水时，设备会向手机 App 推送水位提醒[1]。\n- 至于这条提醒在手机上**是否还会发出声音**，现有资料没有明确说明；建议您通过 App 内的人工客服入口进一步核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答仅引用证据[1]中 MH-W60 的\"无线水位提醒推送 App\"与\"缺水断电保护\"两项功能，对是否发声明确表示资料未说明并建议转人工核实，属合理拒答与兜底话术，无编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-001",
+    "bucket": "E_multi",
+    "query": "我要申请企业电子专票，资料里少了开户行和账号行不行？如果信息补齐，开票要等多久？",
+    "answer": "您好，关于您的问题：\n\n**1）缺少开户行和账号是否可以？**\n不可以。电子专票仅企业账户可申请，提交时必须填写完整的纳税人识别号、开户行与对公账号，**信息不全不予受理**[1]。建议您把开户行和对公账号补齐后再提交。\n\n**2）信息补齐后开票要多久？**\n电子发票在申请通过后 3 个工作日内开出，开好后会发送到您申请时填写的邮箱[3]。实际进度以平台实际处理为准。\n\n另外提醒：订单完成收货后 30 天内可申请开票，超过 30 天需联系客服单独处理[3]；发票金额以实付金额为准，不含运费与积分抵扣部分[1]。如需进一步核实，可走 App 人工客服入口（工作时间 9:00 至 22:00）[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"电子专票仅企业账户可申请、需填纳税人识别号/开户行/对公账号、信息不全不予受理\"来自证据[1]；\"申请通过后3个工作日内开出并发送至邮箱\"\"收货后30天内可申请开票、超30天联系客服\"\"客服工作时间9:00-22:00\"来自证据[3]；\"发票金额以实付金额为准、不含运费与积分抵扣\"来自证据[1]。均为证据原文支撑，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-002",
+    "bucket": "E_multi",
+    "query": "订单退款后，之前拿到的积分会不会留着？退款申请通常几小时响应、几个工作日处理？",
+    "answer": "退款后，之前已入账的积分会**同步扣回**，不会保留[2]。\n\n退款申请的时限为：**首次响应 2 小时，处理时限 3 个工作日**[3]。  \n另外，退款到账时间以平台售后规则和实际处理为准，平台不承诺具体到账天数[4]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "积分退款同步扣回见证据[2]；退款首次响应2小时、处理时限3个工作日见证据[3]；到账时效以平台售后规则为准、不承诺具体天数见证据[4]，均为有据表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-003",
+    "bucket": "E_multi",
+    "query": "金卡会员收到运输破损商品，售后有什么专属权益？需要提交什么材料，物流异常工单的首次响应和处理时限是多少？",
+    "answer": "亲，按现有规则：\n\n- **金卡专属售后权益**：金卡会员享优先客服接入与上门取件退换货[2]；具体权益以会员中心页面标注为准[2]。\n- **运输破损需提交材料**：请在签收后 **48 小时内**联系客服，并提供**开箱视频与照片**[1]；核实后可免费补发或退款，相关运费由平台承担[1]，退款具体以平台售后规则为准[10]。通过 App 人工客服入口时，按页面指引提交**订单号、开箱视频或商品照片等凭证**[6]。\n- **物流异常工单时限**：首次响应 **2 小时**，处理时限 **5 个工作日**[4]；实际以平台处理为准。\n- 除上述外，暂未查到金卡针对运输破损的额外专属赔付/补偿标准，建议通过 App「我的」-「联系客服」或订单详情页「订单售后/联系客服」转人工核实[6]；人工客服服务时间为每日 **9:00 至 22:00**[6]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中各项具体事实均有证据支撑：金卡优先客服与上门取件退换货[2]、48小时破损申报及开箱视频照片、平台承担运费[1]、物流异常首次响应2小时/处理5个工作日[4]、人工客服入口与9:00-22:00服务时间[6]；兜底表述\"以会员中心页面标注为准\"\"以平台售后规则为准\"属豁免话术，未新增杜撰数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-004",
+    "bucket": "E_multi",
+    "query": "包裹压坏了我需要在多久内联系你们、准备什么证据？联系客服入口和在线时间也告诉我下。",
+    "answer": "关于包裹压坏的处理，为您说明如下：\n\n**1. 联系时限与需准备的证据**\n- 商品在运输途中破损的，请在**签收后 48 小时内**联系客服[1]。\n- 需要提供**开箱视频与照片**作为凭证；客服核实后，可为您免费补发或退款，相关运费由平台承担[1]。\n\n**2. 人工客服入口**\n- 在「喵喵优选」App 内，通过「我的」-「联系客服」转接在线人工客服；或从订单详情页的「订单售后 / 联系客服」入口进入[2]。\n- 进入后请按页面指引提交订单号、开箱视频或商品照片等凭证[2]。\n\n**3. 在线人工客服服务时间**\n- 每日 **9:00 至 22:00**，高峰期请耐心等待或留言[2]。\n\n温馨提示：补发或退款的具体处理进度以平台实际处理为准。如果入口页面提示异常，或凭证提交遇到问题，建议直接在 App 内通过上述人工客服入口联系核实[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "48小时时限、开箱视频与照片凭证、免费补发或退款、运费由平台承担均出自证据[1]；人工客服入口与凭证提交出自证据[2]；服务时间9:00-22:00出自证据[2]；结尾\"以平台实际处理为准\"为不承诺具体数值的兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-005",
+    "bucket": "E_multi",
+    "query": "喂食器一直卡粮，颗粒尺寸该检查多大以内？如果申请售后，维修工单的响应和处理时间是什么？",
+    "answer": "喂食器卡粮时，请先检查粮食颗粒直径是否超过 **12mm**，并查看粮桶是否受潮结块，清理出粮口后重试[1]。\n\n关于售后维修工单：按平台常见问题处理时限，维修类的**首次响应为 4 小时、处理时限为 7 个工作日**[3]。实际处理进度以平台实际处理为准。若设备是电子类商品，自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货，人为损坏或超保可能收取工本费[2][9]。\n\n如需人工协助，可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，人工客服服务时间为每日 9:00 至 22:00[10]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "卡粮自查（12mm、受潮结块、清理出粮口）出自证据[1]；维修首次响应4小时、处理时限7个工作日出自证据[3]时限表；电子类保修12个月自签收起算、非人为免费维修换货、人为/超保收工本费出自证据[2][9]；人工客服入口与服务时间9:00-22:00出自证据[10]。均为有据内容，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-006",
+    "bucket": "E_multi",
+    "query": "我用 600 积分抵掉 6 元基础运费后，这单的发票会把这 6 元写进去吗？",
+    "answer": "不会写进去。发票金额以实付金额为准，**不含运费与积分抵扣部分**[3]。您这单用 600 积分抵掉的 6 元基础运费，属于积分抵扣的部分，因此不会计入发票金额[3]。\n\n补充一句：积分确实可以直接抵扣运费，未满包邮门槛的 6 元运费可用 600 积分抵掉，抵满即视为包邮[1]。\n\n如需确认具体发票金额，建议在 App「我的订单」-「申请开票」页面查看，或联系人工客服核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "发票金额以实付金额为准、不含运费与积分抵扣部分出自证据[3]；600积分抵6元运费、抵满视为包邮出自证据[1]；引导在App「我的订单」-「申请开票」查看及联系人工客服属标准渠道话术，均有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-007",
+    "bucket": "E_multi",
+    "query": "我的猫窝收到一年多坏了，产品本身保修多久？如果算人为弄坏，维修费用会先告诉我吗？",
+    "answer": "您好，小喵帮您查了一下：\n\n**1. 保修时长**\n猫窝（型号 MH-NEST20）整机保修 **12 个月**，人为损坏与自然磨损不在保修范围[3]。您已经收到一年多，已超过保修期[3]。\n\n**2. 人为损坏的维修费用**\n超保或人为损坏的维修可能收取工本费，**费用会提前告知**[2]。具体是否收费以及费用金额，需要由维修点核验后再确认，以平台实际处理为准[2]。\n\n如需要登记维修，可联系客服按指引寄回指定维修点核验[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "保修12个月、人为损坏与自然磨损不在保修范围、超保或人为损坏维修可能收工本费且费用提前告知、寄回指定维修点核验，均分别落在证据[3]与[2]；\"已超过保修期\"由用户自述收到一年多结合12个月保修推出，属合理推断，无凭空数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-008",
+    "bucket": "E_multi",
+    "query": "两只猫用 LP100 时废砂盒几天清一次？清理时 App 能给我满盒提醒吗？",
+    "answer": "两只猫使用智能猫砂盆 Pro（型号 MH-LP100）时，**建议每 3 至 4 天倾倒一次废砂盒**。单猫情况下建议每 5 至 7 天倾倒一次[1]。\n\n**满盒提醒可以收到**：废砂盒满时，App 会推送提醒[1]。另外，这款机型的核心功能包括 App 远程监控与健康记录[1]。\n\n如果您使用的是其他型号，清理周期和提醒功能可能不同，建议先确认型号，或联系人工客服核实[10]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"两只猫每3至4天倾倒\"\"单猫每5至7天倾倒\"\"废砂盒满时App推送提醒\"\"含App远程监控与健康记录\"均直接来自证据[1]，型号MH-LP100一致；末尾建议确认型号或联系人工客服属证据[10]的渠道引导与不确定语气提醒，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-009",
+    "bucket": "E_multi",
+    "query": "我在港澳台地址下单是不是送不了？如果只是新疆地区，时效会比正常多几天？",
+    "answer": "您好，小喵帮您核对了一下：\n\n**1. 港澳台地址**\n港澳台及海外地区暂不支持配送，建议下单前先确认收货地址在可配送范围内[1][2]。\n\n**2. 新疆地区时效**\n新疆属于偏远地区，配送时效会在正常时效基础上顺延 2 至 4 天[1]。具体到货时间仍以平台实际处理为准。\n\n另外提醒一下：新疆等偏远地区会加收 12 元附加运费，这笔费用不参与包邮，需要单独支付[1]。如需进一步确认您的地址是否在可配送范围内，建议通过 App 内的人工客服入口咨询核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "港澳台及海外不支持配送、新疆偏远地区时效顺延2至4天、偏远地区加收12元附加运费且不参与包邮需单独支付，均直接来自证据[1][2]；App内人工客服入口属平台既定服务渠道引导，视为有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-E-010",
+    "bucket": "E_multi",
+    "query": "普通会员累计消费到多少才升银卡？银卡商品折扣和每月免运费次数分别是多少？",
+    "answer": "您好，为您解答如下：\n\n- **升级银卡门槛**：累计消费 **1000 元起**即可升为银卡（按累计消费自动升级，升级后立即生效）[1][2]。\n- **银卡商品折扣**：享商品 **9 折**[1]。\n- **银卡每月免运费次数**：每月 **1 次**（该权益不与偏远地区附加运费冲抵，当月未用完不结转）[1][3]。\n\n如您还想了解金卡权益或其他会员规则，可以继续问我~",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "三项结论均有据：1000元升银卡、自动升级立即生效见证据[1][2]；银卡9折见[1]；银卡每月1次免运费及不与偏远附加运费冲抵、不结转见[1][3]，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-001",
+    "bucket": "D_absent",
+    "query": "你们的饮水机能接家里的智能音箱，用语音命令开关吗？",
+    "answer": "您好，关于饮水机能否连接家里智能音箱、用语音命令开关，暂时没有查到相关信息。\n\n目前资料中列出的几款饮水机（MH-W40、MH-W60、MH-W20）的功能说明里，只包含 UV 紫外杀菌、静音变频水泵、缺水断电保护、水位提醒推送等，均未提到支持智能音箱联动或语音控制开关[1][3][5]。\n\n建议您通过 App 内的人工客服入口进一步核实该功能，以免买回去不合用～",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅说明证据[1][3][5]中三款饮水机的功能未提及智能音箱联动/语音控制，属合理拒答与不确定表述；引导App内人工客服属标准兜底话术，未编造具体数值或规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-002",
+    "bucket": "D_absent",
+    "query": "买的猫砂盆可以绑定两个不同手机号的家庭成员账号一起管理吗？",
+    "answer": "目前提供的资料里没有查到关于猫砂盆账号绑定、多人共享管理（例如两个不同手机号的家庭成员账号共同管理）的相关说明，暂时没有查到相关信息。\n\n建议您通过「喵喵优选」App 内「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服核实，人工客服服务时间为每日 9:00 至 22:00[9]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答如实说明证据中无账号绑定/多人共享管理说明（证据[1][2][3][8]均未涉及），并引用证据[9]的客服入口与9:00-22:00服务时间，属标准兜底话术，无编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-003",
+    "bucket": "D_absent",
+    "query": "我能不能给宠物设备单独买一个意外损坏保险？",
+    "answer": "关于「能否给宠物设备单独购买意外损坏保险」，暂时没有查到相关信息，建议您通过「喵喵优选」App 的人工客服入口联系客服核实，以实际确认为准。\n\n目前能确认的是保修方面的规则：电子类商品自签收日起保修 12 个月，人为损坏不在保修范围[1][2]；保修期内非人为损坏可申请免费维修或换货，人为损坏或超保商品维修可能收取工本费[2]。但这些都属于保修政策，并不等同于可以单独购买意外损坏保险，保险相关暂未查到依据。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答对保险问题明确表示未查到、建议走App人工客服并以实际确认为准（属兜底话术与合理拒答）；保修部分\"电子类商品自签收日起保修12个月、人为损坏不在保修范围、非人为损坏可免费维修或换货、人为损坏或超保可能收工本费\"均与证据[1][2]一致，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-004",
+    "bucket": "D_absent",
+    "query": "设备坏了能不能预约师傅上门修，不用寄回维修点？",
+    "answer": "您好，关于设备维修，目前平台提供的流程是：保修期内设备出现非人为故障，联系客服登记后，需按指引将设备寄回指定维修点，核验后免费维修并寄回；超保或人为损坏的维修可能收取工本费，费用会提前告知[1][4]。\n\n关于「预约师傅上门维修、不寄回维修点」：暂时没有查到相关信息，建议您通过「喵喵优选」App 内「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接人工客服核实，人工客服服务时间为每日 9:00 至 22:00[9]。\n\n另外，如果只是设备报错或小故障，您可以先按常见故障自查处理：饮水机不出水可检查水位、断电清洗水泵；猫砂盆报错可清空废砂盒、检查滚筒是否卡砂后重启；喂食器卡粮可检查颗粒直径是否超 12mm、清理出粮口；摄像头离线可确认 Wi-Fi 为 2.4G 频段并重新配网[8]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "维修流程、工本费提前告知来自证据[1][4]；上门维修未查到信息属合理拒答并引导App人工客服及9:00-22:00服务时间来自证据[9]；故障自查各项（水位/水泵、废砂盒/滚筒、12mm颗粒、2.4G Wi-Fi）均与证据[8]一致，无编造数值或规则串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-005",
+    "bucket": "D_absent",
+    "query": "会员积分能不能兑换成现金提现吗？",
+    "answer": "关于积分提现，目前**暂时无法确认**是否支持，现有资料没有说明积分能否兑换成现金提现，建议您通过 App 内的人工客服入口联系人工客服核实[1]。\n\n可以确认的是积分目前有哪些用途：\n\n- 积分在结算页勾选使用，**100 积分可抵扣订单金额 1 元，单笔最多抵 30 元**；该规则仅指结算时抵扣订单金额，不代表积分可以提现[1]。\n- 积分也可直接抵扣运费，例如未满包邮门槛的 6 元运费可用 600 积分抵掉，抵满即视为包邮[1]。\n- 积分还能在会员中心兑换实物：800 积分兑猫零食小样一份、1500 积分兑自动饮水机滤芯 3 片、2000 积分兑上门更换一次滤芯的服务；积分有效期 24 个月，过期自动清零[1]。\n\n如果您指的是其他平台的积分或特定活动积分，具体规则也建议一并向人工客服确认。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答中所有具体事实（100积分抵1元、单笔最多抵30元、6元运费可用600积分抵、800/1500/2000积分兑换实物、有效期24个月过期清零）均出自证据[1]；提现部分明确表示\"暂时无法确认\"并建议联系人工客服，属合理拒答与渠道引导，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-006",
+    "bucket": "D_absent",
+    "query": "猫爬架买回来发现尺寸不合适，能付费让你们派人上门安装吗？",
+    "answer": "您好，关于猫爬架的上门安装服务，暂时没有查到相关信息，建议您通过 App 内的人工客服入口进一步核实。\n\n就现有资料说明一点:大型猫爬架(型号 MH-CT30)标注为**需自行组装**,随附六角扳手与图解说明书[1]。资料中未提及平台提供付费上门安装服务,因此无法确认是否可以安排,请您以人工客服的答复为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅引用证据[1]的\"需自行组装、随附六角扳手与图解说明书\"，并明确表示未查到上门安装信息、以人工客服答复为准，属合理拒答与兜底表述，未编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-007",
+    "bucket": "D_absent",
+    "query": "MH-CAM1 的云存储录像会保留多少天，过期后还能恢复吗？",
+    "answer": "关于 MH-CAM1 的存储，资料显示它「支持最大 128G TF 卡或云存储」[1]，但**暂时没有查到云存储录像的保留天数，以及过期后能否恢复的相关信息**。\n\n建议您通过 App 内的人工客服入口联系人工客服核实，以平台实际说明为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "存储规格\"最大128G TF卡或云存储\"直接来自证据[1]；对云存储保留天数、过期恢复明确表示未查到，属合理拒答与兜底表述，未编造具体数值；引导App内人工客服属平台既定渠道话术，有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-008",
+    "bucket": "D_absent",
+    "query": "MH-W60 能不能用其他品牌的滤芯，接口规格是多少？",
+    "answer": "关于 MH-W60 的滤芯情况，目前资料中只能确认：它采用双滤芯并联，建议每 4 周更换一次滤芯[1]。\n\n但「是否兼容其他品牌滤芯」以及「滤芯接口规格是多少」，暂时没有查到相关信息。建议您通过 App 人工客服入口联系人工客服进一步核实，以免买错不匹配的滤芯。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅引用证据[1]中 MH-W60 的双滤芯并联、每 4 周更换滤芯，属实；对兼容性与接口规格明确表示未查到，并引导 App 人工客服核实，属合理拒答与标准渠道话术，无编造数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-009",
+    "bucket": "D_absent",
+    "query": "猫爬架的剑麻柱能单独买替换件吗，单根多少钱？",
+    "answer": "暂时没有查到猫爬架剑麻柱可单独购买替换件及单根价格的相关信息。\n\n现有资料仅能确认大型猫爬架（型号 MH-CT30）的柱身材质为剑麻柱身[1]，但没有关于该剑麻柱是否单独售卖、替换件规格或价格的内容。建议您通过 App 内的人工客服入口进一步核实，以人工客服的答复为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅陈述证据[1]中的\"剑麻柱身\"材质，并明确表示未查到单独售卖替换件及价格的信息，未编造任何具体数值或规则；引导通过App人工客服核实属标准兜底话术，有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-010",
+    "bucket": "D_absent",
+    "query": "买饮水机时能加钱买三年延保吗？",
+    "answer": "关于「加钱购买三年延保」这项服务，暂时没有查到相关信息，建议您通过 App 内的人工客服入口进一步核实。\n\n作为参考，目前资料中明确的是电子类商品的保修政策：\n\n- 电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品维修可能收取工本费[1][3]。\n- 保修期内设备故障，联系客服登记后按指引寄回指定维修点，核验后免费维修并寄回；超保或人为损坏维修可能收取工本费，费用会提前告知[6]。\n\n至于是否能额外付费延长保修、具体价格和年限，资料中未提及，我不能替平台作出承诺，请您以人工客服的答复为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅复述证据[1][3]的12个月保修、非人为损坏免费维修换货、人为/超保收工本费，以及证据[6]的寄修流程与费用提前告知；对\"加钱购买三年延保\"明确表示未查到、不承诺，属合理拒答与兜底表述，无编造具体数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-001",
+    "bucket": "A_policy",
+    "query": "价保和七天无理由退货，两个期限分别从哪天开始算？",
+    "answer": "这两个期限的起算点不一样，需要注意区分：\n\n- **七天无理由退货**：自**签收之日**起 7 天内，商品完好、不影响二次销售的，支持无理由退货；定制类、生鲜类商品除外[1][3]。\n- **价格保护**：自营商品支持**下单后** 7 天内价保，这 7 天自**下单时间**起算，不是从签收之日算起[2]。期间若同款降价，可在「我的订单」-「申请价保」提交，差价将退回原支付渠道[2]。\n\n简单记：无理由退货看**签收日**，价保看**下单日**，两者起算点不同，别混用[1][2]。\n\n如对具体订单的适用情况有疑问，建议通过 App 人工客服入口进一步核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中无理由退货（签收之日起7天、商品完好、定制生鲜除外）与价保（下单后7天、自下单时间起算、我的订单-申请价保、差价退回原支付渠道）的起算点、渠道均与证据[1][2][3]一致，未新增任何具体数值或串线；末尾引导App人工客服属标准兜底话术，有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-002",
+    "bucket": "A_policy",
+    "query": "纸质发票可以寄到改过的地址吗，邮费怎么收？",
+    "answer": "关于纸质发票的邮寄，为您说明如下：\n\n**1. 能否寄到改过的地址**\n纸质发票需要在申请开票时备注邮寄地址，平台**不接受面单改寄**[1]。也就是说，发票一旦按申请时填写的地址寄出，后续再改地址重新寄送是不支持的。建议您在提交纸质发票申请时，就填写准确、可签收的地址；如果申请后地址确有变动，建议尽快通过 App 人工客服入口咨询（开票问题人工客服工作时间为 9:00 至 22:00）[3]，以平台实际处理结果为准。\n\n**2. 邮费怎么收**\n纸质发票的**快递费为到付**，由收件方在收件时支付[1]。需要提醒的是，这与订单商品的运费规则（满 99 元包邮等）[2][4]是两回事，发票邮寄不适用商品包邮规则。\n\n**3. 另外提示**\n- 订单完成收货后 30 天内可申请开票，超过 30 天需联系客服单独处理[3]；\n- 纸质发票在开出后 3 个工作日内寄出，具体物流以实际快递为准[3]。\n\n如您还有其他开票问题，欢迎随时咨询小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"不接受面单改寄\"\"快递费到付\"来自证据[1]，\"30天内可申请开票、超期联系客服\"\"纸质发票开出后3个工作日内寄出、物流以实际快递为准\"\"人工客服9:00-22:00\"来自证据[3]，商品运费规则区分引用[2][4]；App人工客服入口属标准渠道引导，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-003",
+    "bucket": "A_policy",
+    "query": "发票金额是按商品原价算，还是按我实际付的钱算？积分抵掉的部分算进去吗？",
+    "answer": "发票金额是**按您的实付金额计算**的，不是按商品原价，并且**不含运费与积分抵扣部分**——也就是说，积分抵掉的金额不计入开票金额[1]。另外，一笔订单只开一次票[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"发票金额以实付金额为准、不含运费与积分抵扣部分\"\"一笔订单只开一次票\"均直接来自证据[1],无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-004",
+    "bucket": "A_policy",
+    "query": "双倍积分活动攒到的积分，会把会员等级升级金额也翻倍吗？",
+    "answer": "不会的。\n\n活动期间的双倍积分**只影响可用积分**，双倍积分**不计入等级升级的累计消费**，所以会员等级的升级金额不会跟着翻倍[1]。会员等级仍按累计消费自动升级：累计消费 1000 元起升银卡，累计消费 5000 元起升金卡[2][4]。\n\n如果你还想了解其他积分或等级规则，可以告诉我～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "双倍积分只影响可用积分、不计入等级升级累计消费出自证据[1]；1000元升银卡、5000元升金卡出自证据[4]（证据[2]亦支持按累计消费自动升级），无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-005",
+    "bucket": "A_policy",
+    "query": "我买的预售商品没按时付尾款，定金会怎么处理？",
+    "answer": "关于预售定金，平台规则是这样的：\n\n- 定金支付后**不支持无理由退定金**[1]。\n- 如果尾款没有按时支付，**定金会按该商品对应活动的规则处理**[1]。具体怎么处理要看您参加的那场活动规则，建议您在活动页面查看，或通过 App 的人工客服入口联系人工客服核实。\n\n另外提醒：预售商品的发货时间以详情页标注为准[6]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"定金不支持无理由退定金\"\"尾款未按时支付按活动规则处理\"\"预售商品发货时间以详情页标注为准\"分别对应证据[1]和[6];引导查看活动页面/联系人工客服属平台既定服务渠道兜底话术,未编造具体数值或条件。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-006",
+    "bucket": "A_policy",
+    "query": "买家自己原因换货，寄过去和平台再寄回来这两段运费谁付？",
+    "answer": "买家自身原因属于「非质量问题换货」，寄回和平台再寄出的**往返运费均由买家承担**[1][2]。运费承担最终以平台售后规则判定为准[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答称非质量问题换货往返运费由买家承担，与证据[1][2]一致；\"以平台售后规则判定为准\"属证据[2]原文的兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-007",
+    "bucket": "A_policy",
+    "query": "少发了配件要换货，来回运费要我承担吗？",
+    "answer": "少发漏发属于平台责任，这种情况下的换货**往返运费由平台承担**[1]，不需要您支付来回运费[1][2]。\n\n如果后续处理遇到问题，您可以在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，并按页面指引提交订单号、开箱视频或商品照片等凭证[5]。人工客服服务时间为每日 9:00 至 22:00[5]。最终运费承担与处理进度以平台售后规则实际判定为准[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "少发漏发换货往返运费由平台承担有证据[1][2]支撑；客服入口、凭证要求与服务时间9:00-22:00均出自证据[5]；末尾\"以平台售后规则实际判定为准\"属证据[2]的兜底表述，无编造具体数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-008",
+    "bucket": "A_policy",
+    "query": "猫窝里的垫芯能放洗衣机吗？",
+    "answer": "不能哦～猫窝的**内部垫芯不可机洗**，进水后填充物容易结块变形，只能局部擦洗后晾干[1]。可拆下的外套则可以机洗：拆掉垫芯后装进洗衣袋，选轻柔模式冷水洗，洗后阴干、不要暴晒[1]。四季保暖猫窝 MH-NEST20 的清洗说明也标注了“外套可手洗，内部垫芯不可机洗”[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"内部垫芯不可机洗、进水结块变形、只能局部擦洗晾干\"及\"外套拆掉垫芯装洗衣袋、轻柔模式冷水洗、阴干不暴晒\"均出自证据[1]，MH-NEST20 的清洗标注出自证据[2]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-009",
+    "bucket": "A_policy",
+    "query": "积分兑换的实物有哪些档位？两千积分可以换什么服务？",
+    "answer": "积分可以在会员中心兑换实物，具体档位如下[1]：\n\n- **800 积分**：兑猫零食小样一份[1]\n- **1500 积分**：兑自动饮水机滤芯 3 片[1]\n- **2000 积分**：兑上门更换一次滤芯的服务[1]\n\n所以**两千积分可以兑换「上门更换一次滤芯的服务」**[1]。另外提醒一下，积分有效期为 24 个月，过期会自动清零[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的兑换档位（800/1500/2000积分）与积分有效期24个月、过期清零均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-A-010",
+    "bucket": "A_policy",
+    "query": "金卡生日礼要自己领取吗，错过当月还能补领吗？",
+    "answer": "您好，关于金卡生日礼：\n\n- 金卡会员生日当月可领取猫罐头礼盒一份，**需要您自己在会员中心手动领取**[1]。\n- 该礼盒**过期不补发**，所以如果错过生日当月，是无法补领的[1]。\n\n建议您在生日当月记得前往会员中心及时领取哦～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"生日当月可领取猫罐头礼盒一份、需在会员中心手动领取、过期不补发\"均直接来自证据[1]，无编造内容。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-001",
+    "bucket": "B_model",
+    "query": "MH-LP200 放两只猫用，废砂盒大概隔几天清一次？",
+    "answer": "MH-LP200 是智能猫砂盆 Max。废砂盒容量约 10 天（单猫）[1]；多猫家庭建议每 3 至 5 天倾倒一次废砂盒[1]。因此两只猫使用的话，建议大约每 3 至 5 天清理一次；废砂盒满时 App 会推送提醒[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "型号对应、废砂盒约10天（单猫）、多猫家庭每3至5天倾倒、App满溢推送均直接来自证据[1]；\"两只猫建议每3至5天清理\"是对多猫建议的合理套用，未新增数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-002",
+    "bucket": "B_model",
+    "query": "MH-W20 的水泵清洁频率和滤芯更换频率分别是多少？",
+    "answer": "MH-W20 的清洁与更换频率如下：\n\n- **水泵清洁**：水泵可拆卸，建议**每周清洗一次**[1]。\n- **滤芯更换**：采用三重过滤棉，建议**每 2 周更换一次滤芯**[1]。\n\n如需进一步了解拆洗方法，可参考说明书操作；如有其他疑问，可随时联系小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"水泵可拆卸、每周清洗一次\"和\"三重过滤棉、每2周更换滤芯\"均直接来自证据[1]对MH-W20的描述，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-003",
+    "bucket": "B_model",
+    "query": "W60 饮水机的滤芯是串联还是并联，多久换一次？",
+    "answer": "关于您咨询的 MH-W60 饮水机滤芯情况：\n\n- **滤芯结构**：双滤芯并联[1]\n- **更换周期**：建议每 4 周更换一次滤芯[1]\n\n另外提醒一下，这款饮水机的不锈钢面盘建议每周清洗一次[1]。如需更换滤芯，也可以在会员中心用 1500 积分兑换自动饮水机滤芯 3 片[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "滤芯双滤芯并联、每4周更换、不锈钢面盘每周清洗均出自证据[1]的MH-W60参数；1500积分兑滤芯3片出自证据[3]，全部有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-004",
+    "bucket": "B_model",
+    "query": "CT30 猫爬架最上面有吊床吗，每一层最多承重多少？",
+    "answer": "您好，为您查询到以下信息：\n\n- **有吊床**：MH-CT30 大型猫爬架高 1.6m，共四层，带顶层吊床[1]。\n- **承重**：单层最大承重 10kg[1]。\n\n另外提醒一下，这款猫爬架属于非联网商品，无需激活，按随附的六角扳手与图解说明书自行组装即可[1][2]。\n\n如果您想了解其他细节，可以随时告诉我～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的型号MH-CT30、1.6m四层带顶层吊床、单层承重10kg、随附六角扳手与图解说明书自行组装、非联网商品无需激活，均可在证据[1][2]中找到依据，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-005",
+    "bucket": "B_model",
+    "query": "HP12 加热垫的尺寸和建议连续通电时长是什么？",
+    "answer": "您问的是恒温加热垫 **MH-HP12**，相关信息如下：\n\n- **尺寸**：40cm × 30cm[1]\n- **建议连续通电时长**：连续通电不超过 12 小时为宜[1]\n\n另外补充一下，这款加热垫为恒温 38℃，内置过热保护[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的尺寸40cm×30cm、连续通电不超过12小时、恒温38℃及内置过热保护均直接来自证据[1]对MH-HP12的描述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-006",
+    "bucket": "B_model",
+    "query": "HP20 能调到哪三档温度？它有没有定时关机？",
+    "answer": "HP20（型号 MH-HP20）的三档温度分别是 **30℃ / 38℃ / 45℃**，并且**内置定时关机**功能（同时带有过热保护）[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的三档温度30℃/38℃/45℃、内置过热保护与定时关机均直接来自证据[1]对MH-HP20的描述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-007",
+    "bucket": "B_model",
+    "query": "FD10 停电后靠什么继续喂，能撑多久？",
+    "answer": "FD10（型号 MH-FD10）断电后靠 **4 节 5 号电池**继续应急供电，市电断开时可维持定时定量投喂约 **24 小时**[1]。\n\n补充一点：基础版没有 App，断电期间不会推送提醒[1]。如需确认电池型号或更换细节，建议通过 App 人工客服入口咨询。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"4 节 5 号电池应急供电、断电维持约 24 小时、基础版无 App 且断电不推送提醒\"均直接来自证据[1]；引导通过 App 人工客服入口咨询属平台服务渠道兜底话术，按豁免规则不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-008",
+    "bucket": "B_model",
+    "query": "FD30 停电时还能在 App 里手动加餐或者看回放吗？",
+    "answer": "FD30（型号 MH-FD30）在停电（市电断开）时，**不能在 App 里手动加餐，也不能看回放**：断电期间不支持视频回看与 App 远程手动投喂[1]。\n\n不过停电后设备会自动切换到内置应急电池，可维持定时投喂约 48 小时[1]。如需进一步协助，可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的售后入口转接在线人工客服[8]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "断电期间不支持视频回看与App远程手动投喂、自动切换内置应急电池维持定时投喂约48小时均出自证据[1]；客服入口引导出自证据[8]，属平台既定渠道话术。无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-009",
+    "bucket": "B_model",
+    "query": "MH-CAM1 能转多少度，存储卡最大支持多大？",
+    "answer": "关于 MH-CAM1 全景看护摄像头：\n\n- 旋转角度：水平旋转 355°，俯仰 90°[1]\n- 存储卡：最大支持 128G TF 卡（也支持云存储）[1]\n\n补充提醒：MH-CAM1 是独立的全景看护摄像头，与自动喂食器摄像头版 MH-FD30 是两款不同商品，请勿混淆[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中355°水平旋转、90°俯仰、最大128G TF卡与云存储、以及MH-CAM1与MH-FD30为不同商品勿混淆，均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-B-010",
+    "bucket": "B_model",
+    "query": "NEST20 猫窝垫芯可以机洗吗，外套怎么清洁？",
+    "answer": "关于 MH-NEST20 猫窝：\n\n**垫芯：不可以机洗。** 内部垫芯不可机洗，进水后填充物会结块变形，只能局部擦洗后晾干[1][2]。\n\n**外套清洁：** 清洗时要先把内部垫芯拆掉。外套可以装进洗衣袋，选轻柔模式用冷水机洗，洗后阴干，不要暴晒[2]。产品参数页也标注外套可手洗[1]；这两种说法都能在资料里查到，实际清洁时建议优先选轻柔方式处理。\n\n如果你对清洁方式还有疑问，可以通过 App 内的人工客服入口进一步核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "垫芯不可机洗、外套拆掉垫芯后装洗衣袋轻柔冷水机洗并阴干不暴晒均出自证据[2]，外套可手洗出自证据[1]，型号MH-NEST20与证据[1]一致；App内人工客服入口属平台既定服务渠道引导，按豁免视为有据，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-001",
+    "bucket": "C_colloquial",
+    "query": "我家 LP50 的垃圾盒没法手机提醒吧？那我大概几天倒一回？",
+    "answer": "您好～关于您家的 LP50（型号 MH-LP50）：\n\n- 它**不支持手机满溢推送提醒**：这款机器不含 App 联网功能，因此没有 App 远程监控，也不会在废砂盒满时推送提醒[1]。\n- 倾倒频率建议：**每 4 至 5 天倾倒一次废砂盒**，废砂盒容量约为 5 天（单猫）[1]。\n\n如果您希望有满溢推送提醒，就需要选带 App 联网功能的型号；具体以商品页说明为准。还有其他想了解的，随时问我～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"不含 App 联网、无满溢推送提醒\"\"每 4 至 5 天倾倒一次、废砂盒约 5 天(单猫)\"\"型号 MH-LP50\"均直接来自证据[1]，末尾\"以商品页说明为准\"属兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-002",
+    "bucket": "C_colloquial",
+    "query": "W40 那个滤芯老换不换啊，机器要不要隔段时间拆开洗？",
+    "answer": "关于您问的 W40 饮水机：\n\n**滤芯更换**：这款机器使用五重过滤棉和椰壳活性炭，建议每 3 周更换一次滤芯[1]。\n\n**机身清洗**：整机可拆分水洗，建议每周清洗一次[1]。\n\n另外提醒一下，如果出现不出水的情况，可以先检查水位是否低于最低线、水泵是否卡阻，断电清洗水泵后再重试[8]。\n\n如果您还有其他使用问题，随时问小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "滤芯（五重过滤棉+椰壳活性炭、每3周更换）与整机可拆分水洗、每周清洗均出自证据[1]；不出水自查步骤出自证据[8]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-003",
+    "bucket": "C_colloquial",
+    "query": "我买的是FD10基础款，断电了手机会不会跳通知啊？",
+    "answer": "不会跳通知。您这款自动喂食器基础版（型号 MH-FD10）**没有 App，断电期间不推送提醒**[1]。\n\n市电断开时，它会靠 4 节 5 号电池维持定时定量投喂约 24 小时[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"基础版无 App、断电期间不推送提醒\"与\"4 节 5 号电池维持定时定量投喂约 24 小时\"均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-004",
+    "bucket": "C_colloquial",
+    "query": "这猫窝套子我拆下来能扔洗衣机不，芯子也一起洗行吗？",
+    "answer": "猫窝外套可以机洗，但要把内部垫芯拆出来，外套装进洗衣袋，选轻柔模式、冷水洗涤，洗后阴干、不要暴晒[1]。内部垫芯不能机洗，进水后填充物会结块变形，只能局部擦洗后晾干[1]；所以芯子不要和套子一起放进洗衣机[1]。\n\n另外，同款猫窝的型号说明里写的是「外套可手洗、内部垫芯不可机洗」[2]。两种说法都要求垫芯不可机洗[1][2]；外套你机洗时按轻柔冷水来就行[1][2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答的清洗方式（外套机洗需拆垫芯、装洗衣袋、轻柔冷水、阴干不暴晒；垫芯不可机洗、只能局部擦洗晾干）均出自证据[1]，型号说明「外套可手洗、垫芯不可机洗」出自证据[2]，无杜撰数值或张冠李戴。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-005",
+    "bucket": "C_colloquial",
+    "query": "HP20表面那层绒布能拆下来洗不？温度有几档来着？",
+    "answer": "HP20 的表面绒布是可以拆下来清洗的[1]；它有三档温度可调，分别为 30℃、38℃、45℃[1]。另外，该型号还带有过热保护和定时关机功能[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"表面绒布可拆洗\"\"三档温度30℃/38℃/45℃\"\"过热保护与定时关机\"均直接来自证据[1]对MH-HP20的描述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-006",
+    "bucket": "C_colloquial",
+    "query": "猫砂盆 Pro 两只猫的话，那个废砂盒是不是两三天就得倒？",
+    "answer": "不是的，按官方建议不需要两三天就倒一次。\n\n智能猫砂盆 Pro（型号 MH-LP100）的废砂盒在单猫情况下约可用 7 天，建议每 5 至 7 天倾倒一次；**两只猫的话，建议每 3 至 4 天倾倒一次**。废砂盒满时，App 会推送提醒[1]。\n\n所以两只猫使用时，3 至 4 天倒一次即可，不必两三天就倒。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"单猫约7天、每5至7天倾倒一次、两只猫每3至4天倾倒一次、废砂盒满时App推送提醒\"均直接来自证据[1]，型号MH-LP100也一致，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-007",
+    "bucket": "C_colloquial",
+    "query": "金卡那个生日罐头是自动寄来的吗，还是我得自己去领？",
+    "answer": "您好，金卡会员的生日猫罐头礼盒**需要您自己领取，不会自动寄出**：生日当月可在会员中心手动领取一份，过期不补发[1]。建议您在生日当月记得前往会员中心操作，别错过领取时间～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"生日当月需在会员中心手动领取猫罐头礼盒一份、过期不补发\"完全对应证据[1]的原文表述，无任何新增数值或杜撰事实，末尾提醒属礼貌措辞。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-008",
+    "bucket": "C_colloquial",
+    "query": "我订单签收都快一个月了，还能自己点开发票申请吗？",
+    "answer": "您这种情况通常还是可以自己申请的。订单完成收货后 **30 天内**都可以申请开票，超过 30 天才需要联系客服单独处理[4]；您签收快一个月，还在这个期限内，可以自己在 App 里操作。\n\n**申请路径**：进入「我的订单」，找到对应订单，点击「申请开票」，填写抬头和税号后提交[6]。\n\n再提醒两点开票规则：\n- 一笔订单只开一次票，发票金额以实付金额为准，不含运费与积分抵扣部分[2]；\n- 个人账户默认开具电子普通发票，抬头填个人姓名或单位名称均可[2]。\n\n电子发票会在申请通过后 3 个工作日内开出并发送到您填写的邮箱，具体以平台实际处理为准[4][6]。如果下单时已超过 30 天，或在申请过程中遇到问题，建议您通过 App 人工客服入口咨询（工作时间 9:00 至 22:00）[4]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的具体事实均有证据支撑：30天开票期限与超期联系客服[4]、申请路径「我的订单」-「申请开票」填抬头税号[6]、一笔订单只开一次票且金额以实付为准不含运费与积分[2]、个人账户默认电子普通发票[2]、电子发票3个工作日内开出并发送邮箱[4][6]、人工客服工作时间9:00-22:00[4]；末尾\"以平台实际处理为准\"属兜底表述，App人工客服入口属标准渠道引导，均不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-009",
+    "bucket": "C_colloquial",
+    "query": "我家喂食器老卡粮，是不是颗粒太大或者受潮了？咋先排查？",
+    "answer": "喂食器卡粮可以先按这几步自查：\n\n1. **检查粮食颗粒**：确认颗粒直径是否超过 **12mm**，颗粒过大容易卡粮[1]。\n2. **检查粮桶是否受潮**：看粮食有没有受潮结块，结块也会导致下粮不畅[1]。\n3. **清理出粮口**：把出粮口清理干净后，再重新试机[1]。\n\n如果按以上步骤排查后仍然卡粮，建议通过 App 内的人工客服入口联系客服进一步核实处理。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "卡粮自查三步（颗粒直径12mm、受潮结块、清理出粮口后重试）均出自证据[1]；末尾引导通过App内人工客服入口联系客服属平台既定服务渠道话术，按豁免规则视为有据，无编造具体数值或规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-C-010",
+    "bucket": "C_colloquial",
+    "query": "W60 缺水会不会在手机上吱一声提醒我？",
+    "answer": "关于 MH-W60 缺水提醒，这款机型的核心功能包含「无线水位提醒推送 App」和「缺水断电保护」[1]，也就是说水位异常时会通过 App 推送提醒。\n\n不过，资料里没有提到它是否会在手机上发出声音提示（“吱一声”），“暂时没有查到相关信息”；建议您在「喵喵优选」App 内通过「我的」-「联系客服」转接在线人工客服进一步确认[10]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答仅引用证据[1]中 MH-W60 的「无线水位提醒推送 App」「缺水断电保护」功能，对声音提示明确表示未查到、不编造，并给出证据[10]的客服入口引导，均属有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-001",
+    "bucket": "E_multi",
+    "query": "我要申请企业电子专票，资料里少了开户行和账号行不行？如果信息补齐，开票要等多久？",
+    "answer": "您好，关于企业电子专票：\n\n**1. 少了开户行和账号不可以**\n电子专票仅企业账户可申请，提交时必须填写完整的**纳税人识别号、开户行与对公账号**，信息不全不予受理[1]。所以开户行和对公账号缺一不可，需要补齐后再提交。\n\n**2. 信息补齐后的开票时效**\n电子发票在申请通过后 **3 个工作日内**开出，开好后会发送到申请时填写的邮箱[3][4]，具体以平台实际处理为准。另外提醒您，订单完成收货后 **30 天内**可申请开票，超过 30 天需联系客服单独处理[3]。\n\n开票相关问题也可在人工客服工作时间 9:00 至 22:00 咨询[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的具体事实均有证据支撑：电子专票需填纳税人识别号、开户行与对公账号且信息不全不予受理出自[1]；电子发票申请通过后3个工作日内开出并发送邮箱出自[3][4]；收货后30天内可申请开票、超期联系客服出自[3]；客服工作时间9:00-22:00出自[3]。末尾\"以平台实际处理为准\"属兜底表述，不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-002",
+    "bucket": "E_multi",
+    "query": "订单退款后，之前拿到的积分会不会留着？退款申请通常几小时响应、几个工作日处理？",
+    "answer": "您好，小喵为您解答：\n\n**1. 退款后积分会保留吗？**\n不会保留。积分在订单完成收货后 7 天入账；发生退货或退款时，积分会同步扣回[2]。\n\n**2. 退款申请的响应与处理时效**\n如果按平台常见问题处理时限来看：退款申请的首次响应为 2 小时，处理时限为 3 个工作日[3]。\n\n⚠️ 需要说明的是，这里的“3 个工作日”是处理时限，**并不等于退款到账时间**。退货商品经平台核验通过后，退款会原路退回，具体到账时效以平台售后规则为准，实际到账时间还取决于您的支付渠道[4]。\n\n如果您需要人工协助查询具体订单，可在「喵喵优选」App 内通过「我的」-「联系客服」，或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，服务时间为每日 9:00 至 22:00[9]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "积分入账7天及退款扣回见证据[2]；退款首次响应2小时、处理时限3个工作日见证据[3]；到账时效以平台售后规则为准、不承诺具体天数见证据[4]；人工客服入口与服务时间见证据[9]。回答还明确区分了\"处理时限\"与\"到账时间\"，未编造具体到账天数，所有具体事实均有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-003",
+    "bucket": "E_multi",
+    "query": "金卡会员收到运输破损商品，售后有什么专属权益？需要提交什么材料，物流异常工单的首次响应和处理时限是多少？",
+    "answer": "关于金卡会员收到运输破损商品的售后问题，为您说明如下：\n\n**一、金卡会员专属售后权益**\n金卡会员享优先客服接入与上门取件退换货服务[2]。具体权益以会员中心页面标注为准[2]。\n\n**二、运输破损的处理与材料**\n商品运输途中破损的，请在**签收后 48 小时内**联系客服，并提供**开箱视频与照片**；核实后可免费补发或退款，相关运费由平台承担[1]。您也可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，并按页面指引提交**订单号、开箱视频或商品照片**等凭证[6]。人工客服服务时间为每日 9:00 至 22:00[6]。\n\n**三、物流异常工单时限**\n物流异常工单的首次响应为 **2 小时**，处理时限为 **5 个工作日**[4]。实际处理进度以平台实际处理为准。\n\n如还有其他疑问，欢迎随时联系小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "金卡权益[2]、破损48小时与开箱视频/运费承担[1]、人工客服入口与9:00-22:00[6]、物流异常2小时/5个工作日[4]均逐条有据，末尾\"以平台实际处理为准\"属兜底表述，无编造数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-004",
+    "bucket": "E_multi",
+    "query": "包裹压坏了我需要在多久内联系你们、准备什么证据？联系客服入口和在线时间也告诉我下。",
+    "answer": "关于包裹运输破损的处理，小喵帮您查到了以下信息：\n\n**一、联系时限与所需证据**\n- 商品在运输途中破损，请在**签收后 48 小时内**联系客服[1]。\n- 需要提供**开箱视频与照片**；经核实后，可免费补发或退款，相关运费由平台承担[1]。具体处理进度以平台实际处理为准。\n\n**二、人工客服入口**\n您可在「喵喵优选」App 内通过以下任一入口转接在线人工客服[2]：\n- 「我的」-「联系客服」\n- 订单详情页的「订单售后」或「联系客服」\n\n进入后，请按页面指引提交订单号、开箱视频或商品照片等凭证[2]。\n\n**三、在线时间**\n人工客服服务时间为**每日 9:00 至 22:00**；高峰期请您耐心等待或留言[2]。\n\n如果您还有其他疑问，随时告诉小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中48小时时限、开箱视频与照片凭证、免费补发或退款及运费由平台承担均出自证据[1]；人工客服入口、凭证提交与9:00-22:00服务时间均出自证据[2]；\"以平台实际处理为准\"属不承诺具体数值的兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-005",
+    "bucket": "E_multi",
+    "query": "喂食器一直卡粮，颗粒尺寸该检查多大以内？如果申请售后，维修工单的响应和处理时间是什么？",
+    "answer": "您好，关于喂食器卡粮和维修工单的问题，为您解答如下：\n\n**1. 卡粮时的颗粒尺寸检查**\n喂食器卡粮时，请检查粮食颗粒直径是否超过 **12mm**，同时检查粮桶是否受潮结块，清理出粮口后重试[1]。\n\n**2. 维修工单的响应与处理时间**\n根据平台常见问题处理时限，维修类问题的首次响应为 **4 小时**，处理时限为 **7 个工作日**[3]。实际进度请以平台实际处理为准。\n\n另外提醒您：电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品维修可能收取工本费[2][9]。如需申请售后，可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，并按页面指引提交订单号、视频或商品照片等凭证；人工客服服务时间为每日 9:00 至 22:00[10]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "12mm颗粒尺寸来自证据[1]，维修首次响应4小时/处理时限7个工作日来自证据[3]，保修12个月自签收起算及人为损坏收费来自证据[2][9]，客服入口与9:00-22:00服务时间来自证据[10]，均为有据内容，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-006",
+    "bucket": "E_multi",
+    "query": "我用 600 积分抵掉 6 元基础运费后，这单的发票会把这 6 元写进去吗？",
+    "answer": "不会写进去。发票金额以实付金额为准，**不含运费与积分抵扣部分**[3]；您用 600 积分抵掉的这 6 元基础运费属于积分抵扣，因此不会计入发票金额[1][3]。\n\n另外补充：积分可直接抵扣运费，未满包邮门槛的 6 元运费可用 600 积分抵掉，抵满即视为包邮[1]。具体开票结果以平台实际处理为准。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "发票金额以实付金额为准、不含运费与积分抵扣部分出自证据[3]；600积分抵6元运费、抵满视为包邮出自证据[1]；末尾\"以平台实际处理为准\"属不承诺具体数值的兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-007",
+    "bucket": "E_multi",
+    "query": "我的猫窝收到一年多坏了，产品本身保修多久？如果算人为弄坏，维修费用会先告诉我吗？",
+    "answer": "您好，关于您这款猫窝的保修和维修费用，情况如下：\n\n**1. 保修期限**\n四季保暖猫窝整机保修 **12 个月**，人为损坏与自然磨损不在保修范围[3]。您提到已经收到一年多了，按签收日起算通常已超出保修期[3]。\n\n**2. 维修费用是否提前告知**\n超保或人为损坏的维修**可能收取工本费，费用会提前告知**您[2][4]。也就是说，如果按人为损坏或超保处理，维修前会先和您确认费用。\n\n**建议**：您可以在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，提交订单号和商品照片，由人工进一步核实具体维修方案和费用[10]。人工客服服务时间为每日 9:00 至 22:00[10]。具体处理结果以平台实际处理为准。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "保修12个月及人为损坏/自然磨损除外有证据[3]支撑；超保或人为损坏可能收工本费且提前告知有证据[2][4]支撑；App人工客服入口与服务时间9:00-22:00有证据[10]支撑；\"以平台实际处理为准\"属兜底表述，无编造具体数值。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-008",
+    "bucket": "E_multi",
+    "query": "两只猫用 LP100 时废砂盒几天清一次？清理时 App 能给我满盒提醒吗？",
+    "answer": "两只猫使用 MH-LP100 时，建议每 3 至 4 天倾倒一次废砂盒[1]。废砂盒满时 App 会推送提醒[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "\"两只猫建议每 3 至 4 天倾倒一次\"和\"废砂盒满时 App 推送提醒\"均直接出自证据[1]对 MH-LP100 的描述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-009",
+    "bucket": "E_multi",
+    "query": "我在港澳台地址下单是不是送不了？如果只是新疆地区，时效会比正常多几天？",
+    "answer": "您好，关于您问的两个问题：\n\n**1. 港澳台地址下单**\n港澳台及海外暂不支持配送（自营配送也不支持）[1][2]，下单前请确认收货地址在可配送范围内[1]。\n\n**2. 新疆地区的时效**\n新疆属于偏远地区，配送时效会在正常时效基础上顺延 2 至 4 天[1]；同时新疆等偏远地区运费另计，需加收 12 元附加运费，该附加运费不参与包邮、需单独支付[1]。实际配送时间以平台实际处理为准。\n\n如果您不确定自己的地址是否在可配送范围内，建议通过 App 内的人工客服入口进一步核实～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "港澳台及海外不支持配送、新疆偏远地区时效顺延2-4天、加收12元附加运费且不参与包邮需单独支付，均直接出自证据[1][2]；末尾\"以平台实际处理为准\"及引导App人工客服属兜底话术，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-E-010",
+    "bucket": "E_multi",
+    "query": "普通会员累计消费到多少才升银卡？银卡商品折扣和每月免运费次数分别是多少？",
+    "answer": "您好，小喵为您查询到以下信息：\n\n- **升级银卡门槛**：累计消费 **1000 元起**即可升为银卡（会员等级按累计消费自动升级，升级后立即生效）[1]。\n- **银卡商品折扣**：银卡享商品 **9 折**[1]。\n- **银卡免运费次数**：银卡会员**每月享 1 次**免运费权益（当月未用完不结转，且不与偏远地区附加运费冲抵）[1][3]。\n\n如需了解其他等级权益，欢迎继续咨询～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "三项结论均有据：1000元升银卡、升级后立即生效来自证据[1]；银卡9折来自证据[1]；银卡每月1次免运费及不结转、不与偏远地区附加运费冲抵来自证据[1][3]。无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-001",
+    "bucket": "D_absent",
+    "query": "你们的饮水机能接家里的智能音箱，用语音命令开关吗？",
+    "answer": "暂时没有查到相关信息：现有饮水机资料中只列出了过滤、UV 紫外杀菌、静音水泵、缺水断电保护、水位提醒等功能，**未提及支持接入智能音箱或用语音命令开关**，因此无法确认是否支持。\n\n建议您通过「喵喵优选」App 内的人工客服入口进一步核实。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅说明现有饮水机资料未提及智能音箱/语音开关功能，属合理拒答与不确定表述；引导通过App人工客服核实属平台既定服务渠道话术，均无编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-002",
+    "bucket": "D_absent",
+    "query": "买的猫砂盆可以绑定两个不同手机号的家庭成员账号一起管理吗？",
+    "answer": "关于猫砂盆能否绑定两个不同手机号的家庭成员账号一起管理，暂时没有查到相关信息，现有资料无法确认是否支持这种多账号共享管理，也不能据此推断「支持」或「不支持」。\n\n现有资料仅说明：智能猫砂盆 Pro（MH-LP100）支持 App 远程监控与健康记录[1]，Max（MH-LP200）支持 App 多猫健康档案[2]，Lite（MH-LP50）不含 App 联网功能[3]；但均未提及家庭成员账号绑定或共享管理。\n\n建议您在「喵喵优选」App 内通过「我的」-「联系客服」，或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服核实，人工客服服务时间为每日 9:00 至 22:00[8]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答对多账号共享管理明确表示资料无法确认，未编造；引用的Pro/Max/Lite功能描述与证据[1][2][3]一致，客服入口与9:00-22:00服务时间来自证据[8]，属有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-003",
+    "bucket": "D_absent",
+    "query": "我能不能给宠物设备单独买一个意外损坏保险？",
+    "answer": "目前平台的知识资料里**没有查到关于「为宠物设备单独购买意外损坏保险」的相关信息**[1][2][3]，所以暂时无法确认是否支持这类保险，建议您通过 App 内的人工客服入口进一步核实。\n\n另外，现有资料只提到了设备的**保修**政策：电子类商品自签收日起保修 12 个月，保修期内非人为损坏可申请免费维修或换货，**人为损坏不在保修范围内**[1][2]。保修并不等于意外损坏保险，具体能否单独投保，还请以人工客服的答复为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答明确表示资料中无意外损坏保险信息（合理拒答），保修表述\"电子类商品自签收日起保修12个月、非人为损坏免费维修或换货、人为损坏不在保修范围\"均落在证据[1][2]；引导App内人工客服属标准兜底话术，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-004",
+    "bucket": "D_absent",
+    "query": "设备坏了能不能预约师傅上门修，不用寄回维修点？",
+    "answer": "关于「预约师傅上门维修、不寄回维修点」：暂时没有查到相关信息，无法确认支持上门维修服务，建议您通过 App 内「我的」-「联系客服」转接人工客服核实[7]。\n\n目前证据里明确的相关信息是：\n\n- 保修期内设备故障，需联系客服登记后，按指引将设备寄回指定维修点，核验后免费维修并寄回；超保或人为损坏的维修可能收取工本费，费用会提前告知[1]。\n- 金卡会员享有的「上门」权益是**上门取件退换货**，即上门取件用于退换货，并非上门维修；银卡会员为退换货运费权益 1 次/月，具体以会员中心页面标注为准[2]。\n- 另外，2000 积分可兑换「上门更换一次滤芯」的服务，这项服务仅限更换滤芯，不涉及设备故障维修[6]。\n\n如果您的设备出现故障，也可以先按常见故障自助排查，比如饮水机不出水、猫砂盆报错、喂食器卡粮、摄像头离线等情形[8]；仍无法解决再联系售后[7]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答核心结论均有据：寄回维修点流程与工本费来自[1]，金卡上门取件退换货、银卡运费权益来自[2]，2000积分兑上门换滤芯来自[6]，故障自查来自[8]，人工客服入口来自[7]；对\"上门维修\"明确表示无法确认并建议转人工，属合理拒答，未编造具体数值或串线规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-005",
+    "bucket": "D_absent",
+    "query": "会员积分能不能兑换成现金提现吗？",
+    "answer": "关于积分能否兑换成现金提现，目前平台资料中没有说明这项规则。**暂时无法确认是否支持积分提现**，建议您通过 App 内的人工客服入口进一步核实[1]。\n\n可以确认的是，积分有以下用途：结算页勾选使用，100 积分可抵扣订单金额 1 元，单笔最多抵 30 元；积分也可抵扣运费，未满包邮门槛的 6 元运费可用 600 积分抵掉；还可在会员中心兑换实物，如 800 积分兑猫零食小样、1500 积分兑自动饮水机滤芯 3 片、2000 积分兑上门更换一次滤芯的服务[1]。积分有效期为 24 个月，过期自动清零[1]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答中所有具体事实（100积分抵1元、单笔最多抵30元、600积分抵6元运费、800/1500/2000积分兑换实物、24个月有效期过期清零）均逐条见于证据[1]；对提现问题明确表示\"暂时无法确认\"并建议联系人工客服，属证据[1]要求的兜底表述，未编造数值或规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-006",
+    "bucket": "D_absent",
+    "query": "猫爬架买回来发现尺寸不合适，能付费让你们派人上门安装吗？",
+    "answer": "您好，关于您咨询的猫爬架安装问题，为您说明如下：\n\n**安装方式**：大型猫爬架（型号 MH-CT30）需自行组装，商品随附六角扳手与图解说明书[1]。\n\n**关于付費上门安装**：目前暂时没有查到平台提供付费上门安装服务的相关信息，建议您通过「喵喵优选」App 内的「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服进一步核实（服务时间每日 9:00 至 22:00）[7]。\n\n另外提醒您，若因尺寸不合适需要换货，非质量问题的换货往返运费需由买家承担；因质量问题或发错货的换货，往返运费由平台承担[3]。退货方面支持 7 天无理由退货，但商品需保持完好、不影响二次销售，具体以平台售后规则为准[9]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "安装方式（自行组装、随附六角扳手与图解说明书）出自证据[1]；无付费上门安装信息时引导App内客服入口及9:00-22:00服务时间出自证据[7]（属标准渠道引导）；换货运费责任划分出自证据[3]；7天无理由退货及商品完好要求出自证据[9]，并以平台售后规则为准。全部具体事实均有据，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-007",
+    "bucket": "D_absent",
+    "query": "MH-CAM1 的云存储录像会保留多少天，过期后还能恢复吗？",
+    "answer": "您好，关于 MH-CAM1 全景看护摄像头，资料显示它支持最大 128G TF 卡或云存储[1]；但**云存储录像具体保留多少天、过期后能否恢复，暂时没有查到相关信息**，建议您通过 App 内的人工客服入口联系人工客服核实。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "128G TF 卡/云存储来自证据[1]；云存储保留天数未给出具体数值，明确表示查不到并引导 App 内人工客服核实，属合理拒答与兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-008",
+    "bucket": "D_absent",
+    "query": "MH-W60 能不能用其他品牌的滤芯，接口规格是多少？",
+    "answer": "关于 MH-W60 的滤芯兼容性和接口规格，我暂时没有查到相关信息；资料中没有说明能否使用其他品牌的滤芯，也没有标注接口规格。建议您通过 App 内的人工客服入口联系人工客服核实。\n\n目前可以确认的是：MH-W60 采用双滤芯并联设计，建议每 4 周更换一次滤芯[1]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答中\"双滤芯并联、建议每4周更换一次滤芯\"与证据[1]完全一致；对滤芯兼容性和接口规格明确表示资料未说明并建议联系人工客服核实，属合理拒答与标准渠道引导，未编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-009",
+    "bucket": "D_absent",
+    "query": "猫爬架的剑麻柱能单独买替换件吗，单根多少钱？",
+    "answer": "关于猫爬架剑麻柱单独购买替换件及单根价格，暂时没有查到相关信息。现有资料只提到大型猫爬架（型号 MH-CT30）采用剑麻柱身[1]，未说明是否支持单独购买替换件，也没有替换件价格信息。\n\n建议您通过 App 内的人工客服入口进一步核实，以免给您错误信息。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅引用证据[1]中MH-CT30采用剑麻柱身的事实，明确说明未查到替换件及价格信息，属合理拒答并引导App内人工客服（第1类豁免），无编造具体数值或规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-010",
+    "bucket": "D_absent",
+    "query": "买饮水机时能加钱买三年延保吗？",
+    "answer": "您好，关于「加钱购买三年延保」这项服务，暂时没有查到相关信息，建议您通过 App 的人工客服入口联系人工客服核实。\n\n目前资料中与保修相关的内容为：电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品的维修可能收取工本费[1][3]。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答对\"三年延保\"明确表示查不到信息并引导走App人工客服（属标准兜底话术，豁免），保修部分\"电子类自签收起保修12个月、非人为损坏免费维修或换货、人为损坏或超保可能收工本费\"均与证据[1][3]一致，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-001",
+    "bucket": "A_policy",
+    "query": "价保和七天无理由退货，两个期限分别从哪天开始算？",
+    "answer": "两个期限的起算点不一样，请注意区分：\n\n- **七天无理由退货**：7 天自**签收之日**起算，商品需完好、不影响二次销售；定制类、生鲜类商品除外[1][3]。\n- **价格保护**：价保的 7 天自**下单时间**起算，不是从签收之日算起；期间同款降价可在「我的订单」-「申请价保」提交，差价退回原支付渠道[2]。\n\n两者起算点不同，请别混用[1][2]。具体售后处理以平台实际处理及售后规则为准[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中两个期限的起算点均与证据一致：无理由退货7天自签收之日起算、定制类生鲜类除外（证据[1][3]）；价保7天自下单时间起算、可在「我的订单」-「申请价保」提交、差价退回原支付渠道（证据[2]）。末尾\"以平台实际处理及售后规则为准\"属兜底表述，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-002",
+    "bucket": "A_policy",
+    "query": "纸质发票可以寄到改过的地址吗，邮费怎么收？",
+    "answer": "关于纸质发票的邮寄，根据平台规则说明如下：\n\n1. **改地址寄送**：纸质发票需要在**申请时备注邮寄地址**，且**不接受面单改寄**[1]。也就是说，开票申请提交后，不支持再改成其他地址寄送。\n2. **邮费**：纸质发票的**快递费到付**[1]；这笔费用由收件方在收件时支付，与订单商品运费（满99元包邮等）不是同一规则[1][2]。\n\n如果您的纸质发票申请尚未提交，或想确认能否变更已提交的邮寄信息，建议通过 App 内人工客服入口核实（人工客服工作时间 9:00 至 22:00）[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "纸质发票需申请时备注邮寄地址、不接受面单改寄、快递费到付均出自证据[1]；商品运费规则出自[2]；人工客服工作时间9:00-22:00出自[3]；App内人工客服入口属平台既定服务渠道引导，有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-003",
+    "bucket": "A_policy",
+    "query": "发票金额是按商品原价算，还是按我实际付的钱算？积分抵掉的部分算进去吗？",
+    "answer": "您好，关于发票金额的计算方式：\n\n- **发票金额以实付金额为准，不含运费，也不含积分抵扣部分**[1]。也就是说，积分抵掉的那部分**不计入**发票金额。\n\n另外提醒：一笔订单只开一次票[1]；订单完成收货后 30 天内可申请开票，超过 30 天需联系客服单独处理[4]。\n\n如还有其他开票疑问，可在人工客服工作时间 9:00 至 22:00 咨询[4]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "发票金额以实付金额为准、不含运费与积分抵扣部分、一笔订单只开一次票均出自证据[1]；30天内可申请开票、超期联系客服、人工客服9:00-22:00均出自证据[4]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-004",
+    "bucket": "A_policy",
+    "query": "双倍积分活动攒到的积分，会把会员等级升级金额也翻倍吗？",
+    "answer": "不会的。活动期间的双倍积分**只影响可用积分**，双倍积分**不计入等级升级的累计消费**[1]。\n\n会员等级是按累计消费金额自动升级的（累计消费 1000 元起升银卡、5000 元起升金卡）[4]，所以双倍积分活动不会让用于升级的消费金额翻倍。\n\n如果您对某笔订单的积分或等级累计有疑问，建议通过 App 内的人工客服入口核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "双倍积分只影响可用积分、不计入等级升级累计消费出自证据[1]；累计消费1000元升银卡、5000元升金卡出自证据[4]；引导App内人工客服属标准兜底话术，均有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-005",
+    "bucket": "A_policy",
+    "query": "我买的预售商品没按时付尾款，定金会怎么处理？",
+    "answer": "您好，关于预售定金，平台规则是：定金支付后不支持无理由退定金；若尾款未按时支付，定金将按该活动的规则处理[1]。\n\n不过，具体活动对未付尾款时定金的处理方式，目前资料中暂时没有查到更细的说明，建议您通过 App 内的人工客服入口联系人工客服，核实您这笔订单所属活动的具体规则。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答仅复述证据[1]的定金规则（定金不支持无理由退、尾款未付按活动规则处理），并明确表示更细规则资料中未查到、建议转人工客服核实，属合理拒答与渠道引导，无编造具体数值或条件。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-006",
+    "bucket": "A_policy",
+    "query": "买家自己原因换货，寄过去和平台再寄回来这两段运费谁付？",
+    "answer": "买家自身原因换货属于「非质量问题换货」，因此**寄回和平台再寄出的往返两段运费都由买家承担**[1][2]。\n\n如果换货是因质量问题、发错货或少发漏发导致，往返运费则由平台承担[1][2]。最终运费承担以平台售后规则判定为准[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"非质量问题换货往返运费由买家承担\"\"质量问题/发错货/少发漏发由平台承担\"\"以平台售后规则判定为准\"均直接对应证据[1][2],无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-007",
+    "bucket": "A_policy",
+    "query": "少发了配件要换货，来回运费要我承担吗？",
+    "answer": "少发漏发导致需要换货的，往返运费由平台承担，不需要您来付[1][2]。\n\n另外提醒一下：运费承担最终以平台售后规则判定为准[2]。如果商家有异议，您可以在「喵喵优选」App 内通过「我的」-「联系客服」，或从订单详情页的「订单售后 / 联系客服」入口转接在线人工客服，并按页面指引提交订单号、开箱视频或商品照片等凭证[5]。人工客服服务时间为每日 9:00 至 22:00[5]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "核心结论\"少发漏发导致换货往返运费由平台承担\"直接来自证据[1][2]；\"以平台售后规则判定为准\"为证据[2]原文兜底表述；客服入口、凭证要求与9:00-22:00服务时间均出自证据[5]，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-008",
+    "bucket": "A_policy",
+    "query": "猫窝里的垫芯能放洗衣机吗？",
+    "answer": "猫窝的内部垫芯**不可以**放洗衣机清洗——进水后填充物会结块变形，只能局部擦洗后晾干[1][2]。\n\n另外，猫窝外套是可以机洗的：拆掉内部垫芯后装进洗衣袋，选轻柔模式用冷水洗，洗后阴干、不要暴晒[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答关于内部垫芯不可机洗、只能局部擦洗晾干，以及外套可机洗（拆垫芯、装洗衣袋、轻柔冷水、阴干不暴晒）均直接来自证据[1][2]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-009",
+    "bucket": "A_policy",
+    "query": "积分兑换的实物有哪些档位？两千积分可以换什么服务？",
+    "answer": "积分兑换实物目前有三个档位[1]：\n\n- **800 积分**：兑换猫零食小样一份[1]\n- **1500 积分**：兑换自动饮水机滤芯 3 片[1]\n- **2000 积分**：兑换**上门更换一次滤芯的服务**[1]\n\n因此，2000 积分可以兑换的是「上门更换一次滤芯」的服务哦[1]。如果您想了解具体怎么兑换或服务覆盖范围，建议通过 App 的人工客服入口进一步核实[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "三个兑换档位（800/1500/2000积分及对应商品）均逐字来自证据[1]，引导联系人工客服属平台标准兜底话术，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-A-010",
+    "bucket": "A_policy",
+    "query": "金卡生日礼要自己领取吗，错过当月还能补领吗？",
+    "answer": "您好，关于金卡生日礼：\n\n- 金卡会员生日当月可领取猫罐头礼盒一份，**需要您在会员中心手动领取**[1]。\n- 该礼品**过期不补发**，所以错过生日当月就无法补领了，建议您在生日当月及时领取[1]。\n\n如需进一步确认领取入口或状态，可联系 App 内人工客服核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"生日当月可领取猫罐头礼盒一份\"\"需在会员中心手动领取\"\"过期不补发\"均直接来自证据[1]，末尾引导联系App内人工客服属平台既定服务渠道话术，无编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-001",
+    "bucket": "B_model",
+    "query": "MH-LP200 放两只猫用，废砂盒大概隔几天清一次？",
+    "answer": "MH-LP200 是多猫家庭可用的机型，废砂盒容量在单猫情况下约可用 10 天[1]。如果家里有**两只猫**，建议**每 3 至 5 天倾倒一次废砂盒**[1]。此外，当废砂盒满时，App 会推送提醒[1]，平时也可以结合提醒来处理。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"多猫家庭可用\"\"单猫约10天\"\"废砂盒满App推送提醒\"均出自证据[1]；\"两只猫建议每3至5天倾倒\"也来自证据[1]的\"多猫家庭建议每3至5天倾倒一次废砂盒\"，未编造数值或串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-002",
+    "bucket": "B_model",
+    "query": "MH-W20 的水泵清洁频率和滤芯更换频率分别是多少？",
+    "answer": "MH-W20 自动饮水机的相关建议如下：\n\n- **水泵清洁频率**：水泵可拆卸，建议**每周清洗一次**[1]。\n- **滤芯更换频率**：采用三重过滤棉，建议**每 2 周更换一次滤芯**[1]。\n\n如需更具体的清洁操作指导，可联系 App 内人工客服进一步核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "水泵每周清洗、三重过滤棉每2周更换滤芯均直接来自证据[1]的MH-W20参数，末尾引导App内联系人工客服属标准兜底话术，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-003",
+    "bucket": "B_model",
+    "query": "W60 饮水机的滤芯是串联还是并联，多久换一次？",
+    "answer": "关于您咨询的 W60 饮水机（型号 MH-W60）：\n\n- 滤芯结构为**双滤芯并联**[1]\n- 建议**每 4 周更换一次滤芯**[1]\n\n另外提醒一下，这款机型的不锈钢面盘可高温消毒，建议每周清洗一次[1]。如需了解滤芯购买或更换服务，可走 App 人工客服入口咨询～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"双滤芯并联\"\"每4周更换滤芯\"\"不锈钢面盘可高温消毒、建议每周清洗\"均直接来自证据[1]的MH-W60参数，App人工客服入口属平台既定服务渠道引导，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-004",
+    "bucket": "B_model",
+    "query": "CT30 猫爬架最上面有吊床吗，每一层最多承重多少？",
+    "answer": "您好，关于您询问的猫爬架：\n\n- 型号 MH-CT30 的猫爬架共有四层，且**带顶层吊床**[1]；\n- 承重方面，**单层最大承重为 10kg**[1]；\n- 这款猫爬架需自行组装，随附六角扳手与图解说明书，按图解组装即可[1][2]。\n\n如需了解其他细节，欢迎随时咨询小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的型号MH-CT30、四层带顶层吊床、单层最大承重10kg、需自行组装并随附六角扳手与图解说明书，均直接来自证据[1]，组装方式与证据[2]一致，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-005",
+    "bucket": "B_model",
+    "query": "HP12 加热垫的尺寸和建议连续通电时长是什么？",
+    "answer": "HP12 加热垫对应的是恒温加热垫（型号 MH-HP12）：\n\n- **尺寸**：40cm × 30cm[1]\n- **建议连续通电时长**：连续通电不超过 12 小时为宜；该型号为恒温 38℃，内置过热保护[1]",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的型号、尺寸40cm×30cm、恒温38℃、过热保护、连续通电不超过12小时均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-006",
+    "bucket": "B_model",
+    "query": "HP20 能调到哪三档温度？它有没有定时关机？",
+    "answer": "HP20（型号 MH-HP20）支持三档温度调节，分别是 30℃、38℃、45℃，并且内置过热保护和定时关机功能[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的型号、三档温度30℃/38℃/45℃、过热保护与定时关机均直接来自证据[1]，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-007",
+    "bucket": "B_model",
+    "query": "FD10 停电后靠什么继续喂，能撑多久？",
+    "answer": "FD10 停电后靠 **4 节 5 号电池**继续应急供电，可维持定时定量投喂约 **24 小时**；断电期间基础版不推送提醒[1]。\n\n另外提醒：该型号为 MH-FD10，基础版不含摄像头与 App 远程投喂[1]。实际续航会受电池情况等影响，以平台实际处理为准。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的电池规格（4节5号电池）、约24小时应急投喂、断电不推送提醒、型号MH-FD10、不含摄像头与App远程投喂均直接来自证据[1]；末尾\"以平台实际处理为准\"属兜底表述，未新增具体数值，不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-008",
+    "bucket": "B_model",
+    "query": "FD30 停电时还能在 App 里手动加餐或者看回放吗？",
+    "answer": "关于您问的 MH-FD30 停电时的情况，结合产品说明，结论如下：\n\n- **断电期间不支持在 App 里手动加餐，也不支持视频回看**[1]。市电断开后，设备会自动切换到内置应急电池，此时仅能维持**定时投喂约 48 小时**[1]。\n- 视频回看功能本身需要连接 2.4G Wi-Fi 才能使用[1]。\n\n如果您需要确认具体设备的断电表现或进一步排查，建议通过 App 内的人工客服入口联系人工客服核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"断电期间不支持App手动投喂与视频回看\"\"自动切换内置应急电池\"\"维持定时投喂约48小时\"\"视频回看需连接2.4G Wi-Fi\"均直接来自证据[1]；末尾引导App内人工客服属平台既定服务渠道话术，视为有据，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-009",
+    "bucket": "B_model",
+    "query": "MH-CAM1 能转多少度，存储卡最大支持多大？",
+    "answer": "MH-CAM1 的旋转与存储规格如下：\n\n- 水平旋转 355°、俯仰 90°，画质为 2K 分辨率[1]\n- 存储方面最大支持 128G TF 卡，也可以使用云存储[1]\n\n另外提醒一下：独立全景看护摄像头只有 MH-CAM1 这一个型号，与自动喂食器摄像头版 MH-FD30 不是同一款商品，注意不要混淆[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的旋转角度(355°/90°)、2K 分辨率、最大 128G TF 卡与云存储、以及 MH-CAM1 与 MH-FD30 不可混用的提醒，均逐条对应证据[1]，无任何编造数值或张冠李戴。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-B-010",
+    "bucket": "B_model",
+    "query": "NEST20 猫窝垫芯可以机洗吗，外套怎么清洁？",
+    "answer": "关于 MH-NEST20 猫窝的清洁方式：\n\n**垫芯：不可机洗。** 内部垫芯进水后填充物会结块变形，只能局部擦洗后晾干[1][2]。\n\n**外套：可以清洁。** 拆掉内部垫芯后，把外套装进洗衣袋，选轻柔模式用冷水洗，洗后阴干、不要暴晒[2]；商品参数里也注明外套可手洗[1]。\n\n简单说：外套拆下来单独洗（机洗记得装洗衣袋、轻柔冷水、阴干），垫芯只做局部擦洗晾干，整只猫窝不要直接丢进洗衣机。如还有其他疑问，可通过 App 内人工客服入口进一步咨询。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "垫芯不可机洗、只能局部擦洗晾干，以及外套拆垫芯后装洗衣袋轻柔冷水洗、阴干不暴晒，均出自证据[1][2]；外套可手洗见证据[1]；App 内人工客服入口属平台既定服务渠道引导，视为有据。无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-001",
+    "bucket": "C_colloquial",
+    "query": "我家 LP50 的垃圾盒没法手机提醒吧？那我大概几天倒一回？",
+    "answer": "您说得对，LP50（型号 MH-LP50）不含 App 联网功能，**不支持废砂盒满溢推送提醒**，没法在手机上收到提醒[1]。\n\n倾倒频率方面：它的废砂盒容量约 5 天（单猫），官方建议**每 4 至 5 天倾倒一次废砂盒**[1]。如果您家猫咪较多或排泄量偏大，可以适当提前清理。\n\n另外提醒一下，如果猫砂盆出现报错，可以先清空废砂盒并检查滚筒是否卡砂、重启设备；仍报错可联系售后[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"MH-LP50 不含 App 联网、不支持满溢推送、废砂盒约 5 天（单猫）、建议每 4 至 5 天倾倒\"均出自证据[1]，报错自查步骤出自证据[3]；\"猫咪较多可适当提前清理\"属不确定语气提醒，未新增具体数值，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-002",
+    "bucket": "C_colloquial",
+    "query": "W40 那个滤芯老换不换啊，机器要不要隔段时间拆开洗？",
+    "answer": "关于您问的 **MH-W40** 自动饮水机，查到以下信息：\n\n- **滤芯更换**：它采用五重过滤棉 + 椰壳活性炭，建议**每 3 周更换一次滤芯**[1]。\n- **机器清洗**：整机可拆分水洗，建议**每周清洗一次**[1]。\n\n所以滤芯和清洗都需要定期做：滤芯约 3 周换一次，整机约每周拆洗一次，不用等到出问题才处理[1]。\n\n如果您还想了解滤芯购买或更换服务，可以再告诉我，我帮您看看～另外，具体售后处理时效请以平台实际处理为准。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "滤芯每3周更换、整机每周清洗均直接来自证据[1]的MH-W40参数；末尾\"以平台实际处理为准\"属不承诺具体数值的兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-003",
+    "bucket": "C_colloquial",
+    "query": "我买的是FD10基础款，断电了手机会不会跳通知啊？",
+    "answer": "不会的～您这款 **MH-FD10 基础版**不带 App，断电期间不会推送提醒[1]。\n\n它的断电应对方式是：市电断开后靠 4 节 5 号电池维持定时定量投喂约 24 小时，但手机端不会有通知[1]。如果您希望断电时能收到提醒，可以考虑带 App 和摄像头的型号；具体以商品页面说明为准。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"MH-FD10 基础版不带 App、断电期间不推送提醒\"\"靠 4 节 5 号电池维持定时定量投喂约 24 小时\"均直接来自证据[1]，型号与参数对应无误；末尾\"具体以商品页面说明为准\"属兜底表述，未新增具体数值，故无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-004",
+    "bucket": "C_colloquial",
+    "query": "这猫窝套子我拆下来能扔洗衣机不，芯子也一起洗行吗？",
+    "answer": "猫窝外套和垫芯要分开处理，不能一起洗：\n\n- **外套可以机洗**：先把内部垫芯拆掉，外套装进洗衣袋，选轻柔模式、冷水洗，洗后阴干，不要暴晒[1]。（也有具体型号标注外套可手洗[2]，建议以轻柔方式处理。）\n- **垫芯不可以机洗**：垫芯进水后填充物会结块变形，只能局部擦洗后晾干[1]。\n\n所以芯子不要放进洗衣机，和套子分开清洁就可以啦[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "外套可机洗（拆垫芯、洗衣袋、轻柔冷水、阴干不暴晒）与垫芯不可机洗（结块变形、仅局部擦洗晾干）均出自证据[1]；型号标注外套可手洗出自证据[2]，回答也如实说明并建议以轻柔方式处理，无编造数值或规则串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-005",
+    "bucket": "C_colloquial",
+    "query": "HP20表面那层绒布能拆下来洗不？温度有几档来着？",
+    "answer": "HP20（型号 MH-HP20）这两个问题都能查到：\n\n- **表面绒布可以拆下来清洗**：该加热垫表面绒布可拆洗[1]。\n- **温度有三档**：三档可调，分别是 30℃ / 38℃ / 45℃，并内置过热保护与定时关机[1]。\n\n另外提醒一下：清洗时请注意按说明书操作，保护好电线部分（防水防抓咬电线套管）[1]。如需了解更细的洗涤方式，建议通过 App 人工客服入口进一步核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"表面绒布可拆洗\"\"三档可调30℃/38℃/45℃、内置过热保护与定时关机\"\"防水防抓咬电线套管\"均直接来自证据[1]的MH-HP20参数；末尾引导App人工客服属标准兜底话术，安全提醒为通用常识，无编造具体数值或串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-006",
+    "bucket": "C_colloquial",
+    "query": "猫砂盆 Pro 两只猫的话，那个废砂盒是不是两三天就得倒？",
+    "answer": "您好～您问的是智能猫砂盆 Pro（型号 MH-LP100）吧？按它的清理建议，**两只猫的话建议每 3 至 4 天倾倒一次废砂盒**，并不是两三天就得倒[1]。\n\n另外，这款有 App 满溢推送提醒，废砂盒满了会推送通知，您也可以按提醒来处理[1]。实际使用频率还会受猫咪排泄量影响，以设备提醒和实际情况为准。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"两只猫建议每3至4天倾倒一次\"、\"有App满溢推送提醒\"均直接来自证据[1]的Pro型号清理提示与核心功能，型号MH-LP100也对得上；末尾\"以设备提醒和实际情况为准\"属不承诺具体数值的兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-007",
+    "bucket": "C_colloquial",
+    "query": "金卡那个生日罐头是自动寄来的吗，还是我得自己去领？",
+    "answer": "金卡会员的生日猫罐头礼盒**不是自动寄送的，需要您自己去领**：生日当月可在会员中心手动领取一份猫罐头礼盒，过期不补发[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中\"生日当月需在会员中心手动领取猫罐头礼盒、过期不补发\"完全对应证据[1]的原文表述，无任何新增具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-008",
+    "bucket": "C_colloquial",
+    "query": "我订单签收都快一个月了，还能自己点开发票申请吗？",
+    "answer": "您好～关于开票申请时间，可以这样看：\n\n- 订单完成收货后 **30 天内**是可以申请开票的，您可以自己提交；若超过 30 天，则需联系客服单独处理[4]。您提到\"快一个月\"，只要还没超过收货后 30 天，就可以自行在订单里申请开票；具体是否仍在时限内，以平台实际处理为准[4]。\n- 另外提醒：一笔订单只开一次票，发票金额以实付金额为准，不含运费与积分抵扣部分[2]。\n\n如果您的订单已超过 30 天，建议通过 App 人工客服入口咨询处理（人工客服工作时间 9:00–22:00）[4]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "30天开票时限、超期需联系客服、一笔订单只开一次票、发票金额以实付金额为准不含运费与积分抵扣、人工客服9:00–22:00均分别出自证据[4]和[2]；\"以平台实际处理为准\"属兜底表述，App人工客服入口属标准渠道引导，均不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-009",
+    "bucket": "C_colloquial",
+    "query": "我家喂食器老卡粮，是不是颗粒太大或者受潮了？咋先排查？",
+    "answer": "可以先按这几步排查喂食器卡粮：\n\n1. **检查粮食颗粒**：确认颗粒直径是否超过 **12mm**，颗粒过大容易卡粮[1]。\n2. **检查粮桶是否受潮**：看粮食有没有受潮结块[1]。\n3. **清理出粮口后重试**：把出粮口清理干净再开机测试[1]。\n\n你提到的「颗粒太大」或「受潮」正是喂食器卡粮的常见自查项[1]。如果按以上步骤清理后仍然卡粮，建议通过 App 人工客服入口联系客服进一步核实；若属于保修期内非人为损坏，可按保修政策申请免费维修或换货[3]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "卡粮排查三步（12mm颗粒、受潮结块、清理出粮口）均出自证据[1]；保修期内非人为损坏免费维修或换货出自证据[3]；App人工客服入口属平台既定服务渠道引导，视为有据。无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-C-010",
+    "bucket": "C_colloquial",
+    "query": "W60 缺水会不会在手机上吱一声提醒我？",
+    "answer": "MH-W60 具备「无线水位提醒推送 App」功能，缺水情况会通过 App 推送水位提醒[1]；同时它还有缺水断电保护[1]。\n\n不过，这个提醒在手机上具体是静音通知还是带声音提示，现有资料暂时没有查到明确说明，建议您通过 App 内的人工客服入口进一步核实。\n\n另外，如果遇到饮水机不出水，可以先检查水位是否低于最低线、水泵是否卡阻；断电清洗水泵后再重试[2]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的功能描述（无线水位提醒推送App、缺水断电保护）来自证据[1]，故障自查步骤来自证据[2]；对静音/声音提示未作承诺而是建议核实，属不确定语气提醒，无编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-001",
+    "bucket": "E_multi",
+    "query": "我要申请企业电子专票，资料里少了开户行和账号行不行？如果信息补齐，开票要等多久？",
+    "answer": "您好，小喵为您解答：\n\n**关于开户行和账号：** 不行。电子专票仅企业账户可申请，提交时必须填写完整的纳税人识别号、开户行与对公账号，**信息不全不予受理**[1]。因此，缺少开户行和账号，无法提交申请，需要补齐后再办理。\n\n**关于开票时间：** 资料齐全、申请通过后，电子发票会在 3 个工作日内开出，并发送到申请时填写的邮箱[3][4]；具体以平台实际处理为准。另外提醒您，订单完成收货后 30 天内可申请开票，超过 30 天需联系客服单独处理[3]；开票问题也可在人工客服工作时间 9:00 至 22:00 咨询[3]。\n\n如还有其他疑问，欢迎随时找小喵～",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "回答中的具体事实均有证据支撑：电子专票仅企业账户可申请、需填纳税人识别号/开户行/对公账号、信息不全不予受理来自[1]；3个工作日内开出并发送邮箱来自[3][4]；收货后30天内可申请开票、超30天联系客服、客服时间9:00-22:00来自[3]。\"以平台实际处理为准\"属兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-002",
+    "bucket": "E_multi",
+    "query": "订单退款后，之前拿到的积分会不会留着？退款申请通常几小时响应、几个工作日处理？",
+    "answer": "**关于积分：** 退款后积分不会保留。订单发生退货或退款时，积分会同步扣回[2]。\n\n**关于退款申请的时效：** 根据平台常见问题处理时限，退款类问题的首次响应为 2 小时，处理时限为 3 个工作日[3]。\n\n需要提醒的是，这里的「3 个工作日」指的是平台处理时限；退款具体到账时间以平台售后规则为准，实际到账时间取决于支付渠道[4]。\n\n如果您想查询某笔退款的具体进度，建议通过 App 内的人工客服入口联系人工客服核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "积分退款扣回有据于证据[2]；退款首次响应2小时、处理时限3个工作日有据于证据[3]；到账时效以平台售后规则为准、取决于支付渠道有据于证据[4]，且未给出具体到账天数；引导App内人工客服属标准兜底话术。无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-003",
+    "bucket": "E_multi",
+    "query": "金卡会员收到运输破损商品，售后有什么专属权益？需要提交什么材料，物流异常工单的首次响应和处理时限是多少？",
+    "answer": "您好，金卡会员收到运输破损商品，可参考以下权益与时限：\n\n- **金卡专属售后权益**：享优先客服接入与上门取件退换货[2]；具体权益以会员中心页面标注为准[2]。\n- **运输破损处理**：请在签收后 **48 小时内**联系客服，并提供 **开箱视频与照片**，核实后可免费补发或退款，相关运费由平台承担[1]。\n- **物流异常工单时限**：首次响应 **2 小时**，处理时限 **5 个工作日**[4]；实际以平台处理为准。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "金卡权益（优先客服接入、上门取件退换货、以会员中心页面为准）出自证据[2]；48小时、开箱视频与照片、免费补发或退款、运费由平台承担出自证据[1]；物流异常首次响应2小时、处理时限5个工作日出自证据[4]时限表，均无杜撰数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-004",
+    "bucket": "E_multi",
+    "query": "包裹压坏了我需要在多久内联系你们、准备什么证据？联系客服入口和在线时间也告诉我下。",
+    "answer": "关于运输破损的处理，为您说明如下：\n\n**联系时限**：商品运输途中破损的，请在**签收后 48 小时内**联系客服[1]。\n\n**需要准备的证据**：开箱视频与照片；按页面指引还需提交订单号等凭证[1][2]。\n\n**处理方式**：客服核实后可为您免费补发或退款，相关运费由平台承担[1]（具体到账与处理进度以平台实际处理为准）。\n\n**客服入口**：在「喵喵优选」App 内，可通过「我的」-「联系客服」，或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服[2]。\n\n**人工客服在线时间**：每日 9:00 至 22:00，高峰期请耐心等待或留言[2]。\n\n建议您尽快在 48 小时内提交开箱视频和照片，方便客服快速核实处理。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "48小时时限、开箱视频与照片、免费补发或退款、运费由平台承担均出自证据[1]；订单号等凭证与客服入口、9:00-22:00服务时间出自证据[2]；\"以平台实际处理为准\"属不承诺具体数值的兜底表述，无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-005",
+    "bucket": "E_multi",
+    "query": "喂食器一直卡粮，颗粒尺寸该检查多大以内？如果申请售后，维修工单的响应和处理时间是什么？",
+    "answer": "您好，关于喂食器卡粮和售后维修时限，为您说明如下：\n\n**1. 卡粮自查**\n- 请检查粮食颗粒直径是否超过 **12mm**，建议使用 12mm 以内的颗粒[1]；\n- 同时检查粮桶是否受潮结块，清理出粮口后重试[1]。\n\n**2. 维修工单时效**\n根据平台常见问题处理时限，维修类问题的首次响应为 4 小时，处理时限为 7 个工作日[3]。实际处理进度以平台实际处理为准。\n\n另外，电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品维修可能收取工本费[2]。如自查后仍卡粮，建议通过 App 内人工客服入口提交售后申请。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "卡粮自查（12mm、受潮结块、清理出粮口）出自证据[1]；维修首次响应4小时、处理时限7个工作日出自证据[3]维修行；保修12个月、非人为免费维修换货、人为/超保收工本费出自证据[2]；App内人工客服入口属平台既定服务渠道引导，豁免。无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-006",
+    "bucket": "E_multi",
+    "query": "我用 600 积分抵掉 6 元基础运费后，这单的发票会把这 6 元写进去吗？",
+    "answer": "不会的。按平台规则，**发票金额以实付金额为准，不含运费与积分抵扣部分**[3]。所以您用 600 积分抵掉的这 6 元基础运费，不会计入发票金额[3]。\n\n补充一句：个人账户默认开具电子普通发票，抬头填个人姓名或单位名称均可[3]。如您对发票开具还有其他疑问，建议通过 App 人工客服入口进一步核实。",
+    "coverage": 0.6666666666666666,
+    "faithful": true,
+    "faith_reason": "发票金额以实付金额为准、不含运费与积分抵扣部分，以及个人账户默认开电子普通发票、抬头可填个人姓名或单位名称，均直接出自证据[3]；App 人工客服入口属平台既定服务渠道引导，视为有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-007",
+    "bucket": "E_multi",
+    "query": "我的猫窝收到一年多坏了，产品本身保修多久？如果算人为弄坏，维修费用会先告诉我吗？",
+    "answer": "您好，关于您这款猫窝的保修和维修费用，为您说明如下：\n\n**保修时长**\n四季保暖猫窝（型号 MH-NEST20）整机保修 12 个月，但人为损坏与自然磨损不在保修范围[3]。您提到已经使用一年多，已超出保修期；超保或人为损坏的维修可能收取工本费[2][4]。\n\n**维修费用会不会先告知**\n会提前告诉您。超保或人为损坏需要维修时，可能收取工本费，费用会提前告知[2]。也就是说，具体维修费用会先和您确认，再决定是否维修。\n\n关于具体收费金额和处理方式，暂时没有查到更细的信息，建议您通过 App 内的人工客服入口进一步核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "保修12个月、人为损坏与自然磨损不在保修范围、超保或人为损坏维修可能收取工本费且费用提前告知，均分别落在证据[3][2][4]；\"已使用一年多即超保\"由12个月保修期合理推出；末尾引导App人工客服属标准兜底话术，未编造具体金额或联系方式。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-008",
+    "bucket": "E_multi",
+    "query": "两只猫用 LP100 时废砂盒几天清一次？清理时 App 能给我满盒提醒吗？",
+    "answer": "关于您问的两点，根据智能猫砂盆 Pro（型号 MH-LP100）的资料：\n\n- **两只猫的清理频率**：建议每 3 至 4 天倾倒一次废砂盒[1]。单猫时，建议每 5 至 7 天倾倒一次；这个 3 至 4 天的频率是专门针对两只猫给出的建议[1]。\n- **App 满盒提醒**：可以。废砂盒满时，App 会推送提醒[1]。\n\n另外提醒一下：上述清理建议属于平台给出的推荐频率，实际使用中废砂盒装满的速度还会受猫咪饮食、猫砂种类等因素影响，以设备实际提醒为准[1]。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "两只猫每3至4天倾倒、单猫每5至7天倾倒、废砂盒满时App推送提醒均出自证据[1]原文；末尾\"以设备实际提醒为准\"属不确定语气提醒，未新增事实主张。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-009",
+    "bucket": "E_multi",
+    "query": "我在港澳台地址下单是不是送不了？如果只是新疆地区，时效会比正常多几天？",
+    "answer": "**1. 港澳台地址**\n\n港澳台及海外暂不支持配送（自营配送也不支持），下单前请确认收货地址在可配送范围内[1][2]。\n\n**2. 新疆地区的时效**\n\n新疆属于偏远地区，配送时效会在正常时效基础上顺延 **2 至 4 天**[1]（实际以平台处理为准）。\n\n另外提醒一下新疆地区的运费规则：新疆、西藏、内蒙古部分区域会加收 **12 元附加运费**，这笔附加运费不参与包邮，需要单独支付；订单本身单笔实付满 99 元包邮，未满则收取 6 元基础运费[1][5]。\n\n如果您对具体地址是否在可配送范围内有疑问，建议通过 App 人工客服入口联系人工客服核实。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "港澳台不配送、新疆时效顺延2-4天、偏远地区12元附加运费不参与包邮、满99包邮未满6元运费均直接来自证据[1][2][5]；\"以平台处理为准\"为兜底表述，App人工客服入口属标准渠道引导，均不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-E-010",
+    "bucket": "E_multi",
+    "query": "普通会员累计消费到多少才升银卡？银卡商品折扣和每月免运费次数分别是多少？",
+    "answer": "- 普通会员累计消费 **1000 元起** 可升银卡[1]。\n- 银卡会员可享 **商品 9 折**[1]。\n- 银卡会员 **每月 1 次免运费**[1][3]；该权益不冲抵偏远地区附加运费，且当月未用完不结转[3]。\n\n如需进一步核实您当前的累计消费进度，建议通过 App 内人工客服入口咨询。",
+    "coverage": 1.0,
+    "faithful": true,
+    "faith_reason": "三条具体主张均有据：1000元升银卡、银卡9折、银卡每月1次免运费及不冲抵偏远附加运费/不结转，分别落在证据[1]与[3]；末尾引导App人工客服属标准兜底话术，不算编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-001",
+    "bucket": "D_absent",
+    "query": "你们的饮水机能接家里的智能音箱，用语音命令开关吗？",
+    "answer": "根据目前查到的资料，暂时没有饮水机支持连接智能音箱或用语音命令开关的说明。\n\n现有饮水机的功能信息如下，其中均未提到智能音箱联动或语音控制：\n\n- 自动饮水机 Plus（型号 MH-W40）：UV 紫外杀菌、静音变频水泵、缺水断电保护[1]\n- 自动饮水机 Pro 不锈钢（型号 MH-W60）：双泵冗余、无线水位提醒推送 App、缺水断电保护[3]\n- 自动饮水机（型号 MH-W20）：静音水泵、缺水断电保护、水位窗口[5]\n\n您提到的“语音控制、智能音箱联动”在现有资料中暂未提及，因此我无法确认是否支持。建议您通过 App 内的人工客服入口联系人工客服，进一步核实兼容情况。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅复述证据[1][3][5]中三款饮水机的功能参数，均未提及语音控制/智能音箱联动，结论与证据一致；末尾引导App内人工客服属标准兜底话术，无编造具体数值或规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-002",
+    "bucket": "D_absent",
+    "query": "买的猫砂盆可以绑定两个不同手机号的家庭成员账号一起管理吗？",
+    "answer": "暂时没有查到关于「猫砂盆绑定两个不同手机号的家庭成员账号共同管理」的相关信息，无法确认是否支持，建议您通过 App 内的人工客服入口进一步核实。\n\n补充说明：不同型号的 App 功能有差异，例如智能猫砂盆 Pro（MH-LP100）支持 App 远程监控与健康记录[1]，智能猫砂盆 Max（MH-LP200）支持 App 多猫健康档案[2]，而智能猫砂盆 Lite（MH-LP50）不含 App 联网功能[3]；但以上证据均未涉及家庭成员账号共享绑定。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答对\"家庭成员账号共同管理\"明确表示无法确认并建议转人工核实（合理拒答+平台渠道引导），补充的型号功能描述（Pro 支持 App 远程监控与健康记录、Max 支持 App 多猫健康档案、Lite 不含 App 联网功能）分别与证据[1][2][3]一致，无编造具体数值或规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-003",
+    "bucket": "D_absent",
+    "query": "我能不能给宠物设备单独买一个意外损坏保险？",
+    "answer": "您好，关于「给宠物设备单独购买意外损坏保险」这件事，**暂时没有查到相关信息**，因此无法确认是否支持单独投保，建议您通过 App 内的人工客服入口进一步核实。\n\n与宠物电子设备保障相关、目前有明确依据的是保修政策，供您参考：\n\n- 电子类商品自签收日起保修 12 个月，人为损坏不在保修范围内[1][2]。\n- 保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品维修可能收取工本费[2]。\n- 保修期内设备故障，联系客服登记后按指引寄回指定维修点，核验后免费维修并寄回；超保或人为损坏维修可能收取工本费，费用会提前告知[3]。\n\n需要说明的是，以上仅为保修相关信息，并不等同于意外损坏保险，具体是否能单独购买该类保险，请以人工客服核实结果为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答对\"单独购买意外损坏保险\"明确表示查不到信息、建议转人工核实（合理拒答+兜底表述），其余保修内容（12个月自签收起算、人为损坏不在保修范围、非人为损坏免费维修或换货、超保/人为损坏收工本费、寄修流程）均逐条对应证据[1][2][3]，无编造数值或条件串线。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-004",
+    "bucket": "D_absent",
+    "query": "设备坏了能不能预约师傅上门修，不用寄回维修点？",
+    "answer": "您好，小喵来帮您确认～\n\n**关于维修方式**：目前查到的保修流程是寄修——保修期内设备故障，您联系客服登记后，按指引将设备寄回指定维修点，核验后免费维修并寄回；超保或人为损坏的维修可能收取工本费，费用会提前告知[1][4]。\n\n**关于上门维修**：您问的“预约师傅上门维修、不用寄回”这一服务，暂时没有查到相关信息，无法确认是否支持。需要说明的是，会员权益中金卡会员的「上门取件退换货」指的是退换货取件，不等同于上门维修[2]，具体权益以会员中心页面标注为准[2]。\n\n建议您通过 App 内的人工客服入口进一步核实是否有上门维修服务，并以平台实际处理为准。给您带来不便，还请见谅～",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "维修寄修流程、超保/人为损坏收工本费均出自证据[1][4]；金卡会员「上门取件退换货」出自证据[2]并正确区分其与上门维修不同；上门维修无信息时明确表示无法确认、建议转人工核实，属合理拒答与兜底表述，未编造具体数值或渠道。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-005",
+    "bucket": "D_absent",
+    "query": "会员积分能不能兑换成现金提现吗？",
+    "answer": "关于积分提现，小喵帮您查了一下：\n\n目前积分可以在结算时勾选使用，**100 积分可抵扣订单金额 1 元，单笔最多抵 30 元**[1]；积分也可以直接抵扣运费（例如未满包邮门槛的 6 元运费可用 600 积分抵掉，抵满即视为包邮）[1]；还能在会员中心兑换实物或服务，例如 800 积分兑猫零食小样、1500 积分兑自动饮水机滤芯 3 片、2000 积分兑上门更换一次滤芯的服务[1]。积分有效期为 24 个月，过期自动清零[1]。\n\n不过，**积分能否兑换成现金提现，暂时没有查到相关信息**——上述抵扣规则只说明结算时可抵扣订单金额，并不代表积分可以提现[1]。这一点建议您联系 App 内的人工客服进一步核实，以免耽误您的事～",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答中的具体数值（100积分抵1元、单笔最多30元、6元运费600积分、800/1500/2000积分兑换、24个月有效期）均出自证据[1]；对提现问题明确表示\"暂时没有查到相关信息\"并建议联系人工客服核实，属合理拒答与渠道引导，未编造任何数值或规则。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-006",
+    "bucket": "D_absent",
+    "query": "猫爬架买回来发现尺寸不合适，能付费让你们派人上门安装吗？",
+    "answer": "关于付费上门安装：暂时没有查到平台提供付费上门安装服务的相关信息，建议您通过 App 人工客服入口进一步核实。现有资料中，大型猫爬架（型号 MH-CT30）标注为**需自行组装**，随附六角扳手与图解说明书[1]。\n\n如果尺寸不合适想退换，可参考：\n- **无理由退货**：自签收之日起 7 天内，商品完好、不影响二次销售的，支持无理由退货；定制类、生鲜类商品除外[3]。\n- **换货**：收到商品 7 天内，商品完好且配件齐全的，可申请一次同款换货；不同型号或颜色需先退货再重新下单[5]。\n\n具体能否退换及处理结果，以平台售后规则为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答中\"需自行组装、随附六角扳手与图解说明书\"来自证据[1]；无理由退货\"自签收之日起7天、商品完好不影响二次销售、定制类生鲜类除外\"来自证据[3]；换货\"收到商品7天内、商品完好配件齐全、一次同款换货、不同型号颜色需先退货再下单\"来自证据[5]；付费上门安装未查到并引导App人工客服属标准兜底话术，末尾\"以平台售后规则为准\"为不承诺具体数值的兜底表述，均无编造。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-007",
+    "bucket": "D_absent",
+    "query": "MH-CAM1 的云存储录像会保留多少天，过期后还能恢复吗？",
+    "answer": "关于 MH-CAM1，目前能确认的是它支持云存储（也支持最大 128G TF 卡）[1]。不过，**云存储录像具体保留多少天、过期后能否恢复，暂时没有查到相关信息**。\n\n建议你通过 App 内的人工客服入口联系人工客服核实，以平台实际规则为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅陈述证据[1]中的存储规格（支持最大128G TF卡或云存储），对云存储保留天数明确表示未查到、以平台规则为准，属兜底表述，未编造具体数值；引导App内人工客服属标准渠道话术，有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-008",
+    "bucket": "D_absent",
+    "query": "MH-W60 能不能用其他品牌的滤芯，接口规格是多少？",
+    "answer": "关于 MH-W60 这款自动饮水机 Pro 不锈钢，现有资料只能查到它的过滤结构为「双滤芯并联，建议每 4 周更换一次滤芯」[1]；至于**是否兼容其他品牌滤芯、滤芯接口规格是多少**，目前暂时没有查到相关信息。\n\n建议您通过 App 内的人工客服入口进一步核实，以免买错配件。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅引用证据[1]中 MH-W60 的过滤结构「双滤芯并联，建议每 4 周更换一次滤芯」，对兼容性与接口规格明确表示未查到，并引导通过 App 人工客服核实（属标准兜底话术），无编造具体事实。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-009",
+    "bucket": "D_absent",
+    "query": "猫爬架的剑麻柱能单独买替换件吗，单根多少钱？",
+    "answer": "您好，关于猫爬架剑麻柱的替换件购买和价格，**暂时没有查到相关信息**，因此无法告知是否可以单独购买或单根价格。\n\n目前资料中仅能确认：大型猫爬架（型号 MH-CT30）的柱身材质为剑麻柱身、平台为绒布平台[1]。\n\n替换件销售与定价信息资料未提及，建议您通过「喵喵优选」App 内的人工客服入口进一步核实，感谢您的理解～",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅确认证据[1]中的材质信息（剑麻柱身、绒布平台），对替换件购买与价格明确表示资料未提及、无法告知，未编造任何具体数值或规则；引导通过App人工客服核实属平台既定服务渠道话术，视为有据。",
+    "guard_hits": []
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-010",
+    "bucket": "D_absent",
+    "query": "买饮水机时能加钱买三年延保吗？",
+    "answer": "关于「加钱购买三年延保」：暂时没有查到相关信息，建议您通过 App 的人工客服入口联系人工客服核实[1][3]。\n\n目前资料中可确认的保修信息是：电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品的维修可能收取工本费[1][3]。延保服务是否可购买、价格及保障范围，资料未提及，请以人工客服核实为准。",
+    "coverage": null,
+    "faithful": true,
+    "faith_reason": "回答仅复述证据[1][3]的保修信息（12个月、自签收起算、非人为损坏免费维修或换货、人为损坏/超保可能收工本费），对延保服务明确表示资料未提及、建议联系人工客服核实，属合理拒答与兜底表述，无编造具体数值或规则。",
+    "guard_hits": []
+   }
+  ],
+  "handling_compliance": {
+   "baseline": {
+    "A_policy": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "B_model": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "C_colloquial": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "E_multi": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "D_absent": {
+     "compliant_rate": 1.0,
+     "unsupported_claim_rate": 0.0,
+     "evaluated": 10
+    }
+   },
+   "recall_20": {
+    "A_policy": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "B_model": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "C_colloquial": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "E_multi": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "D_absent": {
+     "compliant_rate": 1.0,
+     "unsupported_claim_rate": 0.0,
+     "evaluated": 10
+    }
+   },
+   "rerank_5": {
+    "A_policy": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "B_model": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "C_colloquial": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "E_multi": {
+     "compliant_rate": null,
+     "unsupported_claim_rate": null,
+     "evaluated": 0
+    },
+    "D_absent": {
+     "compliant_rate": 1.0,
+     "unsupported_claim_rate": 0.0,
+     "evaluated": 10
+    }
+   }
+  },
+  "handling_cases": [
+   {
+    "strat": "baseline",
+    "id": "FTC-D-001",
+    "bucket": "D_absent",
+    "query": "你们的饮水机能接家里的智能音箱，用语音命令开关吗？",
+    "expected_handling": "知识库未说明该功能；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "您好，关于饮水机能否连接家里智能音箱、用语音命令开关，暂时没有查到相关信息。\n\n目前资料中列出的几款饮水机（MH-W40、MH-W60、MH-W20）的功能说明里，只包含 UV 紫外杀菌、静音变频水泵、缺水断电保护、水位提醒推送等，均未提到支持智能音箱联动或语音控制开关[1][3][5]。\n\n建议您通过 App 内的人工客服入口进一步核实该功能，以免买回去不合用～",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[2] 自动喂食器 基础版(型号 MH-FD10):- 型号:MH-FD10\n- 粮桶容量:4L\n- 核心功能:定时定量投喂,每日最多 6 餐,语音呼唤进食\n- 供电:市电供电 + 4 节 5 号电池断电应急\n- 断电应对:市电断开时靠 4 节 5 号电池维持定时定量投喂约 24 小时;基础版没有 App,断电期间不推送提醒\n- 说明:基础版不含摄像头与 App 远程投喂\n[3] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[4] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[5] 自动饮水机(型号 MH-W20):- 型号:MH-W20\n- 水箱容量:2L\n- 过滤:三重过滤棉,建议每 2 周更换一次滤芯\n- 核心功能:静音水泵、缺水断电保护、水位窗口\n- 清洗:水泵可拆卸,建议每周清洗一次\n[6] 自动喂食器 摄像头版(型号 MH-FD30):- 型号:MH-FD30\n- 粮桶容量:6L\n- 核心功能:1080P 摄像头、双向语音、App 远程手动投喂与定时投喂\n- 供电:市电供电 + 内置应急电池\n- 断电应对:市电断开时自动切换到内置应急电池,可维持定时投喂约 48 小时;断电期间不支持视频回看与 App 远程手动投喂\n- 说明:摄像头版支持视频回看,需连接 2.4G Wi-Fi;「摄像头版」指喂食器内置的摄像头,独立的全景看护摄像头是另一款商品 MH-CAM1\n[7] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[8] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[9] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[10] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-002",
+    "bucket": "D_absent",
+    "query": "买的猫砂盆可以绑定两个不同手机号的家庭成员账号一起管理吗？",
+    "expected_handling": "知识库未说明多账号共享；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "目前提供的资料里没有查到关于猫砂盆账号绑定、多人共享管理（例如两个不同手机号的家庭成员账号共同管理）的相关说明，暂时没有查到相关信息。\n\n建议您通过「喵喵优选」App 内「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服核实，人工客服服务时间为每日 9:00 至 22:00[9]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 智能猫砂盆 Pro(型号 MH-LP100):- 型号:MH-LP100\n- 适用猫咪体重:1.5kg 至 8kg\n- 猫砂容量:9L,废砂盒容量约 7 天(单猫)\n- 核心功能:自动感应清理、活性炭除臭、App 远程监控与健康记录\n- 供电:220V 市电,断电后配置自动保存\n- 清理提示:废砂盒满时 App 推送提醒,建议每 5 至 7 天倾倒一次(单猫);两只猫建议每 3 至 4 天倾倒一次\n[2] 智能猫砂盆 Max(型号 MH-LP200):- 型号:MH-LP200\n- 适用猫咪体重:2kg 至 12kg,适合大型猫与多猫家庭\n- 猫砂容量:12L,废砂盒容量约 10 天(单猫)\n- 核心功能:超大滚筒、双重称重防夹、活性炭除臭、App 多猫健康档案\n- 供电:220V 市电\n- 清理提示:废砂盒满时 App 推送提醒,多猫家庭建议每 3 至 5 天倾倒一次废砂盒\n[3] 智能猫砂盆 Lite(型号 MH-LP50):- 型号:MH-LP50\n- 适用猫咪体重:1.5kg 至 6kg\n- 猫砂容量:6L,废砂盒容量约 5 天(单猫)\n- 核心功能:自动感应清理、物理除臭盖板;不含 App 联网功能\n- 清理提示:无 App 联网,不支持满溢推送提醒,建议每 4 至 5 天倾倒一次废砂盒\n- 与 Pro 差异:Lite 无 App 远程监控与健康记录,价格更低,适合单猫家庭\n[4] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[5] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。\n[6] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[7] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[8] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[9] 人工客服入口与时间:遇到退款、退货、换货、维修、破损、少发漏发等售后问题需要人工协助时,可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服,并按页面指引提交订单号、开箱视频或商品照片等凭证。人工客服服务时间为每日 9:00 至 22:00,高峰期请耐心等待或留言。\n[10] 商品规格手册:本手册收录喵喵优选自营智能硬件的型号、规格与使用要点,便于按具体型号查询。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-003",
+    "bucket": "D_absent",
+    "query": "我能不能给宠物设备单独买一个意外损坏保险？",
+    "expected_handling": "知识库未说明该保险服务；不要回答有或没有，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "关于「能否给宠物设备单独购买意外损坏保险」，暂时没有查到相关信息，建议您通过「喵喵优选」App 的人工客服入口联系客服核实，以实际确认为准。\n\n目前能确认的是保修方面的规则：电子类商品自签收日起保修 12 个月，人为损坏不在保修范围[1][2]；保修期内非人为损坏可申请免费维修或换货，人为损坏或超保商品维修可能收取工本费[2]。但这些都属于保修政策，并不等同于可以单独购买意外损坏保险，保险相关暂未查到依据。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[2] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[3] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[4] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[5] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[6] 四季保暖猫窝(型号 MH-NEST20):- 型号:MH-NEST20\n- 尺寸:直径 50cm,适合 8kg 以内成猫\n- 材质:外层短毛绒,内部垫芯可拆卸\n- 保修:整机保修 12 个月,人为损坏与自然磨损不在保修范围\n- 清洗:外套可手洗,内部垫芯不可机洗,详见 FAQ「猫窝是否可以机洗」\n[7] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[8] 运输破损处理:商品运输途中破损的,请在签收后 48 小时内联系客服并提供开箱视频与照片,核实后可免费补发或退款,相关运费由平台承担。\n[9] 价格保护怎么申请:自营商品支持下单后 7 天内价保,期间若同款降价可在「我的订单」-「申请价保」提交,差价将退回原支付渠道。价保的 7 天**自下单时间起算**,不是从签收之日起算;签收之日起 7 天内的那条是无理由退货,两者起算点不同、别混用。\n[10] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-004",
+    "bucket": "D_absent",
+    "query": "设备坏了能不能预约师傅上门修，不用寄回维修点？",
+    "expected_handling": "知识库只说明寄修流程，未说明上门维修服务；说明现有资料未提及，不要承诺支持或断言不支持。",
+    "answer": "您好，关于设备维修，目前平台提供的流程是：保修期内设备出现非人为故障，联系客服登记后，需按指引将设备寄回指定维修点，核验后免费维修并寄回；超保或人为损坏的维修可能收取工本费，费用会提前告知[1][4]。\n\n关于「预约师傅上门维修、不寄回维修点」：暂时没有查到相关信息，建议您通过「喵喵优选」App 内「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接人工客服核实，人工客服服务时间为每日 9:00 至 22:00[9]。\n\n另外，如果只是设备报错或小故障，您可以先按常见故障自查处理：饮水机不出水可检查水位、断电清洗水泵；猫砂盆报错可清空废砂盒、检查滚筒是否卡砂后重启；喂食器卡粮可检查颗粒直径是否超 12mm、清理出粮口；摄像头离线可确认 Wi-Fi 为 2.4G 频段并重新配网[8]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[2] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[3] 退货政策是什么:支持 7 天无理由退货,商品需保持完好、不影响二次销售,具体以平台售后规则为准。\n[4] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[5] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。\n[6] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[7] 退换货运费承担:无理由退货的退回运费由买家承担;因商品质量问题、发错货、少发漏发导致的退换货,运费由平台承担。换货的往返运费另有区分:非质量问题的换货由买家承担,详见「换货运费」。运费承担以平台售后规则最终判定为准。\n[8] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[9] 人工客服入口与时间:遇到退款、退货、换货、维修、破损、少发漏发等售后问题需要人工协助时,可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服,并按页面指引提交订单号、开箱视频或商品照片等凭证。人工客服服务时间为每日 9:00 至 22:00,高峰期请耐心等待或留言。\n[10] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-005",
+    "bucket": "D_absent",
+    "query": "会员积分能不能兑换成现金提现吗？",
+    "expected_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。",
+    "answer": "关于积分提现，目前**暂时无法确认**是否支持，现有资料没有说明积分能否兑换成现金提现，建议您通过 App 内的人工客服入口联系人工客服核实[1]。\n\n可以确认的是积分目前有哪些用途：\n\n- 积分在结算页勾选使用，**100 积分可抵扣订单金额 1 元，单笔最多抵 30 元**；该规则仅指结算时抵扣订单金额，不代表积分可以提现[1]。\n- 积分也可直接抵扣运费，例如未满包邮门槛的 6 元运费可用 600 积分抵掉，抵满即视为包邮[1]。\n- 积分还能在会员中心兑换实物：800 积分兑猫零食小样一份、1500 积分兑自动饮水机滤芯 3 片、2000 积分兑上门更换一次滤芯的服务；积分有效期 24 个月，过期自动清零[1]。\n\n如果您指的是其他平台的积分或特定活动积分，具体规则也建议一并向人工客服确认。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[2] 会员等级与积分规则:会员分为普通、银卡、金卡三档,按累计消费自动升级。每消费 1 元得 1 积分,积分可在结算时抵扣,100 积分抵 1 元。\n[3] 积分怎么攒:实付金额每 1 元累计 1 积分,运费与优惠券抵扣部分不计积分。\n订单完成收货后 7 天入账,发生退货或退款时积分同步扣回。\n活动期间的双倍积分只影响可用积分,双倍积分不计入等级升级的累计消费。\n[4] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[5] 可开票类型:个人账户默认开具电子普通发票,抬头填个人姓名或单位名称均可。\n电子专票仅企业账户可申请,提交时必须填写完整的纳税人识别号、开户行与对公账号,信息不全不予受理。\n纸质发票需在申请时备注邮寄地址,快递费到付,不接受面单改寄。\n一笔订单只开一次票,发票金额以实付金额为准,不含运费与积分抵扣部分。\n[6] 支持哪些支付方式:下单支持支付宝、微信支付与主流银行储蓄卡/信用卡在线支付。暂不支持线下汇款,支付遇到问题可重试或更换支付方式。\n[7] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[8] 会员运费权益:金卡会员每月享 3 次免运费权益,银卡会员享 1 次;权益不与偏远地区附加运费冲抵,当月未用完不结转。免运费权益直接抵掉该订单的基础运费(即未满 99 元包邮门槛时收取的那笔),按实际运费全额抵扣,不设每单抵扣上限——「未满 99 元收 6 元运费」里的 6 元是运费本身,不是权益上限。\n[9] 优惠券和满减怎么用:优惠券在结算页「使用优惠券」中勾选,满减活动自动叠加在商品页标示的门槛上;同一订单一般限用一张店铺券,活动细则以页面为准。\n[10] 预售与定金:预售商品以详情页标注的时间发货;定金支付后不支持无理由退定金,尾款未按时支付的,定金按活动规则处理。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-006",
+    "bucket": "D_absent",
+    "query": "猫爬架买回来发现尺寸不合适，能付费让你们派人上门安装吗？",
+    "expected_handling": "知识库说明需自行组装，但未说明付费上门安装服务；不要编造服务政策，建议人工核实。",
+    "answer": "您好，关于猫爬架的上门安装服务，暂时没有查到相关信息，建议您通过 App 内的人工客服入口进一步核实。\n\n就现有资料说明一点:大型猫爬架(型号 MH-CT30)标注为**需自行组装**,随附六角扳手与图解说明书[1]。资料中未提及平台提供付费上门安装服务,因此无法确认是否可以安排,请您以人工客服的答复为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 大型猫爬架(型号 MH-CT30):- 型号:MH-CT30\n- 高度:1.6m,共四层带顶层吊床\n- 承重:单层最大 10kg\n- 材质:剑麻柱身、绒布平台\n- 安装:需自行组装,随附六角扳手与图解说明书\n[2] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[3] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[4] 配送范围与偏远地区:全国大部分地区支持配送,新疆、西藏、内蒙古等偏远地区运费另计且时效顺延;港澳台及海外暂不支持自营配送。\n[5] 换货条件:收到商品 7 天内,商品完好且配件齐全的,可申请一次同款换货;不同型号或颜色需先退货再重新下单。\n[6] 可开票类型:个人账户默认开具电子普通发票,抬头填个人姓名或单位名称均可。\n电子专票仅企业账户可申请,提交时必须填写完整的纳税人识别号、开户行与对公账号,信息不全不予受理。\n纸质发票需在申请时备注邮寄地址,快递费到付,不接受面单改寄。\n一笔订单只开一次票,发票金额以实付金额为准,不含运费与积分抵扣部分。\n[7] 换货流程怎么走:收到商品 7 天内可申请换货,联系客服登记后将商品寄回,平台核验无误后补发新品。\n[8] 运费与包邮:单笔实付满 99 元包邮,未满收取 6 元基础运费。\n偏远地区(新疆、西藏、内蒙古部分区域)加收 12 元附加运费,该附加运费不参与包邮,\n需单独支付。偏远地区的配送时效在正常时效基础上顺延 2 至 4 天。\n港澳台及海外暂不支持配送,下单前请确认收货地址在可配送范围内。\n[9] 退换货运费承担:无理由退货的退回运费由买家承担;因商品质量问题、发错货、少发漏发导致的退换货,运费由平台承担。换货的往返运费另有区分:非质量问题的换货由买家承担,详见「换货运费」。运费承担以平台售后规则最终判定为准。\n[10] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-007",
+    "bucket": "D_absent",
+    "query": "MH-CAM1 的云存储录像会保留多少天，过期后还能恢复吗？",
+    "expected_handling": "知识库说明支持云存储但未说明保留期限或恢复规则；不要猜测天数或承诺可恢复，建议人工核实。",
+    "answer": "关于 MH-CAM1 的存储，资料显示它「支持最大 128G TF 卡或云存储」[1]，但**暂时没有查到云存储录像的保留天数，以及过期后能否恢复的相关信息**。\n\n建议您通过 App 内的人工客服入口联系人工客服核实，以平台实际说明为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "答案引用了证据中支持云存储的说明，明确表示未查到保留期限和恢复规则，未猜测天数或承诺可恢复，并建议人工核实，符合预期处理要求。",
+    "evidence": "[1] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[2] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[3] 自动喂食器 摄像头版(型号 MH-FD30):- 型号:MH-FD30\n- 粮桶容量:6L\n- 核心功能:1080P 摄像头、双向语音、App 远程手动投喂与定时投喂\n- 供电:市电供电 + 内置应急电池\n- 断电应对:市电断开时自动切换到内置应急电池,可维持定时投喂约 48 小时;断电期间不支持视频回看与 App 远程手动投喂\n- 说明:摄像头版支持视频回看,需连接 2.4G Wi-Fi;「摄像头版」指喂食器内置的摄像头,独立的全景看护摄像头是另一款商品 MH-CAM1\n[4] 退货政策是什么:支持 7 天无理由退货,商品需保持完好、不影响二次销售,具体以平台售后规则为准。\n[5] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[6] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。\n[7] 智能猫砂盆 Pro(型号 MH-LP100):- 型号:MH-LP100\n- 适用猫咪体重:1.5kg 至 8kg\n- 猫砂容量:9L,废砂盒容量约 7 天(单猫)\n- 核心功能:自动感应清理、活性炭除臭、App 远程监控与健康记录\n- 供电:220V 市电,断电后配置自动保存\n- 清理提示:废砂盒满时 App 推送提醒,建议每 5 至 7 天倾倒一次(单猫);两只猫建议每 3 至 4 天倾倒一次\n[8] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[9] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[10] 换货条件:收到商品 7 天内,商品完好且配件齐全的,可申请一次同款换货;不同型号或颜色需先退货再重新下单。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-008",
+    "bucket": "D_absent",
+    "query": "MH-W60 能不能用其他品牌的滤芯，接口规格是多少？",
+    "expected_handling": "知识库未说明第三方滤芯兼容性和接口规格；不要根据型号猜测，建议人工核实。",
+    "answer": "关于 MH-W60 的滤芯情况，目前资料中只能确认：它采用双滤芯并联，建议每 4 周更换一次滤芯[1]。\n\n但「是否兼容其他品牌滤芯」以及「滤芯接口规格是多少」，暂时没有查到相关信息。建议您通过 App 人工客服入口联系人工客服进一步核实，以免买错不匹配的滤芯。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "答案仅陈述证据[1]中已知的双滤芯并联和4周更换建议，对第三方滤芯兼容性和接口规格明确说明未知并建议人工核实，未作猜测或断言，符合预期处理要求。",
+    "evidence": "[1] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[2] 恒温加热垫(型号 MH-HP12):- 型号:MH-HP12\n- 尺寸:40cm × 30cm\n- 温控:恒温 38℃,内置过热保护,连续通电不超过 12 小时为宜\n- 防护:防水防抓咬电线套管\n- 适用:幼猫、老年猫及冬季保暖\n[3] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[4] 大号三档加热垫(型号 MH-HP20):- 型号:MH-HP20\n- 尺寸:60cm × 45cm\n- 温控:三档可调 30℃ / 38℃ / 45℃,内置过热保护与定时关机\n- 防护:防水防抓咬电线套管,表面绒布可拆洗\n- 适用:大型猫、多猫窝及冬季保暖\n[5] 自动饮水机(型号 MH-W20):- 型号:MH-W20\n- 水箱容量:2L\n- 过滤:三重过滤棉,建议每 2 周更换一次滤芯\n- 核心功能:静音水泵、缺水断电保护、水位窗口\n- 清洗:水泵可拆卸,建议每周清洗一次\n[6] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[7] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[8] 商品规格手册:本手册收录喵喵优选自营智能硬件的型号、规格与使用要点,便于按具体型号查询。\n[9] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[10] 自动喂食器 摄像头版(型号 MH-FD30):- 型号:MH-FD30\n- 粮桶容量:6L\n- 核心功能:1080P 摄像头、双向语音、App 远程手动投喂与定时投喂\n- 供电:市电供电 + 内置应急电池\n- 断电应对:市电断开时自动切换到内置应急电池,可维持定时投喂约 48 小时;断电期间不支持视频回看与 App 远程手动投喂\n- 说明:摄像头版支持视频回看,需连接 2.4G Wi-Fi;「摄像头版」指喂食器内置的摄像头,独立的全景看护摄像头是另一款商品 MH-CAM1"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-009",
+    "bucket": "D_absent",
+    "query": "猫爬架的剑麻柱能单独买替换件吗，单根多少钱？",
+    "expected_handling": "知识库未说明配件售卖和价格；不要编造价格或是否在售，建议人工核实。",
+    "answer": "暂时没有查到猫爬架剑麻柱可单独购买替换件及单根价格的相关信息。\n\n现有资料仅能确认大型猫爬架（型号 MH-CT30）的柱身材质为剑麻柱身[1]，但没有关于该剑麻柱是否单独售卖、替换件规格或价格的内容。建议您通过 App 内的人工客服入口进一步核实，以人工客服的答复为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 大型猫爬架(型号 MH-CT30):- 型号:MH-CT30\n- 高度:1.6m,共四层带顶层吊床\n- 承重:单层最大 10kg\n- 材质:剑麻柱身、绒布平台\n- 安装:需自行组装,随附六角扳手与图解说明书\n[2] 运费怎么算:单笔订单满 99 元包邮,未满收取 6 元运费,偏远地区运费另计。邮费即运费,按此规则收取。\n[3] 换货条件:收到商品 7 天内,商品完好且配件齐全的,可申请一次同款换货;不同型号或颜色需先退货再重新下单。\n[4] 运费与包邮:单笔实付满 99 元包邮,未满收取 6 元基础运费。\n偏远地区(新疆、西藏、内蒙古部分区域)加收 12 元附加运费,该附加运费不参与包邮,\n需单独支付。偏远地区的配送时效在正常时效基础上顺延 2 至 4 天。\n港澳台及海外暂不支持配送,下单前请确认收货地址在可配送范围内。\n[5] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[6] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[7] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[8] 换货流程怎么走:收到商品 7 天内可申请换货,联系客服登记后将商品寄回,平台核验无误后补发新品。\n[9] 会员运费权益:金卡会员每月享 3 次免运费权益,银卡会员享 1 次;权益不与偏远地区附加运费冲抵,当月未用完不结转。免运费权益直接抵掉该订单的基础运费(即未满 99 元包邮门槛时收取的那笔),按实际运费全额抵扣,不设每单抵扣上限——「未满 99 元收 6 元运费」里的 6 元是运费本身,不是权益上限。\n[10] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。"
+   },
+   {
+    "strat": "baseline",
+    "id": "FTC-D-010",
+    "bucket": "D_absent",
+    "query": "买饮水机时能加钱买三年延保吗？",
+    "expected_handling": "知识库未说明延保服务；不要回答可购买或不可购买，说明暂时无法确认并建议官方客服核实。",
+    "answer": "关于「加钱购买三年延保」这项服务，暂时没有查到相关信息，建议您通过 App 内的人工客服入口进一步核实。\n\n作为参考，目前资料中明确的是电子类商品的保修政策：\n\n- 电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品维修可能收取工本费[1][3]。\n- 保修期内设备故障，联系客服登记后按指引寄回指定维修点，核验后免费维修并寄回；超保或人为损坏维修可能收取工本费，费用会提前告知[6]。\n\n至于是否能额外付费延长保修、具体价格和年限，资料中未提及，我不能替平台作出承诺，请您以人工客服的答复为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[2] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[3] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[4] 价格保护怎么申请:自营商品支持下单后 7 天内价保,期间若同款降价可在「我的订单」-「申请价保」提交,差价将退回原支付渠道。价保的 7 天**自下单时间起算**,不是从签收之日起算;签收之日起 7 天内的那条是无理由退货,两者起算点不同、别混用。\n[5] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[6] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[7] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[8] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[9] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[10] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-001",
+    "bucket": "D_absent",
+    "query": "你们的饮水机能接家里的智能音箱，用语音命令开关吗？",
+    "expected_handling": "知识库未说明该功能；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "暂时没有查到相关信息：现有饮水机资料中只列出了过滤、UV 紫外杀菌、静音水泵、缺水断电保护、水位提醒等功能，**未提及支持接入智能音箱或用语音命令开关**，因此无法确认是否支持。\n\n建议您通过「喵喵优选」App 内的人工客服入口进一步核实。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[2] 自动喂食器 基础版(型号 MH-FD10):- 型号:MH-FD10\n- 粮桶容量:4L\n- 核心功能:定时定量投喂,每日最多 6 餐,语音呼唤进食\n- 供电:市电供电 + 4 节 5 号电池断电应急\n- 断电应对:市电断开时靠 4 节 5 号电池维持定时定量投喂约 24 小时;基础版没有 App,断电期间不推送提醒\n- 说明:基础版不含摄像头与 App 远程投喂\n[3] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[4] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[5] 自动饮水机(型号 MH-W20):- 型号:MH-W20\n- 水箱容量:2L\n- 过滤:三重过滤棉,建议每 2 周更换一次滤芯\n- 核心功能:静音水泵、缺水断电保护、水位窗口\n- 清洗:水泵可拆卸,建议每周清洗一次\n[6] 自动喂食器 摄像头版(型号 MH-FD30):- 型号:MH-FD30\n- 粮桶容量:6L\n- 核心功能:1080P 摄像头、双向语音、App 远程手动投喂与定时投喂\n- 供电:市电供电 + 内置应急电池\n- 断电应对:市电断开时自动切换到内置应急电池,可维持定时投喂约 48 小时;断电期间不支持视频回看与 App 远程手动投喂\n- 说明:摄像头版支持视频回看,需连接 2.4G Wi-Fi;「摄像头版」指喂食器内置的摄像头,独立的全景看护摄像头是另一款商品 MH-CAM1\n[7] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[8] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[9] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[10] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-002",
+    "bucket": "D_absent",
+    "query": "买的猫砂盆可以绑定两个不同手机号的家庭成员账号一起管理吗？",
+    "expected_handling": "知识库未说明多账号共享；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "关于猫砂盆能否绑定两个不同手机号的家庭成员账号一起管理，暂时没有查到相关信息，现有资料无法确认是否支持这种多账号共享管理，也不能据此推断「支持」或「不支持」。\n\n现有资料仅说明：智能猫砂盆 Pro（MH-LP100）支持 App 远程监控与健康记录[1]，Max（MH-LP200）支持 App 多猫健康档案[2]，Lite（MH-LP50）不含 App 联网功能[3]；但均未提及家庭成员账号绑定或共享管理。\n\n建议您在「喵喵优选」App 内通过「我的」-「联系客服」，或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服核实，人工客服服务时间为每日 9:00 至 22:00[8]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 智能猫砂盆 Pro(型号 MH-LP100):- 型号:MH-LP100\n- 适用猫咪体重:1.5kg 至 8kg\n- 猫砂容量:9L,废砂盒容量约 7 天(单猫)\n- 核心功能:自动感应清理、活性炭除臭、App 远程监控与健康记录\n- 供电:220V 市电,断电后配置自动保存\n- 清理提示:废砂盒满时 App 推送提醒,建议每 5 至 7 天倾倒一次(单猫);两只猫建议每 3 至 4 天倾倒一次\n[2] 智能猫砂盆 Max(型号 MH-LP200):- 型号:MH-LP200\n- 适用猫咪体重:2kg 至 12kg,适合大型猫与多猫家庭\n- 猫砂容量:12L,废砂盒容量约 10 天(单猫)\n- 核心功能:超大滚筒、双重称重防夹、活性炭除臭、App 多猫健康档案\n- 供电:220V 市电\n- 清理提示:废砂盒满时 App 推送提醒,多猫家庭建议每 3 至 5 天倾倒一次废砂盒\n[3] 智能猫砂盆 Lite(型号 MH-LP50):- 型号:MH-LP50\n- 适用猫咪体重:1.5kg 至 6kg\n- 猫砂容量:6L,废砂盒容量约 5 天(单猫)\n- 核心功能:自动感应清理、物理除臭盖板;不含 App 联网功能\n- 清理提示:无 App 联网,不支持满溢推送提醒,建议每 4 至 5 天倾倒一次废砂盒\n- 与 Pro 差异:Lite 无 App 远程监控与健康记录,价格更低,适合单猫家庭\n[4] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[5] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。\n[6] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[7] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[8] 人工客服入口与时间:遇到退款、退货、换货、维修、破损、少发漏发等售后问题需要人工协助时,可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服,并按页面指引提交订单号、开箱视频或商品照片等凭证。人工客服服务时间为每日 9:00 至 22:00,高峰期请耐心等待或留言。\n[9] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[10] 价格保护怎么申请:自营商品支持下单后 7 天内价保,期间若同款降价可在「我的订单」-「申请价保」提交,差价将退回原支付渠道。价保的 7 天**自下单时间起算**,不是从签收之日起算;签收之日起 7 天内的那条是无理由退货,两者起算点不同、别混用。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-003",
+    "bucket": "D_absent",
+    "query": "我能不能给宠物设备单独买一个意外损坏保险？",
+    "expected_handling": "知识库未说明该保险服务；不要回答有或没有，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "目前平台的知识资料里**没有查到关于「为宠物设备单独购买意外损坏保险」的相关信息**[1][2][3]，所以暂时无法确认是否支持这类保险，建议您通过 App 内的人工客服入口进一步核实。\n\n另外，现有资料只提到了设备的**保修**政策：电子类商品自签收日起保修 12 个月，保修期内非人为损坏可申请免费维修或换货，**人为损坏不在保修范围内**[1][2]。保修并不等于意外损坏保险，具体能否单独投保，还请以人工客服的答复为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[2] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[3] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[4] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[5] 四季保暖猫窝(型号 MH-NEST20):- 型号:MH-NEST20\n- 尺寸:直径 50cm,适合 8kg 以内成猫\n- 材质:外层短毛绒,内部垫芯可拆卸\n- 保修:整机保修 12 个月,人为损坏与自然磨损不在保修范围\n- 清洗:外套可手洗,内部垫芯不可机洗,详见 FAQ「猫窝是否可以机洗」\n[6] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[7] 运输破损处理:商品运输途中破损的,请在签收后 48 小时内联系客服并提供开箱视频与照片,核实后可免费补发或退款,相关运费由平台承担。\n[8] 价格保护怎么申请:自营商品支持下单后 7 天内价保,期间若同款降价可在「我的订单」-「申请价保」提交,差价将退回原支付渠道。价保的 7 天**自下单时间起算**,不是从签收之日起算;签收之日起 7 天内的那条是无理由退货,两者起算点不同、别混用。\n[9] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[10] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-004",
+    "bucket": "D_absent",
+    "query": "设备坏了能不能预约师傅上门修，不用寄回维修点？",
+    "expected_handling": "知识库只说明寄修流程，未说明上门维修服务；说明现有资料未提及，不要承诺支持或断言不支持。",
+    "answer": "关于「预约师傅上门维修、不寄回维修点」：暂时没有查到相关信息，无法确认支持上门维修服务，建议您通过 App 内「我的」-「联系客服」转接人工客服核实[7]。\n\n目前证据里明确的相关信息是：\n\n- 保修期内设备故障，需联系客服登记后，按指引将设备寄回指定维修点，核验后免费维修并寄回；超保或人为损坏的维修可能收取工本费，费用会提前告知[1]。\n- 金卡会员享有的「上门」权益是**上门取件退换货**，即上门取件用于退换货，并非上门维修；银卡会员为退换货运费权益 1 次/月，具体以会员中心页面标注为准[2]。\n- 另外，2000 积分可兑换「上门更换一次滤芯」的服务，这项服务仅限更换滤芯，不涉及设备故障维修[6]。\n\n如果您的设备出现故障，也可以先按常见故障自助排查，比如饮水机不出水、猫砂盆报错、喂食器卡粮、摄像头离线等情形[8]；仍无法解决再联系售后[7]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[2] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[3] 退货政策是什么:支持 7 天无理由退货,商品需保持完好、不影响二次销售,具体以平台售后规则为准。\n[4] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[5] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。\n[6] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[7] 人工客服入口与时间:遇到退款、退货、换货、维修、破损、少发漏发等售后问题需要人工协助时,可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服,并按页面指引提交订单号、开箱视频或商品照片等凭证。人工客服服务时间为每日 9:00 至 22:00,高峰期请耐心等待或留言。\n[8] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[9] 退换货运费承担:无理由退货的退回运费由买家承担;因商品质量问题、发错货、少发漏发导致的退换货,运费由平台承担。换货的往返运费另有区分:非质量问题的换货由买家承担,详见「换货运费」。运费承担以平台售后规则最终判定为准。\n[10] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-005",
+    "bucket": "D_absent",
+    "query": "会员积分能不能兑换成现金提现吗？",
+    "expected_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。",
+    "answer": "关于积分能否兑换成现金提现，目前平台资料中没有说明这项规则。**暂时无法确认是否支持积分提现**，建议您通过 App 内的人工客服入口进一步核实[1]。\n\n可以确认的是，积分有以下用途：结算页勾选使用，100 积分可抵扣订单金额 1 元，单笔最多抵 30 元；积分也可抵扣运费，未满包邮门槛的 6 元运费可用 600 积分抵掉；还可在会员中心兑换实物，如 800 积分兑猫零食小样、1500 积分兑自动饮水机滤芯 3 片、2000 积分兑上门更换一次滤芯的服务[1]。积分有效期为 24 个月，过期自动清零[1]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[2] 会员等级与积分规则:会员分为普通、银卡、金卡三档,按累计消费自动升级。每消费 1 元得 1 积分,积分可在结算时抵扣,100 积分抵 1 元。\n[3] 积分怎么攒:实付金额每 1 元累计 1 积分,运费与优惠券抵扣部分不计积分。\n订单完成收货后 7 天入账,发生退货或退款时积分同步扣回。\n活动期间的双倍积分只影响可用积分,双倍积分不计入等级升级的累计消费。\n[4] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[5] 可开票类型:个人账户默认开具电子普通发票,抬头填个人姓名或单位名称均可。\n电子专票仅企业账户可申请,提交时必须填写完整的纳税人识别号、开户行与对公账号,信息不全不予受理。\n纸质发票需在申请时备注邮寄地址,快递费到付,不接受面单改寄。\n一笔订单只开一次票,发票金额以实付金额为准,不含运费与积分抵扣部分。\n[6] 支持哪些支付方式:下单支持支付宝、微信支付与主流银行储蓄卡/信用卡在线支付。暂不支持线下汇款,支付遇到问题可重试或更换支付方式。\n[7] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[8] 会员运费权益:金卡会员每月享 3 次免运费权益,银卡会员享 1 次;权益不与偏远地区附加运费冲抵,当月未用完不结转。免运费权益直接抵掉该订单的基础运费(即未满 99 元包邮门槛时收取的那笔),按实际运费全额抵扣,不设每单抵扣上限——「未满 99 元收 6 元运费」里的 6 元是运费本身,不是权益上限。\n[9] 优惠券和满减怎么用:优惠券在结算页「使用优惠券」中勾选,满减活动自动叠加在商品页标示的门槛上;同一订单一般限用一张店铺券,活动细则以页面为准。\n[10] 预售与定金:预售商品以详情页标注的时间发货;定金支付后不支持无理由退定金,尾款未按时支付的,定金按活动规则处理。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-006",
+    "bucket": "D_absent",
+    "query": "猫爬架买回来发现尺寸不合适，能付费让你们派人上门安装吗？",
+    "expected_handling": "知识库说明需自行组装，但未说明付费上门安装服务；不要编造服务政策，建议人工核实。",
+    "answer": "您好，关于您咨询的猫爬架安装问题，为您说明如下：\n\n**安装方式**：大型猫爬架（型号 MH-CT30）需自行组装，商品随附六角扳手与图解说明书[1]。\n\n**关于付費上门安装**：目前暂时没有查到平台提供付费上门安装服务的相关信息，建议您通过「喵喵优选」App 内的「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服进一步核实（服务时间每日 9:00 至 22:00）[7]。\n\n另外提醒您，若因尺寸不合适需要换货，非质量问题的换货往返运费需由买家承担；因质量问题或发错货的换货，往返运费由平台承担[3]。退货方面支持 7 天无理由退货，但商品需保持完好、不影响二次销售，具体以平台售后规则为准[9]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "答案说明了需自行组装（有依据），对上门安装服务明确表示未查到相关信息并建议人工核实，未编造服务政策；补充的换货运费与7天无理由退货信息均有证据支持，符合预期处理要求。",
+    "evidence": "[1] 大型猫爬架(型号 MH-CT30):- 型号:MH-CT30\n- 高度:1.6m,共四层带顶层吊床\n- 承重:单层最大 10kg\n- 材质:剑麻柱身、绒布平台\n- 安装:需自行组装,随附六角扳手与图解说明书\n[2] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[3] 换货运费:非质量问题的换货,往返运费由买家承担;因质量问题或发错货的换货,往返运费由平台承担。少发漏发导致的换货,往返运费同样由平台承担。\n[4] 配送范围与偏远地区:全国大部分地区支持配送,新疆、西藏、内蒙古等偏远地区运费另计且时效顺延;港澳台及海外暂不支持自营配送。\n[5] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。\n[6] 可开票类型:个人账户默认开具电子普通发票,抬头填个人姓名或单位名称均可。\n电子专票仅企业账户可申请,提交时必须填写完整的纳税人识别号、开户行与对公账号,信息不全不予受理。\n纸质发票需在申请时备注邮寄地址,快递费到付,不接受面单改寄。\n一笔订单只开一次票,发票金额以实付金额为准,不含运费与积分抵扣部分。\n[7] 人工客服入口与时间:遇到退款、退货、换货、维修、破损、少发漏发等售后问题需要人工协助时,可在「喵喵优选」App 内通过「我的」-「联系客服」或订单详情页的「订单售后 / 联系客服」入口转接在线人工客服,并按页面指引提交订单号、开箱视频或商品照片等凭证。人工客服服务时间为每日 9:00 至 22:00,高峰期请耐心等待或留言。\n[8] 运费与包邮:单笔实付满 99 元包邮,未满收取 6 元基础运费。\n偏远地区(新疆、西藏、内蒙古部分区域)加收 12 元附加运费,该附加运费不参与包邮,\n需单独支付。偏远地区的配送时效在正常时效基础上顺延 2 至 4 天。\n港澳台及海外暂不支持配送,下单前请确认收货地址在可配送范围内。\n[9] 退货政策是什么:支持 7 天无理由退货,商品需保持完好、不影响二次销售,具体以平台售后规则为准。\n[10] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-007",
+    "bucket": "D_absent",
+    "query": "MH-CAM1 的云存储录像会保留多少天，过期后还能恢复吗？",
+    "expected_handling": "知识库说明支持云存储但未说明保留期限或恢复规则；不要猜测天数或承诺可恢复，建议人工核实。",
+    "answer": "您好，关于 MH-CAM1 全景看护摄像头，资料显示它支持最大 128G TF 卡或云存储[1]；但**云存储录像具体保留多少天、过期后能否恢复，暂时没有查到相关信息**，建议您通过 App 内的人工客服入口联系人工客服核实。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[2] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[3] 自动喂食器 摄像头版(型号 MH-FD30):- 型号:MH-FD30\n- 粮桶容量:6L\n- 核心功能:1080P 摄像头、双向语音、App 远程手动投喂与定时投喂\n- 供电:市电供电 + 内置应急电池\n- 断电应对:市电断开时自动切换到内置应急电池,可维持定时投喂约 48 小时;断电期间不支持视频回看与 App 远程手动投喂\n- 说明:摄像头版支持视频回看,需连接 2.4G Wi-Fi;「摄像头版」指喂食器内置的摄像头,独立的全景看护摄像头是另一款商品 MH-CAM1\n[4] 退货政策是什么:支持 7 天无理由退货,商品需保持完好、不影响二次销售,具体以平台售后规则为准。\n[5] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[6] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[7] 智能猫砂盆 Pro(型号 MH-LP100):- 型号:MH-LP100\n- 适用猫咪体重:1.5kg 至 8kg\n- 猫砂容量:9L,废砂盒容量约 7 天(单猫)\n- 核心功能:自动感应清理、活性炭除臭、App 远程监控与健康记录\n- 供电:220V 市电,断电后配置自动保存\n- 清理提示:废砂盒满时 App 推送提醒,建议每 5 至 7 天倾倒一次(单猫);两只猫建议每 3 至 4 天倾倒一次\n[8] 换货条件:收到商品 7 天内,商品完好且配件齐全的,可申请一次同款换货;不同型号或颜色需先退货再重新下单。\n[9] 智能猫砂盆 Lite(型号 MH-LP50):- 型号:MH-LP50\n- 适用猫咪体重:1.5kg 至 6kg\n- 猫砂容量:6L,废砂盒容量约 5 天(单猫)\n- 核心功能:自动感应清理、物理除臭盖板;不含 App 联网功能\n- 清理提示:无 App 联网,不支持满溢推送提醒,建议每 4 至 5 天倾倒一次废砂盒\n- 与 Pro 差异:Lite 无 App 远程监控与健康记录,价格更低,适合单猫家庭\n[10] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-008",
+    "bucket": "D_absent",
+    "query": "MH-W60 能不能用其他品牌的滤芯，接口规格是多少？",
+    "expected_handling": "知识库未说明第三方滤芯兼容性和接口规格；不要根据型号猜测，建议人工核实。",
+    "answer": "关于 MH-W60 的滤芯兼容性和接口规格，我暂时没有查到相关信息；资料中没有说明能否使用其他品牌的滤芯，也没有标注接口规格。建议您通过 App 内的人工客服入口联系人工客服核实。\n\n目前可以确认的是：MH-W60 采用双滤芯并联设计，建议每 4 周更换一次滤芯[1]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[2] 恒温加热垫(型号 MH-HP12):- 型号:MH-HP12\n- 尺寸:40cm × 30cm\n- 温控:恒温 38℃,内置过热保护,连续通电不超过 12 小时为宜\n- 防护:防水防抓咬电线套管\n- 适用:幼猫、老年猫及冬季保暖\n[3] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[4] 大号三档加热垫(型号 MH-HP20):- 型号:MH-HP20\n- 尺寸:60cm × 45cm\n- 温控:三档可调 30℃ / 38℃ / 45℃,内置过热保护与定时关机\n- 防护:防水防抓咬电线套管,表面绒布可拆洗\n- 适用:大型猫、多猫窝及冬季保暖\n[5] 自动饮水机(型号 MH-W20):- 型号:MH-W20\n- 水箱容量:2L\n- 过滤:三重过滤棉,建议每 2 周更换一次滤芯\n- 核心功能:静音水泵、缺水断电保护、水位窗口\n- 清洗:水泵可拆卸,建议每周清洗一次\n[6] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[7] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[8] 商品规格手册:本手册收录喵喵优选自营智能硬件的型号、规格与使用要点,便于按具体型号查询。\n[9] 常见故障自查:- 饮水机不出水:检查水位是否低于最低线、水泵是否卡阻,断电清洗水泵后重试。\n- 猫砂盆报错:清空废砂盒并检查滚筒是否卡砂,重启设备;仍报错联系售后。\n- 喂食器卡粮:检查粮食颗粒直径是否超 12mm、粮桶是否受潮结块,清理出粮口后重试。\n- 摄像头离线:确认 Wi-Fi 为 2.4G 频段、信号良好,重启设备或在 App 内重新配网。\n[10] 自动喂食器 摄像头版(型号 MH-FD30):- 型号:MH-FD30\n- 粮桶容量:6L\n- 核心功能:1080P 摄像头、双向语音、App 远程手动投喂与定时投喂\n- 供电:市电供电 + 内置应急电池\n- 断电应对:市电断开时自动切换到内置应急电池,可维持定时投喂约 48 小时;断电期间不支持视频回看与 App 远程手动投喂\n- 说明:摄像头版支持视频回看,需连接 2.4G Wi-Fi;「摄像头版」指喂食器内置的摄像头,独立的全景看护摄像头是另一款商品 MH-CAM1"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-009",
+    "bucket": "D_absent",
+    "query": "猫爬架的剑麻柱能单独买替换件吗，单根多少钱？",
+    "expected_handling": "知识库未说明配件售卖和价格；不要编造价格或是否在售，建议人工核实。",
+    "answer": "关于猫爬架剑麻柱单独购买替换件及单根价格，暂时没有查到相关信息。现有资料只提到大型猫爬架（型号 MH-CT30）采用剑麻柱身[1]，未说明是否支持单独购买替换件，也没有替换件价格信息。\n\n建议您通过 App 内的人工客服入口进一步核实，以免给您错误信息。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 大型猫爬架(型号 MH-CT30):- 型号:MH-CT30\n- 高度:1.6m,共四层带顶层吊床\n- 承重:单层最大 10kg\n- 材质:剑麻柱身、绒布平台\n- 安装:需自行组装,随附六角扳手与图解说明书\n[2] 运费怎么算:单笔订单满 99 元包邮,未满收取 6 元运费,偏远地区运费另计。邮费即运费,按此规则收取。\n[3] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。\n[4] 运费与包邮:单笔实付满 99 元包邮,未满收取 6 元基础运费。\n偏远地区(新疆、西藏、内蒙古部分区域)加收 12 元附加运费,该附加运费不参与包邮,\n需单独支付。偏远地区的配送时效在正常时效基础上顺延 2 至 4 天。\n港澳台及海外暂不支持配送,下单前请确认收货地址在可配送范围内。\n[5] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[6] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[7] 换货运费:非质量问题的换货,往返运费由买家承担;因质量问题或发错货的换货,往返运费由平台承担。少发漏发导致的换货,往返运费同样由平台承担。\n[8] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。\n[9] 会员运费权益:金卡会员每月享 3 次免运费权益,银卡会员享 1 次;权益不与偏远地区附加运费冲抵,当月未用完不结转。免运费权益直接抵掉该订单的基础运费(即未满 99 元包邮门槛时收取的那笔),按实际运费全额抵扣,不设每单抵扣上限——「未满 99 元收 6 元运费」里的 6 元是运费本身,不是权益上限。\n[10] 积分怎么攒:实付金额每 1 元累计 1 积分,运费与优惠券抵扣部分不计积分。\n订单完成收货后 7 天入账,发生退货或退款时积分同步扣回。\n活动期间的双倍积分只影响可用积分,双倍积分不计入等级升级的累计消费。"
+   },
+   {
+    "strat": "recall_20",
+    "id": "FTC-D-010",
+    "bucket": "D_absent",
+    "query": "买饮水机时能加钱买三年延保吗？",
+    "expected_handling": "知识库未说明延保服务；不要回答可购买或不可购买，说明暂时无法确认并建议官方客服核实。",
+    "answer": "您好，关于「加钱购买三年延保」这项服务，暂时没有查到相关信息，建议您通过 App 的人工客服入口联系人工客服核实。\n\n目前资料中与保修相关的内容为：电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品的维修可能收取工本费[1][3]。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[2] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[3] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[4] 价格保护怎么申请:自营商品支持下单后 7 天内价保,期间若同款降价可在「我的订单」-「申请价保」提交,差价将退回原支付渠道。价保的 7 天**自下单时间起算**,不是从签收之日起算;签收之日起 7 天内的那条是无理由退货,两者起算点不同、别混用。\n[5] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[6] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[7] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[8] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[9] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[10] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-001",
+    "bucket": "D_absent",
+    "query": "你们的饮水机能接家里的智能音箱，用语音命令开关吗？",
+    "expected_handling": "知识库未说明该功能；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "根据目前查到的资料，暂时没有饮水机支持连接智能音箱或用语音命令开关的说明。\n\n现有饮水机的功能信息如下，其中均未提到智能音箱联动或语音控制：\n\n- 自动饮水机 Plus（型号 MH-W40）：UV 紫外杀菌、静音变频水泵、缺水断电保护[1]\n- 自动饮水机 Pro 不锈钢（型号 MH-W60）：双泵冗余、无线水位提醒推送 App、缺水断电保护[3]\n- 自动饮水机（型号 MH-W20）：静音水泵、缺水断电保护、水位窗口[5]\n\n您提到的“语音控制、智能音箱联动”在现有资料中暂未提及，因此我无法确认是否支持。建议您通过 App 内的人工客服入口联系人工客服，进一步核实兼容情况。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[2] 自动喂食器 基础版(型号 MH-FD10):- 型号:MH-FD10\n- 粮桶容量:4L\n- 核心功能:定时定量投喂,每日最多 6 餐,语音呼唤进食\n- 供电:市电供电 + 4 节 5 号电池断电应急\n- 断电应对:市电断开时靠 4 节 5 号电池维持定时定量投喂约 24 小时;基础版没有 App,断电期间不推送提醒\n- 说明:基础版不含摄像头与 App 远程投喂\n[3] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[4] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[5] 自动饮水机(型号 MH-W20):- 型号:MH-W20\n- 水箱容量:2L\n- 过滤:三重过滤棉,建议每 2 周更换一次滤芯\n- 核心功能:静音水泵、缺水断电保护、水位窗口\n- 清洗:水泵可拆卸,建议每周清洗一次"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-002",
+    "bucket": "D_absent",
+    "query": "买的猫砂盆可以绑定两个不同手机号的家庭成员账号一起管理吗？",
+    "expected_handling": "知识库未说明多账号共享；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "暂时没有查到关于「猫砂盆绑定两个不同手机号的家庭成员账号共同管理」的相关信息，无法确认是否支持，建议您通过 App 内的人工客服入口进一步核实。\n\n补充说明：不同型号的 App 功能有差异，例如智能猫砂盆 Pro（MH-LP100）支持 App 远程监控与健康记录[1]，智能猫砂盆 Max（MH-LP200）支持 App 多猫健康档案[2]，而智能猫砂盆 Lite（MH-LP50）不含 App 联网功能[3]；但以上证据均未涉及家庭成员账号共享绑定。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 智能猫砂盆 Pro(型号 MH-LP100):- 型号:MH-LP100\n- 适用猫咪体重:1.5kg 至 8kg\n- 猫砂容量:9L,废砂盒容量约 7 天(单猫)\n- 核心功能:自动感应清理、活性炭除臭、App 远程监控与健康记录\n- 供电:220V 市电,断电后配置自动保存\n- 清理提示:废砂盒满时 App 推送提醒,建议每 5 至 7 天倾倒一次(单猫);两只猫建议每 3 至 4 天倾倒一次\n[2] 智能猫砂盆 Max(型号 MH-LP200):- 型号:MH-LP200\n- 适用猫咪体重:2kg 至 12kg,适合大型猫与多猫家庭\n- 猫砂容量:12L,废砂盒容量约 10 天(单猫)\n- 核心功能:超大滚筒、双重称重防夹、活性炭除臭、App 多猫健康档案\n- 供电:220V 市电\n- 清理提示:废砂盒满时 App 推送提醒,多猫家庭建议每 3 至 5 天倾倒一次废砂盒\n[3] 智能猫砂盆 Lite(型号 MH-LP50):- 型号:MH-LP50\n- 适用猫咪体重:1.5kg 至 6kg\n- 猫砂容量:6L,废砂盒容量约 5 天(单猫)\n- 核心功能:自动感应清理、物理除臭盖板;不含 App 联网功能\n- 清理提示:无 App 联网,不支持满溢推送提醒,建议每 4 至 5 天倾倒一次废砂盒\n- 与 Pro 差异:Lite 无 App 远程监控与健康记录,价格更低,适合单猫家庭\n[4] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[5] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-003",
+    "bucket": "D_absent",
+    "query": "我能不能给宠物设备单独买一个意外损坏保险？",
+    "expected_handling": "知识库未说明该保险服务；不要回答有或没有，说明暂时无法确认并建议向官方客服核实。",
+    "answer": "您好，关于「给宠物设备单独购买意外损坏保险」这件事，**暂时没有查到相关信息**，因此无法确认是否支持单独投保，建议您通过 App 内的人工客服入口进一步核实。\n\n与宠物电子设备保障相关、目前有明确依据的是保修政策，供您参考：\n\n- 电子类商品自签收日起保修 12 个月，人为损坏不在保修范围内[1][2]。\n- 保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品维修可能收取工本费[2]。\n- 保修期内设备故障，联系客服登记后按指引寄回指定维修点，核验后免费维修并寄回；超保或人为损坏维修可能收取工本费，费用会提前告知[3]。\n\n需要说明的是，以上仅为保修相关信息，并不等同于意外损坏保险，具体是否能单独购买该类保险，请以人工客服核实结果为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[2] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[3] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[4] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[5] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-004",
+    "bucket": "D_absent",
+    "query": "设备坏了能不能预约师傅上门修，不用寄回维修点？",
+    "expected_handling": "知识库只说明寄修流程，未说明上门维修服务；说明现有资料未提及，不要承诺支持或断言不支持。",
+    "answer": "您好，小喵来帮您确认～\n\n**关于维修方式**：目前查到的保修流程是寄修——保修期内设备故障，您联系客服登记后，按指引将设备寄回指定维修点，核验后免费维修并寄回；超保或人为损坏的维修可能收取工本费，费用会提前告知[1][4]。\n\n**关于上门维修**：您问的“预约师傅上门维修、不用寄回”这一服务，暂时没有查到相关信息，无法确认是否支持。需要说明的是，会员权益中金卡会员的「上门取件退换货」指的是退换货取件，不等同于上门维修[2]，具体权益以会员中心页面标注为准[2]。\n\n建议您通过 App 内的人工客服入口进一步核实是否有上门维修服务，并以平台实际处理为准。给您带来不便，还请见谅～",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 维修寄修流程:保修期内设备故障,联系客服登记后按指引将设备寄回指定维修点,核验后免费维修并寄回;超保或人为损坏维修可能收取工本费,费用会提前告知。\n[2] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[3] 退货政策是什么:支持 7 天无理由退货,商品需保持完好、不影响二次销售,具体以平台售后规则为准。\n[4] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[5] 不支持退货的商品:定制类、生鲜类、已拆封的猫砂等消耗品,以及标注「不支持无理由退货」的商品,非质量问题不支持退货。"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-005",
+    "bucket": "D_absent",
+    "query": "会员积分能不能兑换成现金提现吗？",
+    "expected_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。",
+    "answer": "关于积分提现，小喵帮您查了一下：\n\n目前积分可以在结算时勾选使用，**100 积分可抵扣订单金额 1 元，单笔最多抵 30 元**[1]；积分也可以直接抵扣运费（例如未满包邮门槛的 6 元运费可用 600 积分抵掉，抵满即视为包邮）[1]；还能在会员中心兑换实物或服务，例如 800 积分兑猫零食小样、1500 积分兑自动饮水机滤芯 3 片、2000 积分兑上门更换一次滤芯的服务[1]。积分有效期为 24 个月，过期自动清零[1]。\n\n不过，**积分能否兑换成现金提现，暂时没有查到相关信息**——上述抵扣规则只说明结算时可抵扣订单金额，并不代表积分可以提现[1]。这一点建议您联系 App 内的人工客服进一步核实，以免耽误您的事～",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "答案准确列出积分抵扣、运费抵扣和实物兑换等已知信息，明确说明提现政策未查到相关信息，未推断支持或否定提现，并建议联系人工客服核实，符合预期处理要求。",
+    "evidence": "[1] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。\n[2] 会员等级与积分规则:会员分为普通、银卡、金卡三档,按累计消费自动升级。每消费 1 元得 1 积分,积分可在结算时抵扣,100 积分抵 1 元。\n[3] 积分怎么攒:实付金额每 1 元累计 1 积分,运费与优惠券抵扣部分不计积分。\n订单完成收货后 7 天入账,发生退货或退款时积分同步扣回。\n活动期间的双倍积分只影响可用积分,双倍积分不计入等级升级的累计消费。\n[4] 会员等级:会员分普通、银卡、金卡三档,按累计消费自动升级,升级后立即生效,等级有效期为自然年。\n累计消费 1000 元起升银卡,累计消费 5000 元起升金卡。\n银卡享商品 9 折,金卡享商品 95 折并额外获赠一张店铺券。\n金卡会员每月享 3 次免运费,银卡会员每月 1 次。\n金卡会员生日当月可领取猫罐头礼盒一份,需在会员中心手动领取,过期不补发。\n[5] 可开票类型:个人账户默认开具电子普通发票,抬头填个人姓名或单位名称均可。\n电子专票仅企业账户可申请,提交时必须填写完整的纳税人识别号、开户行与对公账号,信息不全不予受理。\n纸质发票需在申请时备注邮寄地址,快递费到付,不接受面单改寄。\n一笔订单只开一次票,发票金额以实付金额为准,不含运费与积分抵扣部分。"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-006",
+    "bucket": "D_absent",
+    "query": "猫爬架买回来发现尺寸不合适，能付费让你们派人上门安装吗？",
+    "expected_handling": "知识库说明需自行组装，但未说明付费上门安装服务；不要编造服务政策，建议人工核实。",
+    "answer": "关于付费上门安装：暂时没有查到平台提供付费上门安装服务的相关信息，建议您通过 App 人工客服入口进一步核实。现有资料中，大型猫爬架（型号 MH-CT30）标注为**需自行组装**，随附六角扳手与图解说明书[1]。\n\n如果尺寸不合适想退换，可参考：\n- **无理由退货**：自签收之日起 7 天内，商品完好、不影响二次销售的，支持无理由退货；定制类、生鲜类商品除外[3]。\n- **换货**：收到商品 7 天内，商品完好且配件齐全的，可申请一次同款换货；不同型号或颜色需先退货再重新下单[5]。\n\n具体能否退换及处理结果，以平台售后规则为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 大型猫爬架(型号 MH-CT30):- 型号:MH-CT30\n- 高度:1.6m,共四层带顶层吊床\n- 承重:单层最大 10kg\n- 材质:剑麻柱身、绒布平台\n- 安装:需自行组装,随附六角扳手与图解说明书\n[2] 会员专属售后权益:金卡会员享优先客服接入与上门取件退换货;银卡会员享退换货运费权益 1 次/月。具体权益以会员中心页面标注为准。\n[3] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[4] 配送范围与偏远地区:全国大部分地区支持配送,新疆、西藏、内蒙古等偏远地区运费另计且时效顺延;港澳台及海外暂不支持自营配送。\n[5] 换货条件:收到商品 7 天内,商品完好且配件齐全的,可申请一次同款换货;不同型号或颜色需先退货再重新下单。"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-007",
+    "bucket": "D_absent",
+    "query": "MH-CAM1 的云存储录像会保留多少天，过期后还能恢复吗？",
+    "expected_handling": "知识库说明支持云存储但未说明保留期限或恢复规则；不要猜测天数或承诺可恢复，建议人工核实。",
+    "answer": "关于 MH-CAM1，目前能确认的是它支持云存储（也支持最大 128G TF 卡）[1]。不过，**云存储录像具体保留多少天、过期后能否恢复，暂时没有查到相关信息**。\n\n建议你通过 App 内的人工客服入口联系人工客服核实，以平台实际规则为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 全景看护摄像头(型号 MH-CAM1):- 型号:MH-CAM1\n- 画质:2K 分辨率,355° 水平旋转、90° 俯仰\n- 核心功能:移动侦测报警、夜视、双向语音、逗猫激光\n- 存储:支持最大 128G TF 卡或云存储\n- 供电:Type-C 供电,需连接 2.4G Wi-Fi\n- 说明:独立的全景看护摄像头只有 MH-CAM1 这一个型号;自动喂食器摄像头版 MH-FD30 是另一款商品,型号不要混用\n[2] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[3] 自动喂食器 摄像头版(型号 MH-FD30):- 型号:MH-FD30\n- 粮桶容量:6L\n- 核心功能:1080P 摄像头、双向语音、App 远程手动投喂与定时投喂\n- 供电:市电供电 + 内置应急电池\n- 断电应对:市电断开时自动切换到内置应急电池,可维持定时投喂约 48 小时;断电期间不支持视频回看与 App 远程手动投喂\n- 说明:摄像头版支持视频回看,需连接 2.4G Wi-Fi;「摄像头版」指喂食器内置的摄像头,独立的全景看护摄像头是另一款商品 MH-CAM1\n[4] 退货政策是什么:支持 7 天无理由退货,商品需保持完好、不影响二次销售,具体以平台售后规则为准。\n[5] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-008",
+    "bucket": "D_absent",
+    "query": "MH-W60 能不能用其他品牌的滤芯，接口规格是多少？",
+    "expected_handling": "知识库未说明第三方滤芯兼容性和接口规格；不要根据型号猜测，建议人工核实。",
+    "answer": "关于 MH-W60 这款自动饮水机 Pro 不锈钢，现有资料只能查到它的过滤结构为「双滤芯并联，建议每 4 周更换一次滤芯」[1]；至于**是否兼容其他品牌滤芯、滤芯接口规格是多少**，目前暂时没有查到相关信息。\n\n建议您通过 App 内的人工客服入口进一步核实，以免买错配件。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "答案仅陈述证据[1]中已知的过滤结构信息，对第三方滤芯兼容性和接口规格明确说明未查到，并建议人工核实，未作猜测或肯定/否定断言，符合预期处理要求。",
+    "evidence": "[1] 自动饮水机 Pro 不锈钢(型号 MH-W60):- 型号:MH-W60\n- 水箱容量:6L,304 不锈钢表面盘\n- 过滤:双滤芯并联,建议每 4 周更换一次滤芯\n- 核心功能:双泵冗余、无线水位提醒推送 App、缺水断电保护\n- 清洗:不锈钢面盘可高温消毒,建议每周清洗一次\n[2] 恒温加热垫(型号 MH-HP12):- 型号:MH-HP12\n- 尺寸:40cm × 30cm\n- 温控:恒温 38℃,内置过热保护,连续通电不超过 12 小时为宜\n- 防护:防水防抓咬电线套管\n- 适用:幼猫、老年猫及冬季保暖\n[3] 自动饮水机 Plus(型号 MH-W40):- 型号:MH-W40\n- 水箱容量:4L\n- 过滤:五重过滤棉 + 椰壳活性炭,建议每 3 周更换一次滤芯\n- 核心功能:UV 紫外杀菌、静音变频水泵、缺水断电保护\n- 清洗:整机可拆分水洗,建议每周清洗一次\n[4] 大号三档加热垫(型号 MH-HP20):- 型号:MH-HP20\n- 尺寸:60cm × 45cm\n- 温控:三档可调 30℃ / 38℃ / 45℃,内置过热保护与定时关机\n- 防护:防水防抓咬电线套管,表面绒布可拆洗\n- 适用:大型猫、多猫窝及冬季保暖\n[5] 自动饮水机(型号 MH-W20):- 型号:MH-W20\n- 水箱容量:2L\n- 过滤:三重过滤棉,建议每 2 周更换一次滤芯\n- 核心功能:静音水泵、缺水断电保护、水位窗口\n- 清洗:水泵可拆卸,建议每周清洗一次"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-009",
+    "bucket": "D_absent",
+    "query": "猫爬架的剑麻柱能单独买替换件吗，单根多少钱？",
+    "expected_handling": "知识库未说明配件售卖和价格；不要编造价格或是否在售，建议人工核实。",
+    "answer": "您好，关于猫爬架剑麻柱的替换件购买和价格，**暂时没有查到相关信息**，因此无法告知是否可以单独购买或单根价格。\n\n目前资料中仅能确认：大型猫爬架（型号 MH-CT30）的柱身材质为剑麻柱身、平台为绒布平台[1]。\n\n替换件销售与定价信息资料未提及，建议您通过「喵喵优选」App 内的人工客服入口进一步核实，感谢您的理解～",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 大型猫爬架(型号 MH-CT30):- 型号:MH-CT30\n- 高度:1.6m,共四层带顶层吊床\n- 承重:单层最大 10kg\n- 材质:剑麻柱身、绒布平台\n- 安装:需自行组装,随附六角扳手与图解说明书\n[2] 运费怎么算:单笔订单满 99 元包邮,未满收取 6 元运费,偏远地区运费另计。邮费即运费,按此规则收取。\n[3] 换货条件:收到商品 7 天内,商品完好且配件齐全的,可申请一次同款换货;不同型号或颜色需先退货再重新下单。\n[4] 运费与包邮:单笔实付满 99 元包邮,未满收取 6 元基础运费。\n偏远地区(新疆、西藏、内蒙古部分区域)加收 12 元附加运费,该附加运费不参与包邮,\n需单独支付。偏远地区的配送时效在正常时效基础上顺延 2 至 4 天。\n港澳台及海外暂不支持配送,下单前请确认收货地址在可配送范围内。\n[5] 设备安装与激活:智能设备首次使用需下载「喵喵优选」App,按说明书扫码添加设备并连接 2.4G Wi-Fi 完成激活;猫爬架等非联网商品按随附图解自行组装。"
+   },
+   {
+    "strat": "rerank_5",
+    "id": "FTC-D-010",
+    "bucket": "D_absent",
+    "query": "买饮水机时能加钱买三年延保吗？",
+    "expected_handling": "知识库未说明延保服务；不要回答可购买或不可购买，说明暂时无法确认并建议官方客服核实。",
+    "answer": "关于「加钱购买三年延保」：暂时没有查到相关信息，建议您通过 App 的人工客服入口联系人工客服核实[1][3]。\n\n目前资料中可确认的保修信息是：电子类商品自签收起保修 12 个月，保修期内非人为损坏可申请免费维修或换货；人为损坏、超保商品的维修可能收取工本费[1][3]。延保服务是否可购买、价格及保障范围，资料未提及，请以人工客服核实为准。",
+    "handling_compliant": true,
+    "handling_unsupported_claims": false,
+    "handling_reason": "",
+    "evidence": "[1] 质量问题与保修:电子类商品自签收起保修 12 个月,保修期内非人为损坏可申请免费维修或换货;人为损坏、超保商品维修可能收取工本费。\n[2] 适用范围:自签收之日起 7 天内,商品完好、不影响二次销售的,支持无理由退货。定制类、生鲜类商品除外。本条的 7 天自签收之日起算,只管无理由退货;价保是另一条规则,它的 7 天从下单时间起算。\n[3] 保修说明:电子类商品保修 12 个月,自签收日起算;人为损坏不在保修范围。\n[4] 价格保护怎么申请:自营商品支持下单后 7 天内价保,期间若同款降价可在「我的订单」-「申请价保」提交,差价将退回原支付渠道。价保的 7 天**自下单时间起算**,不是从签收之日起算;签收之日起 7 天内的那条是无理由退货,两者起算点不同、别混用。\n[5] 积分怎么用:积分在结算页勾选使用,100 积分可抵扣订单金额 1 元,单笔最多抵 30 元。该规则说明的是结算时抵扣订单金额,不代表积分可以提现。当前资料未说明积分能否兑换成现金提现吗;用户询问提现时,应说明暂时无法确认并建议联系人工客服核实。\n积分可直接抵扣运费,未满包邮门槛的 6 元运费可用 600 积分抵掉,抵满即视为包邮。\n积分也可在会员中心兑换实物:800 积分兑猫零食小样一份,1500 积分兑自动饮水机滤芯 3 片,\n2000 积分兑上门更换一次滤芯的服务。积分有效期 24 个月,过期自动清零。"
+   }
+  ],
+  "refusal": {
+   "rate": 1.0,
+   "total": 10,
+   "correct": 10,
+   "cases": [],
+   "skipped_ids": []
+  },
+  "skipped": 0
+ },
+ "read_notes": {}
+}

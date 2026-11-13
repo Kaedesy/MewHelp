@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.portal.dao.OutboxEventDao">
+    <resultMap id="outboxEventMap" type="com.macro.mall.portal.domain.OmsOutboxEvent">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="delay_millis" property="delayMillis"/>
+        <result column="status" property="status"/>
+        <result column="attempts" property="attempts"/>
+        <result column="next_attempt_time" property="nextAttemptTime"/>
+        <result column="locked_until" property="lockedUntil"/>
+        <result column="last_error" property="lastError"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insertCancelOrderEvent">
+        INSERT INTO oms_outbox_event (event_type, order_id, delay_millis, status, attempts, next_attempt_time)
+        VALUES ('ORDER_CANCEL_DELAY', #{orderId}, #{delayMillis}, 'PENDING', 0, NOW())
+    </insert>
+
+    <select id="selectDueEventIds" resultType="long">
+        SELECT id
+        FROM oms_outbox_event
+        WHERE (status IN ('PENDING', 'RETRY') AND next_attempt_time &lt;= NOW())
+           OR (status = 'PROCESSING' AND locked_until &lt;= NOW())
+        ORDER BY id
+        LIMIT #{limit}
+    </select>
+
+    <update id="claimEvent">
+        UPDATE oms_outbox_event
+        SET status = 'PROCESSING',
+            attempts = attempts + 1,
+            locked_until = DATE_ADD(NOW(), INTERVAL #{leaseSeconds} SECOND),
+            update_time = NOW()
+        WHERE id = #{eventId}
+          AND ((status IN ('PENDING', 'RETRY') AND next_attempt_time &lt;= NOW())
+            OR (status = 'PROCESSING' AND locked_until &lt;= NOW()))
+    </update>
+
+    <select id="selectById" resultMap="outboxEventMap">
+        SELECT id, order_id, delay_millis, status, attempts, next_attempt_time,
+               locked_until, last_error, create_time, update_time
+        FROM oms_outbox_event
+        WHERE id = #{eventId}
+    </select>
+
+    <update id="markPublished">
+        UPDATE oms_outbox_event
+        SET status = 'PUBLISHED', locked_until = NULL, last_error = NULL, update_time = NOW()
+        WHERE id = #{eventId} AND status = 'PROCESSING'
+    </update>
+
+    <update id="markFailed">
+        UPDATE oms_outbox_event
+        SET status = CASE WHEN attempts &gt;= #{maxAttempts} THEN 'DEAD' ELSE 'RETRY' END,
+            next_attempt_time = DATE_ADD(NOW(), INTERVAL #{delaySeconds} SECOND),
+            locked_until = NULL,
+            last_error = LEFT(#{error}, 1000),
+            update_time = NOW()
+        WHERE id = #{eventId} AND status = 'PROCESSING'
+    </update>
+</mapper>

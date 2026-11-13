@@ -1,0 +1,16 @@
+{
+  "policy_version": "ch11-review-v1",
+  "categories": {
+    "retrieval_miss": {"sample_rate": 0.2},
+    "rerank_error": {"sample_rate": 0.2},
+    "evidence_insufficient": {"sample_rate": 0.1},
+    "generation_error": {"sample_rate": 0.1},
+    "tool_error": {"sample_rate": 0.1},
+    "routing_error": {"sample_rate": 0.2},
+    "knowledge_gap": {"sample_rate": 1.0},
+    "unknown": {"sample_rate": 1.0}
+  },
+  "risk_escalation": {
+    "always_review_failure_types": ["unknown", "tool_error"]
+  }
+}

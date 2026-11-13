@@ -1,0 +1,55 @@
+评估集:30 题(跨文档类 30),策略 ['baseline', 'recall_20', 'rerank_5']
+检索并发 5 · 生成并发 5 · 单调用超时 45s
+
+=== 段1 检索:四策略 × 分桶 Recall@5 / MRR ===
+strategy                       A               B               C               E         OVERALL
+baseline             R0.00/M0.00     R0.00/M0.00     R0.00/M0.00     R0.67/M0.55     R0.67/M0.55
+recall_20            R0.00/M0.00     R0.00/M0.00     R0.00/M0.00     R0.72/M0.55     R0.72/M0.55
+rerank_5             R0.00/M0.00     R0.00/M0.00     R0.00/M0.00     R0.67/M0.52     R0.67/M0.52
+
+=== 段2 证据覆盖度(Top-10 证据盖住标准要点的比例,机械匹配·确定性)===
+strategy                   A           B           C           E     OVERALL
+baseline                0.00        0.00        0.00        1.00        1.00
+recall_20               0.00        0.00        0.00        1.00        1.00
+rerank_5                0.00        0.00        0.00        1.00        1.00
+
+=== 段3 生成:四策略答案覆盖度(glm 判分)+ Faithfulness + D 桶拒答 ===
+
+-- 答案覆盖度(生成答案盖住标准要点的比例)--
+strategy                   A           B           C           E     OVERALL
+baseline             未评上     未评上     未评上        1.00        1.00
+recall_20            未评上     未评上     未评上        1.00        1.00
+rerank_5             未评上     未评上     未评上        1.00        1.00
+
+-- Faithfulness(答案不编造)--
+baseline A_policy       faithfulness=未评上 (评 0 题)
+baseline B_model        faithfulness=未评上 (评 0 题)
+baseline C_colloquial   faithfulness=未评上 (评 0 题)
+baseline E_multi        faithfulness=1.000 (评 30 题)
+baseline D_absent       faithfulness=未评上 (评 0 题)
+recall_20 A_policy       faithfulness=未评上 (评 0 题)
+recall_20 B_model        faithfulness=未评上 (评 0 题)
+recall_20 C_colloquial   faithfulness=未评上 (评 0 题)
+recall_20 E_multi        faithfulness=1.000 (评 30 题)
+recall_20 D_absent       faithfulness=未评上 (评 0 题)
+rerank_5 A_policy       faithfulness=未评上 (评 0 题)
+rerank_5 B_model        faithfulness=未评上 (评 0 题)
+rerank_5 C_colloquial   faithfulness=未评上 (评 0 题)
+rerank_5 E_multi        faithfulness=1.000 (评 30 题)
+rerank_5 D_absent       faithfulness=未评上 (评 0 题)
+
+-- 被判不忠实(编造)个案:0 例 --
+
+-- D 桶拒答率(线上管线)= 未评上(0/0 正确拒答;评 0/0 题)--
+   该拒没拒:0 例
+
+-- expected_handling 合规率(LLM 裁判；逐题结果写入报告供人工抽查)--
+baseline E_multi: compliant=1.000, unsupported_claim=0.000, n=5
+recall_20 E_multi: compliant=1.000, unsupported_claim=0.000, n=5
+rerank_5 E_multi: compliant=1.000, unsupported_claim=0.000, n=5
+
+-- 型号机械闸:命中 0 次,重写救回 0 次 --
+
+-- 候选答复对比不写入长期忠实度台账，避免候选结果覆盖同一题目记录 --
+
+Note: one coverage judge call failed in the batch; a targeted rescore for recall_20/FR-E40-000 returned 1/1. Final coverage is scored for all 30 cases.

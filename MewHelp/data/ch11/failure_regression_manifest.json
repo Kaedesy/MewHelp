@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "dataset_role": "development_regression",
+  "curation_status": "draft_pending_human_review",
+  "eligible_for_final_release_gate": false,
+  "dataset_path": "tests/data/eval_ch11_failure_regression.jsonl",
+  "derived_from_existing_eval_data": true,
+  "source_dataset": "tests/data/eval_ch11_validation.jsonl",
+  "source_report": "data/ch11/reports/eval_candidates_validation_shipping6_frozen_20261022.json",
+  "selection_rule": "baseline sample_results where recall_at_5 < 1.0",
+  "source_case_ids": [
+    "E1",
+    "E15",
+    "E37",
+    "E40",
+    "E44",
+    "E51"
+  ],
+  "row_count": 18,
+  "parent_failure_count": 6,
+  "variants_per_parent": 2,
+  "notes": [
+    "This is a targeted regression/development set, not an independent final test set.",
+    "Original failure rows were copied from validation and wording variants were added.",
+    "Variant labels are inherited from parent cases and must be checked against the KB by a human reviewer before treating this as a regression benchmark.",
+    "Use it to measure whether a fix helps these failure families; do not use it to claim unbiased final quality or tune a final gate.",
+    "2026-10-23: E40 answer labels corrected: first-use QR setup is not evidence for post-outage re-pairing. Existing rows retained; no new questions added."
+  ],
+  "dataset_sha256": "eae750b098900f364d155a1e8bc4db930f48abf1c11bb1190c1a89582da7887b",
+  "source_report_sha256": "1ad770361ddb3a65c6c0849185a86fc46df520081c8297d1c7379cbadee69ddb",
+  "evaluation_report": "data/ch11/reports/eval_evolution_cycle1_failure_regression_postfix_20261023.json",
+  "evaluation_report_sha256": "60d76b93d42257b4dbbcf6f782561931f442e2ba04a9c9399eead9fbe3779ebe",
+  "evaluation_code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:84d7af978840"
+}

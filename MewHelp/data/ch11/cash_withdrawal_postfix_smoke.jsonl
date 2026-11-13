@@ -1,0 +1,1 @@
+{"id": "FTC-D-005", "bucket": "D_absent", "query": "会员积分能不能兑换成现金提现吗？", "expect_section": [], "expect_points": [], "should_refuse": true, "expected_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。"}

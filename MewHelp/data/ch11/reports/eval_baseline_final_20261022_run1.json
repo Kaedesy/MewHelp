@@ -1,0 +1,2385 @@
+{
+  "schema_version": 1,
+  "meta": {
+    "generated_at": "2026-10-22T12:13:48+00:00",
+    "dataset": "tests\\data\\eval_ch11_validation.jsonl",
+    "dataset_role": "validation",
+    "dataset_sha256": "a48e6d59decad743aca61960986b254c79546dd7da9edfa9b6b9ece3da09dbb2",
+    "dataset_size": 240,
+    "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:101e52426f40",
+    "dataset_provenance": null,
+    "dataset_provenance_sha256": null,
+    "knowledge_version": "milvus-existing-volume-2026-10-22",
+    "knowledge_source_sha256": "4c81815bf812398ae3e4d22817ecf8dea1225d25eb184ecfb277b3607f9808ce",
+    "models": {
+      "embed": "BAAI/bge-m3",
+      "rerank": "BAAI/bge-reranker-v2-m3",
+      "chat": "deepseek-v4-flash"
+    },
+    "metric_definition": "section-group recall@5 and reciprocal rank; cross-document groups are averaged"
+  },
+  "candidates": {
+    "baseline": {
+      "config": {
+        "name": "baseline",
+        "recall_top_k": 50,
+        "rerank_top_k": 10,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "status": "complete",
+      "expected_samples": 240,
+      "evaluated_samples": 240,
+      "metrics": {
+        "recall_at_5": 0.9852,
+        "mrr": 0.8954,
+        "confidence_gate_refusal_rate": 0.9792,
+        "confidence_gate_false_refusal_rate": 0.1354
+      },
+      "buckets": {
+        "A_policy": {
+          "expected": 48,
+          "evaluated": 48,
+          "recall_at_5": 1.0,
+          "mrr": 0.9653
+        },
+        "B_model": {
+          "expected": 48,
+          "evaluated": 48,
+          "recall_at_5": 1.0,
+          "mrr": 1.0
+        },
+        "C_colloquial": {
+          "expected": 48,
+          "evaluated": 48,
+          "recall_at_5": 1.0,
+          "mrr": 0.9618
+        },
+        "E_multi": {
+          "expected": 48,
+          "evaluated": 48,
+          "recall_at_5": 0.941,
+          "mrr": 0.6543
+        },
+        "D_absent": {
+          "expected": 48,
+          "evaluated": 48,
+          "confidence_gate_refusal_rate": 0.9792
+        }
+      },
+      "failures": [],
+      "sample_results": [
+        {
+          "id": "A1",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A10",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A11",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A12",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A13",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A14",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A15",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A16",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A17",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A19",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A2",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A20",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A21",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A22",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A24",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A25",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A26",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A27",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A28",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A29",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A3",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A30",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A31",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A33",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A35",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A36",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A37",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A38",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A39",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A4",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A41",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A44",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A45",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A46",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A47",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A48",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A50",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5
+          }
+        },
+        {
+          "id": "A51",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A52",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A53",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A54",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A55",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A56",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A58",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5
+          }
+        },
+        {
+          "id": "A6",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A60",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.3333333333333333
+          }
+        },
+        {
+          "id": "A8",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "A9",
+          "bucket": "A_policy",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B10",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B11",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B12",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B13",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B14",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B15",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B16",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B17",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B18",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B2",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B20",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B21",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B22",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B23",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B24",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B25",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B26",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B27",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B28",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B29",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B31",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B32",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B33",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B36",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B37",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B38",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B39",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B4",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B40",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B41",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B43",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B44",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B45",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B46",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B47",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B48",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B49",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B5",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B50",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B52",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B53",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B54",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B57",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B6",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B60",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B7",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B8",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "B9",
+          "bucket": "B_model",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C1",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.3333333333333333
+          }
+        },
+        {
+          "id": "C10",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C11",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C13",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C14",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C15",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C16",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C18",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C19",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C2",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C20",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C21",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C22",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C23",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C24",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C26",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C27",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C28",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C29",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C3",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C31",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C32",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C33",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C34",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C35",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C36",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C37",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C38",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C39",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C4",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C40",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C42",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C43",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C44",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C45",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C46",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C49",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C5",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C53",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C54",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C55",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C56",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C59",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C6",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.3333333333333333
+          }
+        },
+        {
+          "id": "C60",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C7",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5
+          }
+        },
+        {
+          "id": "C8",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "C9",
+          "bucket": "C_colloquial",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0
+          }
+        },
+        {
+          "id": "D1",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D10",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D11",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D12",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D13",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D14",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D17",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D2",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D20",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D21",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D22",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D23",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D24",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D25",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D26",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D27",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D29",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D3",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false
+          }
+        },
+        {
+          "id": "D30",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D32",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D33",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D34",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D35",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D36",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D37",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D39",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D4",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D40",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D42",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D43",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D45",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D46",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D47",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D48",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D49",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D5",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D51",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D53",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D54",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D55",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D56",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D57",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D58",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D6",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D60",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D7",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D8",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "D9",
+          "bucket": "D_absent",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true
+          }
+        },
+        {
+          "id": "E1",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.3333333333333333
+          }
+        },
+        {
+          "id": "E10",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E11",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E12",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          }
+        },
+        {
+          "id": "E13",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E14",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E15",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          }
+        },
+        {
+          "id": "E16",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E17",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          }
+        },
+        {
+          "id": "E18",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          }
+        },
+        {
+          "id": "E19",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E2",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.611111111111111
+          }
+        },
+        {
+          "id": "E20",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E21",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          }
+        },
+        {
+          "id": "E22",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E23",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E24",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          }
+        },
+        {
+          "id": "E26",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.625
+          }
+        },
+        {
+          "id": "E28",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          }
+        },
+        {
+          "id": "E29",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E3",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E30",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          }
+        },
+        {
+          "id": "E31",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          }
+        },
+        {
+          "id": "E32",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E34",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E35",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.625
+          }
+        },
+        {
+          "id": "E36",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E37",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          }
+        },
+        {
+          "id": "E38",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E4",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.48333333333333334
+          }
+        },
+        {
+          "id": "E40",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          }
+        },
+        {
+          "id": "E42",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E43",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.41666666666666663
+          }
+        },
+        {
+          "id": "E44",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          }
+        },
+        {
+          "id": "E45",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          }
+        },
+        {
+          "id": "E49",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E5",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.611111111111111
+          }
+        },
+        {
+          "id": "E50",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E51",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          }
+        },
+        {
+          "id": "E52",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E54",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E57",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          }
+        },
+        {
+          "id": "E58",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.6666666666666666
+          }
+        },
+        {
+          "id": "E6",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.625
+          }
+        },
+        {
+          "id": "E60",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E7",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E8",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.75
+          }
+        },
+        {
+          "id": "E9",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.611111111111111
+          }
+        }
+      ]
+    }
+  },
+  "comparisons": {
+    "baseline": {
+      "changed_sample_count": 0,
+      "changed_samples": []
+    }
+  }
+}

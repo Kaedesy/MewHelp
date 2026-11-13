@@ -1,0 +1,780 @@
+{
+  "dataset": "tests/data/eval_ch11_final_test_candidate.jsonl",
+  "status": "draft_pending_human_review",
+  "purpose": "独立最终测试集候选；人工核验并锁定前不得用于调参或正式评估",
+  "independence_claim": "pending_human_review",
+  "curation_note": "题目为基于当前知识库撰写的合成业务场景候选；并非已完成人工整理。需审核者逐题核验答案与知识库当前版本，并确认未从历史评估题改写。",
+  "dataset_sha256": "28a6892a2d84962851bddb77e9add70cfc7bed3ece427a91ed6aed1130077cdd",
+  "items": {
+    "FTC-A-001": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "无理由退货 / 适用范围"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "价格保护怎么申请"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-002": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "可开票类型"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-003": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "可开票类型"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-004": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "积分怎么攒"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-005": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "预售与定金"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-006": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "换货运费 / 退换货运费承担"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-007": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "换货运费 / 退换货运费承担"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-008": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "猫窝是否可以机洗"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-009": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "积分怎么用"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-A-010": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "会员等级"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-001": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-002": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-003": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-004": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-005": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-006": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-007": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-008": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-009": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-B-010": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "猫窝是否可以机洗"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-001": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-002": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-003": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-004": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "猫窝是否可以机洗"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-005": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-006": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-007": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "会员等级"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-008": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "开票时效"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-009": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "常见故障自查"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-C-010": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "对应商品型号规格章节"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-001": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "可开票类型 / 开票时效"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-002": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "积分怎么攒"
+        },
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "常见问题处理时限"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-003": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "会员专属售后权益 / 常见问题处理时限"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "运输破损处理"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-004": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "运输破损处理"
+        },
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "人工客服入口与时间"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-005": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "常见故障自查 / 常见问题处理时限"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-006": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "积分怎么用"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "可开票类型 / 运费与包邮"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-007": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "四季保暖猫窝(型号 MH-NEST20)"
+        },
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "维修寄修流程"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-008": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "智能猫砂盆 Pro(型号 MH-LP100)"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-009": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "运费与包邮"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "配送范围与偏远地区"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-E-010": {
+      "query_origin": "基于知识库内容新写的合成客服场景；待审核者确认独立性",
+      "source_references": [
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "会员等级 / 会员运费权益"
+        }
+      ],
+      "human_verified": false
+    },
+    "FTC-D-001": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库未说明该功能；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+    },
+    "FTC-D-002": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库未说明多账号共享；不要回答支持或不支持，说明暂时无法确认并建议向官方客服核实。"
+    },
+    "FTC-D-003": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库未说明该保险服务；不要回答有或没有，说明暂时无法确认并建议向官方客服核实。"
+    },
+    "FTC-D-004": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库只说明寄修流程，未说明上门维修服务；说明现有资料未提及，不要承诺支持或断言不支持。"
+    },
+    "FTC-D-005": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库列出了抵扣和实物兑换方式，但未说明提现；不要推断支持或不支持提现，建议人工核实。"
+    },
+    "FTC-D-006": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库说明需自行组装，但未说明付费上门安装服务；不要编造服务政策，建议人工核实。"
+    },
+    "FTC-D-007": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库说明支持云存储但未说明保留期限或恢复规则；不要猜测天数或承诺可恢复，建议人工核实。"
+    },
+    "FTC-D-008": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库未说明第三方滤芯兼容性和接口规格；不要根据型号猜测，建议人工核实。"
+    },
+    "FTC-D-009": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库未说明配件售卖和价格；不要编造价格或是否在售，建议人工核实。"
+    },
+    "FTC-D-010": {
+      "query_origin": "基于当前静态知识库未定义的产品能力/服务规则设计的合成客服场景；待人工确认",
+      "source_references": [
+        {
+          "document": "data/kb/after-sales-manual.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/billing-shipping.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/member-benefits.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-faq.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/product-specs.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        },
+        {
+          "document": "data/kb/returns-policy.md",
+          "section": "全库检索范围（该能力未见说明；待人工确认）"
+        }
+      ],
+      "human_verified": false,
+      "expected_safe_handling": "知识库未说明延保服务；不要回答可购买或不可购买，说明暂时无法确认并建议官方客服核实。"
+    }
+  },
+  "overlap_check": {
+    "compared_files": [
+      "tests/data/eval_ch04.jsonl",
+      "tests/data/eval_ch11_test.jsonl",
+      "tests/data/eval_ch11_validation.jsonl",
+      "tests/data/eval_ch11_failure_regression.jsonl",
+      "tests/data/eval_ch11_failure_challenge.jsonl"
+    ],
+    "previous_rows_compared": 648,
+    "exact_query_duplicates": 0,
+    "sequence_similarity_threshold": 0.45,
+    "candidate_rows_flagged_for_human_similarity_review": 15,
+    "interpretation": "Lexical screening only; it cannot establish semantic independence. Reviewer must inspect the flagged rows and confirm the dataset was not derived from historical items.",
+    "candidate_rows_flagged_for_human_similarity_review_ids": [
+      "FTC-A-001",
+      "FTC-A-007",
+      "FTC-A-008",
+      "FTC-B-001",
+      "FTC-B-002",
+      "FTC-B-003",
+      "FTC-B-004",
+      "FTC-B-005",
+      "FTC-B-006",
+      "FTC-B-007",
+      "FTC-B-009",
+      "FTC-C-005",
+      "FTC-C-010",
+      "FTC-D-004",
+      "FTC-D-008"
+    ]
+  },
+  "refusal_semantics": "should_refuse=true 表示不要对缺少依据的问题给出确定事实；可以说明当前知识库未说明、回答已知的部分并标出边界，或建议人工核实。不得把“未记载”推断为“不支持”。"
+}

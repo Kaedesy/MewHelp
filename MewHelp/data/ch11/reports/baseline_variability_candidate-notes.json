@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "required_buckets": [
+    "A_policy",
+    "B_model",
+    "C_colloquial",
+    "E_multi",
+    "D_absent"
+  ],
+  "metrics": {
+    "recall_at_5": {
+      "max_regression": 0.0
+    },
+    "mrr": {
+      "max_regression": 0.0007
+    },
+    "confidence_gate_refusal_rate": {
+      "max_regression": 0.0
+    },
+    "confidence_gate_false_refusal_rate": {
+      "max_increase": 0.0
+    }
+  },
+  "bucket_metrics": {
+    "A_policy": {
+      "recall_at_5": {
+        "max_regression": 0.0
+      }
+    },
+    "B_model": {
+      "recall_at_5": {
+        "max_regression": 0.0
+      }
+    },
+    "C_colloquial": {
+      "recall_at_5": {
+        "max_regression": 0.0
+      }
+    },
+    "E_multi": {
+      "recall_at_5": {
+        "max_regression": 0.0
+      }
+    },
+    "D_absent": {
+      "confidence_gate_refusal_rate": {
+        "max_regression": 0.0
+      }
+    }
+  },
+  "calibration": {
+    "baseline_runs": 3,
+    "dataset_role": "validation",
+    "dataset_sha256": "a48e6d59decad743aca61960986b254c79546dd7da9edfa9b6b9ece3da09dbb2",
+    "knowledge_version": "milvus-shipping-6-yuan-2026-10-22",
+    "knowledge_source_sha256": "452a0a91e88a7de75b68b7114b440c44d01a9aeac64327e88a409b4a8c14423a",
+    "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:175b380cb56c",
+    "models": {
+      "embed": "BAAI/bge-m3",
+      "rerank": "BAAI/bge-reranker-v2-m3",
+      "chat": "deepseek-v4-flash"
+    },
+    "method": "median with maximum observed absolute deviation across repeated baselines",
+    "observed": {
+      "overall": {
+        "recall_at_5": {
+          "median": 0.9852,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            0.9852,
+            0.9852,
+            0.9852
+          ]
+        },
+        "mrr": {
+          "median": 0.8961,
+          "max_absolute_deviation": 0.0007,
+          "runs": [
+            0.8961,
+            0.8954,
+            0.8961
+          ]
+        },
+        "confidence_gate_refusal_rate": {
+          "median": 0.9792,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            0.9792,
+            0.9792,
+            0.9792
+          ]
+        },
+        "confidence_gate_false_refusal_rate": {
+          "median": 0.1354,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            0.1354,
+            0.1354,
+            0.1354
+          ]
+        }
+      },
+      "A_policy": {
+        "recall_at_5": {
+          "median": 1.0,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "B_model": {
+        "recall_at_5": {
+          "median": 1.0,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "C_colloquial": {
+        "recall_at_5": {
+          "median": 1.0,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "E_multi": {
+        "recall_at_5": {
+          "median": 0.941,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            0.941,
+            0.941,
+            0.941
+          ]
+        }
+      },
+      "D_absent": {
+        "confidence_gate_refusal_rate": {
+          "median": 0.9792,
+          "max_absolute_deviation": 0.0,
+          "runs": [
+            0.9792,
+            0.9792,
+            0.9792
+          ]
+        }
+      }
+    },
+    "operator_safety_limits": {
+      "status": "pending_operator_input",
+      "required": [
+        "min_samples",
+        "min_absent_refusal_rate",
+        "max_false_refusal_rate"
+      ]
+    }
+  }
+}

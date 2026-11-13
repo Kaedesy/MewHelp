@@ -1,0 +1,1035 @@
+{
+  "schema_version": 1,
+  "meta": {
+    "generated_at": "2026-10-23T10:43:54+00:00",
+    "dataset": "tests\\data\\eval_ch11_failure_regression.jsonl",
+    "dataset_role": "validation",
+    "dataset_sha256": "b55801e93127ff7662a36cbe4433e62b9a469ea667e5f66e86b8cd1b6202051c",
+    "dataset_size": 18,
+    "code_revision": "48c34f2874712e41dd663da8432dc71b78b180e5+source:c34ae34943fb",
+    "dataset_provenance": null,
+    "dataset_provenance_sha256": null,
+    "knowledge_version": "milvus-shipping-6-yuan-2026-10-22",
+    "knowledge_source_sha256": "452a0a91e88a7de75b68b7114b440c44d01a9aeac64327e88a409b4a8c14423a",
+    "models": {
+      "embed": "BAAI/bge-m3",
+      "rerank": "BAAI/bge-reranker-v2-m3",
+      "chat": "deepseek-v4-flash"
+    },
+    "metric_definition": "section-group recall@5 and reciprocal rank; cross-document groups are averaged. confidence_gate_refusal_rate measures only the retrieval confidence threshold, not semantic self-check or final answer correctness; expected_handling is an annotation for human review and is not automatically scored."
+  },
+  "candidates": {
+    "baseline": {
+      "config": {
+        "name": "baseline",
+        "recall_top_k": 50,
+        "rerank_top_k": 10,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "status": "complete",
+      "expected_samples": 18,
+      "evaluated_samples": 18,
+      "metrics": {
+        "recall_at_5": 0.6204,
+        "mrr": 0.5343,
+        "confidence_gate_refusal_rate": null,
+        "confidence_gate_false_refusal_rate": 0.0556
+      },
+      "buckets": {
+        "A_policy": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "B_model": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "C_colloquial": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "E_multi": {
+          "expected": 18,
+          "evaluated": 18,
+          "recall_at_5": 0.6204,
+          "mrr": 0.5343
+        },
+        "D_absent": {
+          "expected": 0,
+          "evaluated": 0,
+          "confidence_gate_refusal_rate": null
+        }
+      },
+      "failures": [],
+      "sample_results": [
+        {
+          "id": "FR-E1-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.3333333333333333
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E1-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.3611111111111111
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E1-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5555555555555556
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        }
+      ]
+    },
+    "recall_20": {
+      "config": {
+        "name": "recall_20",
+        "recall_top_k": 20,
+        "rerank_top_k": 10,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "status": "complete",
+      "expected_samples": 18,
+      "evaluated_samples": 18,
+      "metrics": {
+        "recall_at_5": 0.6667,
+        "mrr": 0.5367,
+        "confidence_gate_refusal_rate": null,
+        "confidence_gate_false_refusal_rate": 0.1111
+      },
+      "buckets": {
+        "A_policy": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "B_model": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "C_colloquial": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "E_multi": {
+          "expected": 18,
+          "evaluated": 18,
+          "recall_at_5": 0.6667,
+          "mrr": 0.5367
+        },
+        "D_absent": {
+          "expected": 0,
+          "evaluated": 0,
+          "confidence_gate_refusal_rate": null
+        }
+      },
+      "failures": [],
+      "sample_results": [
+        {
+          "id": "FR-E1-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.3611111111111111
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E1-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.3611111111111111
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E1-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5555555555555556
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        }
+      ]
+    },
+    "rerank_5": {
+      "config": {
+        "name": "rerank_5",
+        "recall_top_k": 50,
+        "rerank_top_k": 5,
+        "strategy": "hybrid_rerank",
+        "split": true
+      },
+      "status": "complete",
+      "expected_samples": 18,
+      "evaluated_samples": 18,
+      "metrics": {
+        "recall_at_5": 0.6204,
+        "mrr": 0.4957,
+        "confidence_gate_refusal_rate": null,
+        "confidence_gate_false_refusal_rate": 0.0556
+      },
+      "buckets": {
+        "A_policy": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "B_model": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "C_colloquial": {
+          "expected": 0,
+          "evaluated": 0,
+          "recall_at_5": null,
+          "mrr": null
+        },
+        "E_multi": {
+          "expected": 18,
+          "evaluated": 18,
+          "recall_at_5": 0.6204,
+          "mrr": 0.4957
+        },
+        "D_absent": {
+          "expected": 0,
+          "evaluated": 0,
+          "confidence_gate_refusal_rate": null
+        }
+      },
+      "failures": [],
+      "sample_results": [
+        {
+          "id": "FR-E1-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.27777777777777773
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E1-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.3611111111111111
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E1-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.5833333333333334
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E15-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E37-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E40-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E44-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-000",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-001",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        },
+        {
+          "id": "FR-E51-002",
+          "bucket": "E_multi",
+          "status": "complete",
+          "metrics": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "expected_refusal": false,
+          "expected_handling": null
+        }
+      ]
+    }
+  },
+  "comparisons": {
+    "baseline": {
+      "changed_sample_count": 0,
+      "changed_samples": []
+    },
+    "recall_20": {
+      "changed_sample_count": 3,
+      "changed_samples": [
+        {
+          "id": "FR-E1-000",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.3333333333333333
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.3611111111111111
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E37-001",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 1.0,
+            "mrr": 0.6
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E51-001",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        }
+      ]
+    },
+    "rerank_5": {
+      "changed_sample_count": 9,
+      "changed_samples": [
+        {
+          "id": "FR-E1-000",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.3333333333333333
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.6666666666666666,
+            "mrr": 0.27777777777777773
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E15-002",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E37-001",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E40-001",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5555555555555556
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E40-002",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E44-000",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E44-001",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E44-002",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        },
+        {
+          "id": "FR-E51-001",
+          "bucket": "E_multi",
+          "baseline": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5833333333333334
+          },
+          "candidate": {
+            "confidence_gate_refusal": false,
+            "recall_at_5": 0.5,
+            "mrr": 0.5
+          },
+          "baseline_status": "complete",
+          "candidate_status": "complete"
+        }
+      ]
+    }
+  }
+}
